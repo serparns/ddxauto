@@ -19,7 +19,6 @@ test.describe("Api-тесты на получение PaymentPlans ", async () =
         }
     );
 
-    expect(response.status()).toEqual(200);
-    console.log(await response.json())          
+    expect(response.status()).toEqual(200);       
     });
 })
