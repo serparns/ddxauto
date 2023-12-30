@@ -71,8 +71,7 @@ test.describe("Api-тест на создание клиента", async () => {
          }    
     );
 
-    expect(response.status()).toEqual(200);
-    console.log(await response.json())       
+    expect(response.status()).toEqual(200);     
     });
 
     test("[positive] Создать нового клиента опыт 1-2 года  ",async ({ request }) => {
@@ -107,8 +106,7 @@ test.describe("Api-тест на создание клиента", async () => {
          }    
     );
 
-    expect(response.status()).toEqual(200);
-    console.log(await response.json())       
+    expect(response.status()).toEqual(200);     
     });
 
     test("[positive] Доп тест рандомный выбор Sport_experience  ",async ({ request }) => {
@@ -143,8 +141,7 @@ test.describe("Api-тест на создание клиента", async () => {
          }    
     );
 
-    expect(response.status()).toEqual(200);
-    console.log(await response.json())       
+    expect(response.status()).toEqual(200);     
     });
     
 
