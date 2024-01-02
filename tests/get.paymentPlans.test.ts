@@ -1,6 +1,5 @@
 import { expect, test }  from "@playwright/test";
 import api from '../api.json';
-import { json, text } from "stream/consumers";
 import { getBaseParameters } from "../entities/baseParameters";
 
 test.describe("Api-тесты на получение PaymentPlans ", async () => {
@@ -14,7 +13,6 @@ test.describe("Api-тесты на получение PaymentPlans ", async () =
            params :{...await getBaseParameters(), ...{is_active : true}}
         }
     );
-
-    expect(response.status()).toEqual(200);       
+    expect(response.status()).toEqual(200);
     });
 })

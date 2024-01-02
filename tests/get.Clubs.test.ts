@@ -1,6 +1,5 @@
 import { expect, test }  from "@playwright/test";
 import api from '../api.json';
-import { json } from "stream/consumers";
 import { getBaseFalseParameters, getBaseParameters } from "../entities/baseParameters";
 
 test.describe("Api-тесты на получение списка клубов", async () => {

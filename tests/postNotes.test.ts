@@ -25,7 +25,6 @@ test.describe("Api-тесты на создание заметки ", async () =
           }
         }
     );
-
-    expect(response.status()).toEqual(200);       
+        expect(response.status()).toEqual(200);
     });
 })

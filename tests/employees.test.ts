@@ -13,7 +13,6 @@ test.describe("Получение списка позиций", async () => {
            params :{...await getBaseParameters()}
         }
     );
-
-    expect(response.status()).toEqual(200);       
+        expect(response.status()).toEqual(200);
     });
 })
