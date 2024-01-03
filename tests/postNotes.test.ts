@@ -7,7 +7,7 @@ test.describe("Api-тесты на создание заметки ", async () =
          `${api.urls.base_url_api}${api.paths.notes}`,
          {
            headers: {
-            'Authorization': `${api.token.UltraToken}`
+            'Authorization': `${api.token.test}`
             }, 
            data:
            {

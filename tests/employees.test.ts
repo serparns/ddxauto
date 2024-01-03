@@ -8,7 +8,7 @@ test.describe("Получение списка позиций", async () => {
          `${api.urls.base_url_api}${api.paths.employees}`,
          {
            headers: {
-            'Authorization': `${api.token.UltraToken}`
+            'Authorization': `${api.token.test}`
             }, 
            params :{...await getBaseParameters()}
         }

@@ -13,9 +13,7 @@ test.describe("Api-тесты на получение списка клубов"
            params : {...await getBaseParameters()}
         }
     );
-
-    expect(response.status()).toEqual(200);
-        
+        expect(response.status()).toEqual(200);
     });
     test("[negative] получить список клубов, убрать один из обязательных параметров", async ({ request }) => {
         const response = await request.get(
@@ -27,8 +25,8 @@ test.describe("Api-тесты на получение списка клубов"
            params :{...await getBaseFalseParameters()}
         }
     );
-    expect(response.status()).toEqual(400)
-    const text = await response.text();
-    expect(text).toContain('API session_id required')        
+        expect(response.status()).toEqual(400)
+        const text = await response.text();
+        expect(text).toContain('API session_id required')
     });    
 })
