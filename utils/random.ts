@@ -16,3 +16,5 @@ const sport_experience = ['Нет опыта', '0-6 месяцев', 'Больш
 const randomSport_experience = sport_experience[(Math.floor(Math.random() * (sport_experience.length)))];
     return randomSport_experience
 }
+
+
