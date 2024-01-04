@@ -1,6 +1,6 @@
-import { expect, test }  from "@playwright/test";
+import {expect, test} from "@playwright/test";
 import api from '../api.json';
-import { getBaseFalseParameters, getBaseParameters } from "../entities/baseParameters";
+import {getBaseFalseParameters, getBaseParameters} from "../entities/baseParameters";
 import {log} from "../utils/logger";
 
 const clubs = ['/4', '/5']

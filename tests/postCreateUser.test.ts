@@ -1,6 +1,6 @@
-import { expect, test }  from "@playwright/test";
+import {expect, test} from "@playwright/test";
 import api from '../api.json';
-import { getRandomEmail, getRandomPhoneNumber, randomSport_experience } from "../utils/random";
+import {getRandomEmail, getRandomPhoneNumber, randomSport_experience} from "../utils/random";
 import {log} from "../utils/logger";
 
 const sportExperiense = ['Нет опыта', '0-6 месяцев', 'Больше 5 лет', '2-3 года', '1-2 года', '3-5 лет']

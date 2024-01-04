@@ -1,4 +1,4 @@
-import { expect, test }  from "@playwright/test";
+import {expect, test} from "@playwright/test";
 import api from '../api.json';
 
 test.describe("Api-тесты на создание заметки ", async () => {
