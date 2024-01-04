@@ -4,3 +4,10 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 api.json
+test-result.json
+node_modules
+/plawright-report/
+/playwright-report/
+test-results
+.idea/
+.idea
