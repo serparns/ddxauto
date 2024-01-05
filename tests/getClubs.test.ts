@@ -11,7 +11,7 @@ test.describe("Api-тесты на получение списка клубов"
          `${api.urls.base_url_api}${api.paths.clubs}`,
          {
            headers: {
-            'Authorization': `${api.token.test}`
+            'Authorization': `${api.tokens.test}`
             },
            params : {...await getBaseParameters()}
         }
@@ -23,7 +23,7 @@ test.describe("Api-тесты на получение списка клубов"
          `${api.urls.base_url_api}${api.paths.clubs}`,
          {
            headers: {
-            'Authorization': `${api.token.test}`
+            'Authorization': `${api.tokens.test}`
             },
            params :{...await getBaseFalseParameters()}
         }
@@ -43,7 +43,7 @@ test.describe("Api-тесты на получение списка клубов"
                 url,
                 {
                     headers: {
-                        'Authorization': `${api.token.test}`
+                        'Authorization': `${api.tokens.test}`
                     },
                     params: parameters
                 }

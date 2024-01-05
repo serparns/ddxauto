@@ -15,7 +15,7 @@ test.describe("Api-тесты на получение групповых тре�
          url,
          {
            headers: {
-            'Authorization': `${api.token.test}`
+            'Authorization': `${api.tokens.test}`
             }, 
            params : parameters
         }

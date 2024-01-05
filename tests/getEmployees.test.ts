@@ -16,7 +16,7 @@ test.describe("Получение списка позиций", async () => {
                 url,
                 {
                     headers: {
-                        'Authorization': `${api.token.test}`
+                        'Authorization': `${api.tokens.test}`
                     },
                     params: parameters
                 }

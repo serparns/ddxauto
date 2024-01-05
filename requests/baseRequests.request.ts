@@ -7,7 +7,7 @@ export default class BaseRequests {
 
     constructor(
         protected request: APIRequestContext,
-        private token = paths.token.test
+        private token = paths.tokens.test
     ) {
         this.baseUrl = paths.urls.base_url_api
     }

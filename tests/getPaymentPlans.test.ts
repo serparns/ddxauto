@@ -8,7 +8,7 @@ test.describe("Api-тесты на получение PaymentPlans ", async () =
             `${api.urls.base_url_api}${api.paths.payment_plans}`,
             {
                 headers: {
-                    'Authorization': `${api.token.test}`
+                    'Authorization': `${api.tokens.test}`
                 },
                 params :{...await getBaseParameters(), ...{is_active : true}}
             }

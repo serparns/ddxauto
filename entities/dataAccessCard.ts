@@ -1,12 +1,4 @@
 import {getRandomCardNumber} from "../utils/random";
-
-export async function dataParans(): Promise<object> {
-    return {
-        session_id: "123",
-        request_id: "123",
-        request_source: "123"
-    }
-}
 export async function dataAccessCard(): Promise<object> {
     return {
         access_card_number: getRandomCardNumber(),
