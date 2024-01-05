@@ -14,3 +14,8 @@ test-results
 /.idea/
 /.idea
 эксперименты
+эксперименты/
+test-results
+.idea
+.idea/inspectionProfiles
+.idea/modules.xml
