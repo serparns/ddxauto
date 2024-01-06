@@ -2,6 +2,7 @@ import {expect, test} from "@playwright/test";
 import api from '../api.json';
 import {getBaseFalseParameters, getBaseParameters} from "../entities/baseParameters";
 import {log} from "../utils/logger";
+import ClubsRequests from "../requests/clubs.requests";
 
 const clubs = ['/4', '/5']
 
@@ -54,4 +55,15 @@ test.describe("Api-тесты на получение списка клубов"
         });
 
     })
+
+    test("[positive] получить информация по клубу по id", async ({request}) => {
+        const club = new  ClubsRequests(request);
+        const parameters = await getBaseParameters();
+        const clubID = await club.getClubById(200, parameters);
+        const cardId = (await clubID.json()).data[0].id;
+        expect((await clubID.json()).data[0].id).toEqual(await cardId)
+    });
+
+
+
 })

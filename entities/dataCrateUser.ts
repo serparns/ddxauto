@@ -15,11 +15,11 @@ export async function dataUserBody(): Promise<object> {
             "birthday": "1999-11-11",
             "password": "qwerty123",
             "lang": "ru",
-            "home_club_id": 1,
             "club_access": true,
             "admin_panel_access": true,
             "group_training_registration_access": true,
-            "sport_experience": "Больше 5 лет"
+            "sport_experience": "Нет опыта",
+            "home_club_id": home_club_id
         }
     }
 }
