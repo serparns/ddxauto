@@ -5,8 +5,8 @@ import {getBaseParameters} from "../entities/baseParameters";
 import ClubsRequests from "../requests/clubs.requests";
 
 
-test.describe("Api-тест на получение юзера по клубу", async () => {
-    test("[positive] получить юзера с подстановкой id из запроса", async ({request}) => {
+test.describe("Api-тест на создание юзера с клуюом и получения данных о нем", async () => {
+    test("[positive] получить юзера с подстановкой idклуба из запроса", async ({request}) => {
         const club = new  ClubsRequests(request);
         const requestClass = new UserRequests(request);
         const parameters = await getBaseParameters();
