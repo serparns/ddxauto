@@ -1,4 +1,5 @@
 import {getRandomCardNumber} from "../utils/random";
+
 export async function dataAccessCard(): Promise<object> {
     return {
         access_card_number: getRandomCardNumber(),

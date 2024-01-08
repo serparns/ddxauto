@@ -24,7 +24,7 @@ test.describe("Тесты на получение карты доступа", as
         const createdCard = await new AccessCardsRequests(request).postAccessCards(200, requestBody)
         const response = await new AccessCardsRequests(request).getAccessCardsById(200, await getBaseParameters(),
             (await createdCard.json()).data[0].id);
-        expect((await response.json()).data[0].user.id).toEqual((await createdCard.json()).data[0].user.id)
+        expect((await response.json()).data[0].user.id).toEqual((await createdCard.json()).data[0].user.id);
     })
     test("[positive] получить карту доступа v_2", async ({request}) => {
         const requestClass = new AccessCardsRequests(request);
@@ -32,6 +32,6 @@ test.describe("Тесты на получение карты доступа", as
         const createdCard = await requestClass.postAccessCards(200, requestBody);
         const cardId = (await createdCard.json()).data[0].id;
         const response = await requestClass.getAccessCardsById(200, parameters, cardId);
-        expect((await response.json()).data[0].user.id).toEqual((await createdCard.json()).data[0].user.id)
-    })
+        expect((await response.json()).data[0].user.id).toEqual((await createdCard.json()).data[0].user.id);
+    });
 })
