@@ -65,8 +65,8 @@ test.describe("Api-тесты на получение списка клубов"
     });
 
     test("[positive] V2_получить информация по клубу по id", async ({request}) => {
-        const requestsClubID = await new ClubsRequests(request).getClubById(200, await getBaseParameters());
-        const clubID = (await requestsClubID.json()).data[0].id;
-        expect((await requestsClubID.json()).data[0].id).toEqual(await clubID);
+        const getClub = await new ClubsRequests(request).getClubById(200, await getBaseParameters());
+        const clubId = (await getClub.json()).data[0].id;
+        expect((await getClub.json()).data[0].id).toEqual(await clubId);
     });
 })
