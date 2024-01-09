@@ -31,7 +31,7 @@ test.describe("Api-тест на создание юзера с клуюом и 
         }
         const createUser = await new UserRequests(request).postCreateUser(200, requestBody);
         const response = await new UserRequests(request).getUser(200, await getBaseParameters(),
-            (await createUser.json()).data.id, (await createUser.json()).data.phone, (await createUser.json()).data.email);
+            (await createUser.json()).data.id);
         expect((await response.json()).data.user_id).toEqual((await createUser.json()).data.user_id);
         expect((await response.json()).data.home_club_id).toEqual(clubId);
         expect((await response.json()).data.phone).toEqual((await createUser.json()).data.phone);
