@@ -4,43 +4,8 @@ import UserRequests from "../requests/user.requests";
 import {getBaseParameters} from "../entities/baseParameters";
 import ClubsRequests from "../requests/clubs.requests";
 
-const mocUserData = {
-    session_id: "123",
-    request_id: "123",
-    request_source: "crm",
-    data: {
-        email: '',
-        name: "Имя",
-        last_name: "last_name",
-        middle_name: "string",
-        sex: "male",
-        phone: '',
-        birthday: "1999-11-11",
-        password: "qwerty123",
-        lang: "ru",
-        club_access: true,
-        admin_panel_access: true,
-        group_training_registration_access: true,
-        sport_experience: "Нет опыта",
-    }
-}
 
-test.describe("Api-тест на создание юзера с клубом и получения данных о нем", async () => {
-
-    test.beforeEach(() => {
-        mocUserData.data.phone
-        mocUserData.data.email
-    });
-
-    test("[positive] V2__получить юзера с подстановкой idклуба из запроса", async ({request}) => {
-        const parameters = {...await getBaseParameters()};
-        const getClubResponse = await new ClubsRequests(request).getClub(200, parameters);
-        const getClubData = getClubResponse.json();
-        const clubId = getClubData?.data[0]?.id;
-        const requestBody = {...mocUserData, data: {...mocUserData, home_club_id: clubId}}
-
-    });
-
+test.describe("Api-тест на создание юзера с клуюом и получения данных о нем", async () => {
     test("[positive] получить юзера с подстановкой idклуба из запроса", async ({request}) => {
         const getClubs = await new ClubsRequests(request).getClubById(200, await getBaseParameters());
         const clubId = (await getClubs.json()).data[0].id;
@@ -48,8 +13,7 @@ test.describe("Api-тест на создание юзера с клубом и 
             session_id: "123",
             request_id: "321",
             request_source: "crm",
-            data: {
-                email: getRandomEmail(),
+            data: {"email": getRandomEmail(),
                 name: "Имя",
                 last_name: "last_name",
                 middle_name: "string",
