@@ -6,3 +6,4 @@ export default class VerifyRequests extends BaseRequests {
     async postGetCode(status: number, requestData: any): Promise<APIResponse> {
         return await this.post(`${this.baseUrl}${paths.paths.get_code}`, status, requestData);
     }
+}
