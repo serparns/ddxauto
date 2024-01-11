@@ -13,7 +13,8 @@ test.describe("Api-тест на создание юзера с клуюом и 
             session_id: "123",
             request_id: "321",
             request_source: "crm",
-                data: {"email": getRandomEmail(),
+                data: {
+                email: getRandomEmail(),
                     name: "Имя",
                     last_name: "last_name",
                     middle_name: "string",
