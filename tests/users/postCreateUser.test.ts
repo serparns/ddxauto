@@ -26,5 +26,6 @@ const requestBody = {
 }
 test.describe("Api-тест на создание клиента", async () => {
     test("[positive] Создать нового клиента", async ({request}) => {
-        await new UserRequests(request).postCreateUser(200, requestBody)})
+        await new UserRequests(request).postCreateUser(200, requestBody)
+    })
 })
