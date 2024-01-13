@@ -1,6 +1,6 @@
 import {test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber,} from "../utils/random";
-import UserRequests from "../requests/user.requests";
+import {getRandomEmail, getRandomPhoneNumber,} from "../../utils/random";
+import UserRequests from "../../requests/user.requests";
 
 const sportExperiense = ['Нет опыта', '0-6 месяцев', 'Больше 5 лет', '2-3 года', '1-2 года', '3-5 лет']
 const requestBody = {

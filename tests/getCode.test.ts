@@ -60,6 +60,14 @@ test.describe("Api-тесты на получение кода верифика�
                 const response = await new VerifyRequests(request).postGetCode(200, requestBody);
                 return response.json()
             });
+            await test.step("EXPECT", async  () => {
                 expect(response.status).toEqual('OK');
+
+
+            })
+
+
+
+
         });
     });

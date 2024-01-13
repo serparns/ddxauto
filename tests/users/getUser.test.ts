@@ -1,8 +1,8 @@
 import {expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "../utils/random";
-import UserRequests from "../requests/user.requests";
-import {getBaseParameters} from "../entities/baseParameters";
-import ClubsRequests from "../requests/clubs.requests";
+import {getRandomEmail, getRandomPhoneNumber} from "../../utils/random";
+import UserRequests from "../../requests/user.requests";
+import {getBaseParameters} from "../../entities/baseParameters";
+import ClubsRequests from "../../requests/clubs.requests";
 
 // const mocUserData = {
 //     session_id: "123",
