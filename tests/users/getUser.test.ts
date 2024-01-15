@@ -12,7 +12,7 @@ test.describe("Api-тест на создание юзера с клубом и 
             return getClubs.id
         });
 
-        const createUser   = await test.step("Получить id клиента", async () => {
+        const createUser = await test.step("Получить id клиента", async () => {
             const requestBody = {
                 session_id: "123",
                 request_id: "321",
