@@ -1,7 +1,8 @@
 import {expect, test} from "@playwright/test";
 import api from '../../api.json';
-import {getBaseParameters} from "../../entities/baseParameters";
-import {log} from "../../utils/logger";
+import {getBaseParameters} from "@entities/baseParameters";
+import {log} from "@utils/logger";
+import {Statuses} from "@libs/statuses";
 
 const club_id = ['3', '5', '1000'];
 
@@ -23,7 +24,7 @@ test.describe("Получение списка позиций", async () => {
             );
             log("request status", response.status());
             log("response body", JSON.stringify(await response.json(), null, '\t'));
-            expect(response.status()).toEqual(200);
+            expect(response.status()).toEqual(Statuses.OK);
         });
     })
 })

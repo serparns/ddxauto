@@ -1,7 +1,8 @@
 import {expect, test} from "@playwright/test";
 import api from '../../api.json';
-import {getBaseParameters} from "../../entities/baseParameters";
-import {log} from "../../utils/logger";
+import {getBaseParameters} from "@entities/baseParameters";
+import {log} from "@utils/logger";
+import {Statuses} from "@libs/statuses";
 
 test.describe("Api-тесты на получение групповых тренеровок", async () => {
     test("[positive] получить список названий групповых тренеровок", async ({request}) => {
@@ -22,6 +23,6 @@ test.describe("Api-тесты на получение групповых тре�
         );
         log("request status", response.status())
         log("response body", JSON.stringify(await response.json(), null, '\t'))
-        expect(response.status()).toEqual(200);
+        expect(response.status()).toEqual(Statuses.OK);
     });
 })

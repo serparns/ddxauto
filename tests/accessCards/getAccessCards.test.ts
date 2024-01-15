@@ -1,7 +1,8 @@
 import {expect, test} from "@playwright/test";
-import AccessCardsRequests from "../../requests/accessCards.requests";
-import {getRandomCardNumber} from "../../utils/random";
-import {getBaseParameters} from "../../entities/baseParameters";
+import AccessCardsRequests from "@requests/accessCards.requests";
+import {getRandomCardNumber} from "@utils/random";
+import {getBaseParameters} from "@entities/baseParameters";
+import {Statuses} from "@libs/statuses";
 
 const requestBody = {
     "session_id": "123",
@@ -21,17 +22,17 @@ const requestBody = {
 }
 test.describe("Тесты на получение карты доступа", async () => {
     test("[positive] получить карту доступа", async ({request}) => {
-        const createdCard = await new AccessCardsRequests(request).postAccessCards(200, requestBody)
-        const response = await new AccessCardsRequests(request).getAccessCardsById(200, await getBaseParameters(),
+        const createdCard = await new AccessCardsRequests(request).postAccessCards(Statuses.OK, requestBody)
+        const response = await new AccessCardsRequests(request).getAccessCardsById(Statuses.OK, await getBaseParameters(),
             (await createdCard.json()).data[0].id);
         expect((await response.json()).data[0].user.id).toEqual((await createdCard.json()).data[0].user.id);
     })
     test("[positive] получить карту доступа v_2", async ({request}) => {
         const requestClass = new AccessCardsRequests(request);
         const parameters = await getBaseParameters();
-        const createdCard = await requestClass.postAccessCards(200, requestBody);
+        const createdCard = await requestClass.postAccessCards(Statuses.OK, requestBody);
         const cardId = (await createdCard.json()).data[0].id;
-        const response = await requestClass.getAccessCardsById(200, parameters, cardId);
+        const response = await requestClass.getAccessCardsById(Statuses.OK, parameters, cardId);
         expect((await response.json()).data[0].user.id).toEqual((await createdCard.json()).data[0].user.id);
     });
 })

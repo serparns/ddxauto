@@ -1,5 +1,6 @@
 import {expect, test} from "@playwright/test";
 import api from '../../api.json';
+import {Statuses} from "@libs/statuses";
 
 test.describe("Api-тесты на создание заметки ", async () => {
     test("[positive] создать заметку", async ({request}) => {
@@ -25,6 +26,6 @@ test.describe("Api-тесты на создание заметки ", async () =
                     }
             }
         );
-        expect(response.status()).toEqual(200);
+        expect(response.status()).toEqual(Statuses.OK);
     });
 })

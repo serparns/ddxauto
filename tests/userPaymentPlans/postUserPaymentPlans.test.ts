@@ -1,16 +1,17 @@
 import {expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "../../utils/random";
-import UserRequests from "../../requests/user.requests";
-import {getBaseParameters} from "../../entities/baseParameters";
-import ClubsRequests from "../../requests/clubs.requests";
-import UserPaymentPlansRequests from "../../requests/userPaymentPlans.requests";
-import PaymentCreateRequests from "../../requests/paymentCreate.requests";
-import TransactionRequests from "../../requests/transaction.requests";
+import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import UserRequests from "@requests/user.requests";
+import {getBaseParameters} from "@entities/baseParameters";
+import ClubsRequests from "@requests/clubs.requests";
+import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
+import PaymentCreateRequests from "@requests/paymentCreate.requests";
+import TransactionRequests from "@requests/transaction.requests";
+import {Statuses} from "@libs/statuses";
 
 test.describe("Api-тесты на регистрацию подписки пользователя", async () => {
     test("[positive] регистрация подписки", async ({request}) => {
         const clubId = await test.step("Получить id клуба", async () => {
-            const getClubs = (await (await new ClubsRequests(request).getClubById(200, await getBaseParameters())).json()).data[0]
+            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
             return getClubs.id
         });
 
@@ -36,7 +37,7 @@ test.describe("Api-тесты на регистрацию подписки по�
                     home_club_id: clubId
                 }
             }
-            const createUser = (await (await new UserRequests(request).postCreateUser(200, requestBody)).json()).data
+            const createUser = (await (await new UserRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return createUser.id
         });
 
@@ -45,12 +46,12 @@ test.describe("Api-тесты на регистрацию подписки по�
                 club_id: clubId,
                 start_date: "2024-11-29",
                 payment_plan_id: 163,
-                verification_token: "cf6bebb8-b705-43b9-a75a-f59d3813a54e",
+                verification_token: "dfff78dc-5a27-4c85-9c77-f9d370d4fb2a",
                 request_id: "123",
                 session_id: "123",
                 request_source: "123"
             }
-            const userPayment = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(200, requestBody, userId)).json()).data[0]
+            const userPayment = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPayment.id
         });
 
@@ -69,7 +70,7 @@ test.describe("Api-тесты на регистрацию подписки по�
                 employee_id: 3134,
                 fiscal_method: "OrangeData"
             }
-            const payment = (await (await new PaymentCreateRequests(request).postPaymentCreate(200, requestBody)).json()).transaction
+            const payment = (await (await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody)).json()).transaction
             return {
                 transactionId: payment.id,
                 transactionStatus: payment.status
@@ -77,7 +78,7 @@ test.describe("Api-тесты на регистрацию подписки по�
         });
 
         const transactionData = await test.step("Запрос на получение транзакции", async () => {
-            const transactionData = await new TransactionRequests(request).getTransaction(200, await getBaseParameters(), transactionId);
+            const transactionData = await new TransactionRequests(request).getTransaction(Statuses.OK, await getBaseParameters(), transactionId);
             return transactionData.json()
         });
 

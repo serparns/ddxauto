@@ -1,8 +1,9 @@
 import {expect, test} from "@playwright/test";
 import api from '../../api.json';
-import {getBaseFalseParameters, getBaseParameters} from "../../entities/baseParameters";
-import {log} from "../../utils/logger";
-import ClubsRequests from "../../requests/clubs.requests";
+import {getBaseFalseParameters, getBaseParameters} from "@entities/baseParameters";
+import {log} from "@utils/logger";
+import ClubsRequests from "@requests/clubs.requests";
+import {Statuses} from "@libs/statuses";
 
 const clubs = ['/4', '/5']
 
@@ -17,7 +18,7 @@ test.describe("Api-тесты на получение списка клубов"
                 params: {...await getBaseParameters()}
             }
         );
-        expect(response.status()).toEqual(200);
+        expect(response.status()).toEqual(Statuses.OK);
     });
     test("[negative] получить список клубов, убрать один из обязательных параметров", async ({request}) => {
         const response = await request.get(
@@ -29,7 +30,7 @@ test.describe("Api-тесты на получение списка клубов"
                 params: {...await getBaseFalseParameters()}
             }
         );
-        expect(response.status()).toEqual(400)
+        expect(response.status()).toEqual(Statuses.BAD_REQUEST)
         const text = await response.text();
         expect(text).toContain('API session_id required')
     });
@@ -51,13 +52,13 @@ test.describe("Api-тесты на получение списка клубов"
             );
             log("request status", response.status());
             log("response body", JSON.stringify(await response.json(), null, '\t'));
-            expect(response.status()).toEqual(200);
+            expect(response.status()).toEqual(Statuses.OK);
         });
 
     })
 
     test("[positive] V2_получить информация по клубу по id", async ({request}) => {
-        const getClub = await new ClubsRequests(request).getClubById(200, await getBaseParameters());
+        const getClub = await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters());
         const clubId = (await getClub.json()).data[0].id;
         expect((await getClub.json()).data[0].id).toEqual(await clubId);
     });

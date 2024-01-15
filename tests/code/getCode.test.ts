@@ -1,16 +1,17 @@
 import {expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "../../utils/random";
-import UserRequests from "../../requests/user.requests";
-import {getBaseParameters} from "../../entities/baseParameters";
-import ClubsRequests from "../../requests/clubs.requests";
-import VerifyRequests from "../../requests/verify.requests";
+import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import UserRequests from "@requests/user.requests";
+import {getBaseParameters} from "@entities/baseParameters";
+import ClubsRequests from "@requests/clubs.requests";
+import VerifyRequests from "@requests/verify.requests";
+import {Statuses} from "@libs/statuses";
 
 
 test.describe("Api-тесты на получение кода верификации", async () => {
     test("[positive] отправка кода верификации клиенту", async ({request}) => {
         const clubId = await test.step("Получить id клуба", async () => {
             const parameters = {...await getBaseParameters()};
-            const getClubResponse = await new ClubsRequests(request).getClubById(200, parameters);
+            const getClubResponse = await new ClubsRequests(request).getClubById(Statuses.OK, parameters);
             const getClubData = await getClubResponse.json();
             return getClubData?.data[0]?.id;
         });
@@ -37,7 +38,7 @@ test.describe("Api-тесты на получение кода верифика�
                     home_club_id: clubId
                 }
             }
-            const response = (await (await new UserRequests(request).postCreateUser(200, requestBody)).json()).data
+            const response = (await (await new UserRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return {
                 userId: response.id,
                 userPhone: response.phone
@@ -57,7 +58,7 @@ test.describe("Api-тесты на получение кода верифика�
                 }
             }
 
-            const response = await new VerifyRequests(request).postGetCode(200, requestBody);
+            const response = await new VerifyRequests(request).postGetCode(Statuses.OK, requestBody);
             return response.json()
         });
         await test.step("EXPECT", async () => {

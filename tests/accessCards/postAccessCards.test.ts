@@ -1,6 +1,7 @@
 import {test} from "@playwright/test";
-import AccessCardsRequests from "../../requests/accessCards.requests";
-import {getRandomCardNumber} from "../../utils/random";
+import AccessCardsRequests from "@requests/accessCards.requests";
+import {getRandomCardNumber} from "@utils/random";
+import {Statuses} from "@libs/statuses";
 
 const requestBody = {
     "session_id": "123",
@@ -20,6 +21,6 @@ const requestBody = {
 }
 test.describe("Добавление карты доступа", async () => {
     test("[positive] добавить карту доступа", async ({request}) => {
-        await new AccessCardsRequests(request).postAccessCards(200, requestBody)
+        await new AccessCardsRequests(request).postAccessCards(Statuses.OK, requestBody)
     })
 })
