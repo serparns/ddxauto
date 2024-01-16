@@ -1,4 +1,4 @@
-export enum Provider {
-    recurrent = 1,
-    purchase = 7
+export enum PaymentProvider {
+    RECURRENT = 1,
+    PURCHASE = 7
 }

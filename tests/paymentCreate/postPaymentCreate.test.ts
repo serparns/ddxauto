@@ -4,7 +4,7 @@ import UserRequests from "@requests/user.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import {Statuses} from "@libs/statuses";
-import {Provider} from "@libs/providers";
+import {PaymentProvider} from "@libs/providers";
 
 test.describe("Api-тесты на создание платежа", async () => {
     test("[positive] создание платежа", async ({request}) => {
@@ -35,7 +35,7 @@ test.describe("Api-тесты на создание платежа", async () =>
             return createUser.id
         });
 
-        const paymentId = await test.step("Отправить запрость на создание подписки", async () => {
+        const userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
             const requestBody = {
                 club_id: 17,
                 start_date: "2024-11-29",
@@ -45,8 +45,9 @@ test.describe("Api-тесты на создание платежа", async () =>
                 session_id: "123",
                 request_source: "123"
             }
-            const userPayment = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
-            return userPayment.id
+            const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
+                .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
+            return userPaymentPlanId.id
         });
 
         const payment = await test.step("Запрос на создание оплаты", async () => {
@@ -54,11 +55,11 @@ test.describe("Api-тесты на создание платежа", async () =>
                 session_id: "123",
                 request_id: "123",
                 request_source: "123",
-                provider_id: Provider.recurrent,
+                provider_id: PaymentProvider.RECURRENT,
                 type: "payment",
                 gate_id: 1,
                 user_id: userId,
-                user_payment_plan_id: paymentId,
+                user_payment_plan_id: userPaymentPlanId,
                 currency: "RUB",
                 payment_service_id: 2,
                 employee_id: 3134,
@@ -102,7 +103,7 @@ test.describe("Api-тесты на создание платежа", async () =>
             return createUser.id
         });
 
-        const paymentId = await test.step("Отправить запрость на создание подписки", async () => {
+        const userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
             const requestBody = {
                 club_id: 17,
                 start_date: "2024-11-29",
@@ -112,17 +113,18 @@ test.describe("Api-тесты на создание платежа", async () =>
                 session_id: "123",
                 request_source: "123"
             }
-            const userPayment = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
-            return userPayment.id
+            const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
+                .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
+            return userPaymentPlanId.id
         });
 
         const payment = await test.step("Запрос на создание оплаты", async () => {
             const requestBody = {
-                provider_id: Provider.recurrent,
+                provider_id: PaymentProvider.RECURRENT,
                 type: "payment",
                 gate_id: 1,
                 user_id: userId,
-                user_payment_plan_id: paymentId,
+                user_payment_plan_id: userPaymentPlanId,
                 currency: "RUB",
                 payment_service_id: 2,
                 employee_id: 3134,
@@ -164,7 +166,7 @@ test.describe("Api-тесты на создание платежа", async () =>
             return createUser.id
         });
 
-        const paymentId = await test.step("Отправить запрость на создание подписки", async () => {
+        const userPaymentPlanId = await test.step("Отправить запрость на создание подписки", async () => {
             const requestBody = {
                 club_id: 17,
                 start_date: "2024-11-29",
@@ -174,8 +176,9 @@ test.describe("Api-тесты на создание платежа", async () =>
                 session_id: "123",
                 request_source: "123"
             }
-            const userPayment = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
-            return userPayment.id
+            const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
+                .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
+            return userPaymentPlanId.id
         });
 
         const payment = await test.step("Запрос на создание оплаты", async () => {
@@ -186,7 +189,7 @@ test.describe("Api-тесты на создание платежа", async () =>
                 type: "payment",
                 gate_id: 1,
                 user_id: userId,
-                user_payment_plan_id: paymentId,
+                user_payment_plan_id: userPaymentPlanId,
                 currency: "RUB",
                 payment_service_id: 2,
                 employee_id: 3134,

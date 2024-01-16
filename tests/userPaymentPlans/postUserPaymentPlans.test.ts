@@ -7,7 +7,7 @@ import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import TransactionRequests from "@requests/transaction.requests";
 import {Statuses} from "@libs/statuses";
-import {Provider} from "@libs/providers";
+import {PaymentProvider} from "@libs/providers";
 
 test.describe("Api-тесты на регистрацию подписки пользователя", async () => {
     test("[positive] регистрация подписки", async ({request}) => {
@@ -61,7 +61,7 @@ test.describe("Api-тесты на регистрацию подписки по�
                 session_id: "123",
                 request_id: "123",
                 request_source: "123",
-                provider_id: Provider.recurrent,
+                provider_id: PaymentProvider.RECURRENT,
                 type: "payment",
                 gate_id: 1,
                 user_id: userId,
