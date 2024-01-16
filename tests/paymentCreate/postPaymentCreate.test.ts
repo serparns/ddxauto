@@ -183,7 +183,6 @@ test.describe("Api-тесты на создание платежа", async () =>
                 session_id: "123",
                 request_id: "123",
                 request_source: "123",
-                provider_id: "",
                 type: "payment",
                 gate_id: 1,
                 user_id: userId,
@@ -198,7 +197,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         });
 
         await test.step("Проверки", async () => {
-            expect(payment.message).toEqual("Request bind error: 'provider_id' has type 'string'");
+            expect(payment.message).toEqual("not payment provider");
         })
     })
 });
