@@ -5,7 +5,9 @@ export function getRandomPhoneNumber(): string{
 export function getRandomEmail(): string{
     return `qa${new Date().getTime().toString()}@gmail.com`
 }
-
+export function getRandomName(): string{
+    return `qa${new Date().getTime().toString()}test`
+}
 
 export function getRandomCardNumber(): string{
     return `qa${new Date().getTime().toString()}test`

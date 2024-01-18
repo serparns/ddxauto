@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test tests/ -- workers 2",
+    "test": "npx playwright test tests/ -- workers 1",
     "test-clubs": "npx playwright test tests/clubs/ -- workers 1",
     "test-code": "npx playwright test tests/code/ -- workers 1",
     "test-employees": "npx playwright test tests/employees/ -- workers 1",
