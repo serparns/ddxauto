@@ -1,6 +1,6 @@
 import {test} from "@playwright/test";
 import {getRandomEmail, getRandomPhoneNumber,} from "@utils/random";
-import UserRequests from "@requests/user.requests";
+import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
 
 const sportExperiense = ['Нет опыта', '0-6 месяцев', 'Больше 5 лет', '2-3 года', '1-2 года', '3-5 лет']
@@ -27,6 +27,6 @@ const requestBody = {
 }
 test.describe("Api-тест на создание клиента", async () => {
     test("[positive] Создать нового клиента", async ({request}) => {
-        await new UserRequests(request).postCreateUser(Statuses.OK, requestBody)
+        await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)
     })
 })

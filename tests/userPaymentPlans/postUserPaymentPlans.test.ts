@@ -1,6 +1,6 @@
 import {expect, test} from "@playwright/test";
 import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
-import UserRequests from "@requests/user.requests";
+import UsersRequests from "@requests/users.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import ClubsRequests from "@requests/clubs.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
@@ -38,7 +38,7 @@ test.describe("Api-тесты на регистрацию подписки по�
                     home_club_id: clubId
                 }
             }
-            const createUser = (await (await new UserRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
+            const createUser = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return createUser.id
         });
 
