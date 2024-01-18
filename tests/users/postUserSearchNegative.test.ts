@@ -1,18 +1,17 @@
 import {APIRequestContext, expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber, getRandomName} from "@utils/random";
+import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
-import {log} from "@utils/logger";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
-    let userData: object
+    let userData: any
     let clubId: number;
 
     const userSearchResponse = async (request: APIRequestContext, status: Statuses,
-                                      phone: string|null, name: string|null, lastName: string|null, email: string|null,
-                                      birthday: string|null) => {
+                                      phone: object | null, name: number | null| boolean, lastName: boolean | null,
+                                      email: string | null, birthday: any | null) => {
         const requestBody = {
             session_id: "234",
             request_id: "123",
@@ -59,40 +58,35 @@ test.describe("Api-тесты на поиск пользователя по па
             }
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
-
     })
-    test("[negative] Поиск пользователя по номеру телефона", async ({request}) => {
+    test("[negative] Поиск пользователя по номеру телефона:array", async ({request}) => {
 
         const serchByPhone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, userData["phone"], null, null, null, null))).json()).data[0];
-
+            async () => userSearchResponse(request, Statuses.BAD_REQUEST, {userData:'phone'}, null, null, null, null))).json()).error;
 
         await test.step("Проверки", async () => {
-            expect(serchByPhone.id).toEqual(userData["id"]);
+            expect(serchByPhone.message).toEqual('json: cannot unmarshal object into Go struct field requestData.data.phone of type string');
+            expect(serchByPhone.code).toEqual('bind_error');
         })
     });
 
-    test("[negative] Поиск пользователя по имени, фамилии и дате рождения", async ({request}) => {
-
+    test("[negative] Поиск пользователя по имени, фамилии и дате рождения: int", async ({request}) => {
         const serchByPhone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, null, userData["name"], userData["last_name"], null,
-                userData["birthday"]))).json()).data[0];
-
+            async () => userSearchResponse(request, Statuses.BAD_REQUEST, null, userData.name, userData.last_name, null, clubId))).json()).error;
 
         await test.step("Проверки", async () => {
-            expect(serchByPhone.id).toEqual(userData["id"]);
+            expect(serchByPhone.message).toEqual('json: cannot unmarshal number into Go struct field requestData.data.birthday of type string');
+            expect(serchByPhone.code).toEqual('bind_error');
         })
     });
 
-    test("[negative] Поиск пользователя по имени, фамилии и емаил ", async ({request}) => {
-
+    test("[negative] Поиск пользователя по имени:boolean, фамилии и емаил ", async ({request}) => {
         const serchByPhone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, null, userData["name"], userData["last_name"],
-                userData["email"], null))).json()).data[0];
-
+            async () => userSearchResponse(request, Statuses.BAD_REQUEST, null, true, userData.last_name, userData.email, null))).json()).error;
 
         await test.step("Проверки", async () => {
-            expect(serchByPhone.id).toEqual(userData["id"]);
+            expect(serchByPhone.message).toEqual('json: cannot unmarshal bool into Go struct field requestData.data.name of type string');
+            expect(serchByPhone.code).toEqual('bind_error');
         })
     });
 

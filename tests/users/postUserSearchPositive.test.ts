@@ -1,18 +1,17 @@
 import {APIRequestContext, expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber, getRandomName} from "@utils/random";
+import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
-import {log} from "@utils/logger";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
-    let userData: object
+    let userData: any;
     let clubId: number;
 
     const userSearchResponse = async (request: APIRequestContext, status: Statuses,
-                                      phone: string|null, name: string|null, lastName: string|null, email: string|null,
-                                      birthday: string|null) => {
+                                      phone: string | null, name: string | null, lastName: string | null, email: string | null,
+                                      birthday: string | null) => {
         const requestBody = {
             session_id: "234",
             request_id: "123",
@@ -69,7 +68,7 @@ test.describe("Api-тесты на поиск пользователя по па
     test("[positive] Поиск пользователя по номеру телефона", async ({request}) => {
 
         const serchByphone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, userData["phone"], null, null, null, null))).json()).data[0];
+            async () => userSearchResponse(request, Statuses.OK, userData.phone, null, null, null, null))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
@@ -80,7 +79,7 @@ test.describe("Api-тесты на поиск пользователя по па
     test("[positive] Поиск пользователя по имени, фамилии и дате рождения", async ({request}) => {
 
         const serchByphone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, null, userData["name"], userData["last_name"], null, userData["birthday"]))).json()).data[0];
+            async () => userSearchResponse(request, Statuses.OK, null, userData.name, userData.last_name, null, userData.birthday))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
@@ -91,7 +90,7 @@ test.describe("Api-тесты на поиск пользователя по па
     test("[positive] Поиск пользователя по имени, фамилии и емаил ", async ({request}) => {
 
         const serchByphone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, null, userData["name"], userData["last_name"], userData["email"], null))).json()).data[0];
+            async () => userSearchResponse(request, Statuses.OK, null, userData.name, userData.last_name, userData.email, null))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
