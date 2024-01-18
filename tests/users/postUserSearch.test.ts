@@ -74,7 +74,6 @@ test.describe("Api-тесты на поиск пользователя по па
 
         await test.step("Проверки", async () => {
             expect(serchByphone.id).toEqual(userData["id"]);
-            console.log(userData["id"])
         })
     });
 
@@ -86,7 +85,6 @@ test.describe("Api-тесты на поиск пользователя по па
 
         await test.step("Проверки", async () => {
             expect(serchByphone.id).toEqual(userData["id"]);
-            console.log(userData["id"])
         })
     });
 
@@ -98,7 +96,6 @@ test.describe("Api-тесты на поиск пользователя по па
 
         await test.step("Проверки", async () => {
             expect(serchByphone.id).toEqual(userData["id"]);
-            console.log(userData["id"])
         })
     });
 
