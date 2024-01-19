@@ -10,7 +10,7 @@ test.describe("Api-тесты на поиск пользователя по па
     let clubId: number;
 
     const userSearchResponse = async (request: APIRequestContext, status: Statuses,
-                                      phone: object | null, name: number | null| boolean, lastName: boolean | null,
+                                      phone: object | null, name: number | null | boolean, lastName: boolean | null,
                                       email: string | null, birthday: any | null) => {
         const requestBody = {
             session_id: "234",
@@ -59,10 +59,10 @@ test.describe("Api-тесты на поиск пользователя по па
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
     })
-    test("[negative] Поиск пользователя по номеру телефона:array", async ({request}) => {
+    test("[negative] Поиск пользователя по номеру телефона: array", async ({request}) => {
 
         const serchByPhone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.BAD_REQUEST, {userData:'phone'}, null, null, null, null))).json()).error;
+            async () => userSearchResponse(request, Statuses.BAD_REQUEST, {userData: 'phone'}, null, null, null, null))).json()).error;
 
         await test.step("Проверки", async () => {
             expect(serchByPhone.message).toEqual('json: cannot unmarshal object into Go struct field requestData.data.phone of type string');
@@ -80,7 +80,7 @@ test.describe("Api-тесты на поиск пользователя по па
         })
     });
 
-    test("[negative] Поиск пользователя по имени:boolean, фамилии и емаил ", async ({request}) => {
+    test("[negative] Поиск пользователя по имени: boolean, фамилии и емаил ", async ({request}) => {
         const serchByPhone = (await (await test.step("поиск пользователя",
             async () => userSearchResponse(request, Statuses.BAD_REQUEST, null, true, userData.last_name, userData.email, null))).json()).error;
 

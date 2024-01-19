@@ -1,5 +1,5 @@
 import {APIRequestContext, expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import {getDate, getRandomEmail, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
@@ -14,24 +14,35 @@ test.describe("Api-тесты на создание платежа", async () =>
     let userId: number;
     let userPaymentPlanId: number;
 
-    const paymentCreateResponse = async (request: APIRequestContext, status: Statuses, providerId: PaymentProvider | null,
-                                         sessionId: string | null, depositAmount: number | null, userPaymentPlanId: number | null) => {
+
+    const postFreezesResponse = async (request: APIRequestContext, status: Statuses, providerId: PaymentProvider | null) => {
         const requestBody = {
-            session_id: sessionId,
-            request_id: "123",
-            request_source: "123",
+            gate_id: 6,
+            is_technical: false,
             provider_id: providerId,
-            deposit_amount: depositAmount,
-            type: "payment",
-            gate_id: 1,
             user_id: userId,
+            start_date: getDate(),
+            end_date: "2024-09-26",
             user_payment_plan_id: userPaymentPlanId,
-            currency: "RUB",
             payment_service_id: 2,
-            employee_id: 3134,
-            fiscal_method: "OrangeData"
+            products: [
+                {
+                    id: 116,
+                    quantity: 1
+                }
+            ],
+            currency: "RUB",
+            employee_id: 4650,
+            widget_settings: {
+                success_page: "https://site-test.ddxfitness.ru",
+                fault_page: "https://site-test.ddxfitness.ru/checkout/redirect.php?error=faild"
+            },
+            request_id: "123",
+            session_id: "2",
+            request_source: "123"
         }
-        return await new PaymentCreateRequests(request).postPaymentCreate(status, requestBody);
+
+        return await new PaymentCreateRequests(request).postFreezesCreate(status, requestBody);
 
     }
 
@@ -42,7 +53,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         });
     })
 
-    test.beforeEach(async ({request}) => {
+    test.beforeAll(async ({request}) => {
         userId = await test.step("Получить id клиента", async () => {
             const requestBody = {
                 session_id: "123",
@@ -69,10 +80,11 @@ test.describe("Api-тесты на создание платежа", async () =>
             return createUser.id
         });
 
+
         userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
             const requestBody = {
                 club_id: clubId,
-                start_date: "2024-11-29",
+                start_date: getDate(),
                 payment_plan_id: 163,
                 verification_token: "dfff78dc-5a27-4c85-9c77-f9d370d4fb2a",
                 request_id: "123",
@@ -84,46 +96,37 @@ test.describe("Api-тесты на создание платежа", async () =>
             return userPaymentPlanId.id
         });
 
+        await test.step("Создание подписки", async () => {
+            const requestBody = {
+                session_id: "123",
+                request_id: "123",
+                request_source: "123",
+                provider_id: PaymentProvider.RECURRENT,
+                type: "payment",
+                gate_id: 1,
+                user_id: userId,
+                user_payment_plan_id: userPaymentPlanId,
+                currency: "RUB",
+                payment_service_id: 2,
+                employee_id: 3134,
+                fiscal_method: "OrangeData"
+            }
+            return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
+        })
+
     })
 
-    test("[positive] Создание платежа", async ({request}) => {
 
-        const paymentCreateSuccessResponse = await test.step("Запрос на создание оплаты",
-            async () => paymentCreateResponse(request, Statuses.OK, PaymentProvider.RECURRENT, "123", null, userPaymentPlanId));
+    test("[positive] Создание заморозки", async ({request}) => {
+
+        const freezesCreateSuccessResponse = await test.step("Запрос на создание оплаты",
+            async () => postFreezesResponse(request, Statuses.OK, PaymentProvider.FREEZES));
 
 
         await test.step("Проверки", async () => {
-            expect((await paymentCreateSuccessResponse.json()).transaction.status).toEqual('completed');
+            expect((await freezesCreateSuccessResponse.json()).data[0].transaction.status).toEqual('in progress');
+            expect((await freezesCreateSuccessResponse.json()).data[0].user_payment_plan.user_id).toEqual(userId);
+
         })
     });
-
-    test("[positive] Пополение депозита", async ({request}) => {
-
-        const paymentCreateSuccessResponse = await test.step("Запрос на создание оплаты",
-            async () => paymentCreateResponse(request, Statuses.OK, PaymentProvider.DEPOSIT, "123", 100, null));
-
-
-        await test.step("Проверки", async () => {
-            expect((await paymentCreateSuccessResponse.json()).transaction.status).toEqual('in progress');
-            expect((await paymentCreateSuccessResponse.json()).transaction.price.deposit_amount).toEqual(100);
-        })
-    });
-
-    test("[negative] создание платежа без обязательных параметров", async ({request}) => {
-        const paymentCreateErrorResponse = await test.step("Запрос на создание оплаты",
-            async () => paymentCreateResponse(request, Statuses.BAD_REQUEST, PaymentProvider.RECURRENT, null, null, userPaymentPlanId));
-
-        await test.step("Проверки", async () => {
-            expect((await paymentCreateErrorResponse.json()).error.message).toEqual('API session_id required');
-        })
-    });
-
-    test("[negative] создание платежа, без провайдера", async ({request}) => {
-        const paymentCreateErrorResponse = await test.step("Запрос на создание оплаты",
-            async () => paymentCreateResponse(request, Statuses.BAD_REQUEST, null, "123", null, userPaymentPlanId));
-
-        await test.step("Проверки", async () => {
-            expect((await paymentCreateErrorResponse.json()).error.message).toEqual("not payment provider");
-        })
-    })
 });
