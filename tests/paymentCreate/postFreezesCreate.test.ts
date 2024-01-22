@@ -86,7 +86,7 @@ test.describe("Api-тесты на создание платежа", async () =>
                 club_id: clubId,
                 start_date: getDate(),
                 payment_plan_id: 163,
-                verification_token: "dfff78dc-5a27-4c85-9c77-f9d370d4fb2a",
+                verification_token: "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
                 request_id: "123",
                 session_id: "123",
                 request_source: "123"
