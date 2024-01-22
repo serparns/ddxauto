@@ -83,7 +83,6 @@ test.describe("Api-тесты на создание платежа", async () =>
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPaymentPlanId.id
         });
-
     })
 
     test("[positive] Создание платежа", async ({request}) => {

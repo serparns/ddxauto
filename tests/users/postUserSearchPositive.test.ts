@@ -9,23 +9,29 @@ test.describe("Api-тесты на поиск пользователя по па
     let userData: any;
     let clubId: number;
 
-    const userSearchResponse = async (request: APIRequestContext, status: Statuses,
-                                      phone: string | null, name: string | null, lastName: string | null, email: string | null,
-                                      birthday: string | null) => {
+    const userSearchResponse = async (
+        request: APIRequestContext,
+        status: Statuses,
+        parameters: {
+            phone?: string,
+            name?: string,
+            lastName?: string,
+            email?: string,
+            birthday?: string
+        }) => {
         const requestBody = {
             session_id: "234",
             request_id: "123",
             request_source: "123",
             data: {
-                name: name,
-                email: email,
-                phone: phone,
-                last_name: lastName,
-                birthday: birthday
+                name: parameters.name,
+                email: parameters.email,
+                phone: parameters.phone,
+                last_name: parameters.lastName,
+                birthday: parameters.birthday
             }
         }
         return await new UsersRequests(request).postUsersSearch(status, requestBody);
-
     }
 
     test.beforeAll(async ({request}) => {
@@ -33,9 +39,7 @@ test.describe("Api-тесты на поиск пользователя по па
             const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
             return getClubs.id;
         });
-    })
 
-    test.beforeAll(async ({request}) => {
         userData = await test.step("создать пользователя и получить данные о нем", async () => {
             const requestBody = {
                 session_id: "123",
@@ -60,42 +64,41 @@ test.describe("Api-тесты на поиск пользователя по па
             }
             const userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return userData;
-
-
         });
 
     })
     test("[positive] Поиск пользователя по номеру телефона", async ({request}) => {
 
-        const serchByphone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, userData.phone, null, null, null, null))).json()).data[0];
+        const searchUser = (await (await test.step("поиск пользователя",
+            async () => userSearchResponse(request, Statuses.OK, {phone: userData.phone}))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
-            expect(serchByphone.id).toEqual(userData["id"]);
+            expect(searchUser.id).toEqual(userData["id"]);
         })
     });
 
     test("[positive] Поиск пользователя по имени, фамилии и дате рождения", async ({request}) => {
 
-        const serchByphone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, null, userData.name, userData.last_name, null, userData.birthday))).json()).data[0];
+        const searchUser = (await (await test.step("поиск пользователя",
+            async () => userSearchResponse(request, Statuses.OK, {name: userData.name, lastName: userData.last_name,
+                birthday: userData.birthday }))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
-            expect(serchByphone.id).toEqual(userData["id"]);
+            expect(searchUser.id).toEqual(userData["id"]);
         })
     });
 
     test("[positive] Поиск пользователя по имени, фамилии и емаил ", async ({request}) => {
 
-        const serchByphone = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, null, userData.name, userData.last_name, userData.email, null))).json()).data[0];
+        const searchUser = (await (await test.step("поиск пользователя",
+            async () => userSearchResponse(request, Statuses.OK, {name: userData.name, lastName: userData.last_name,
+                email: userData.email}))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
-            expect(serchByphone.id).toEqual(userData["id"]);
+            expect(searchUser.id).toEqual(userData["id"]);
         })
     });
-
 })
