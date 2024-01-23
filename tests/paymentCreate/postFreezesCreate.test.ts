@@ -9,12 +9,11 @@ import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
-
     let clubId: number;
     let userId: number;
     let userPaymentPlanId: number;
 
-    const postFreezesResponse = async (request: APIRequestContext, status: Statuses, providerId: PaymentProvider | null) => {
+    const postFreezesResponse = async (request: APIRequestContext, status: Statuses, providerId: PaymentProvider) => {
         const requestBody = {
             gate_id: 6,
             is_technical: false,
@@ -32,10 +31,6 @@ test.describe("Api-тесты на создание заморозки поль�
             ],
             currency: "RUB",
             employee_id: 4650,
-            widget_settings: {
-                success_page: "https://site-test.ddxfitness.ru",
-                fault_page: "https://site-test.ddxfitness.ru/checkout/redirect.php?error=faild"
-            },
             request_id: "123",
             session_id: "2",
             request_source: "123"
@@ -109,14 +104,12 @@ test.describe("Api-тесты на создание заморозки поль�
     })
 
     test("[positive] Создание заморозки", async ({request}) => {
-
         const freezesCreateSuccessResponse = await test.step("Запрос на создание оплаты",
             async () => postFreezesResponse(request, Statuses.OK, PaymentProvider.FREEZES));
 
         await test.step("Проверки", async () => {
             expect((await freezesCreateSuccessResponse.json()).data[0].transaction.status).toEqual('in progress');
             expect((await freezesCreateSuccessResponse.json()).data[0].user_payment_plan.user_id).toEqual(userId);
-
         })
     });
 });

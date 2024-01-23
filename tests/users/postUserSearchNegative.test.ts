@@ -76,8 +76,11 @@ test.describe("Api-тесты на поиск пользователя по па
 
     test("[negative] Поиск пользователя по имени, фамилии и дате рождения", async ({request}) => {
         const searchUser = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.NOT_FOUND, {birthday: getDate(), name: userData.name,
-                lastName: userData.last_name}))).json()).error;
+            async () => userSearchResponse(request, Statuses.NOT_FOUND, {
+                birthday: getDate(),
+                name: userData.name,
+                lastName: userData.last_name
+            }))).json()).error;
 
         await test.step("Проверки", async () => {
             expect(searchUser.code).toEqual('data_find_error');
@@ -87,8 +90,11 @@ test.describe("Api-тесты на поиск пользователя по па
 
     test("[negative] Поиск пользователя по имени, фамилии и емаил ", async ({request}) => {
         const searchUser = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.NOT_FOUND, {name: userData.name,
-                lastName: userData.last_name, email: userData.name }))).json()).error;
+            async () => userSearchResponse(request, Statuses.NOT_FOUND, {
+                name: userData.name,
+                lastName: userData.last_name,
+                email: userData.name
+            }))).json()).error;
 
         await test.step("Проверки", async () => {
             expect(searchUser.code).toEqual('data_find_error');
@@ -97,7 +103,6 @@ test.describe("Api-тесты на поиск пользователя по па
     });
 
     test("[negative] Поиск пользователя по номеру телефона: array", async ({request}) => {
-
         const searchUser = (await (await test.step("поиск пользователя по номеру телефона: array",
             async () => userSearchResponse(request, Statuses.BAD_REQUEST, {phone: {userData: "phone"}}))).json()).error;
 

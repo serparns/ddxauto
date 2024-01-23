@@ -81,8 +81,10 @@ test.describe("Api-тесты на поиск пользователя по па
     test("[positive] Поиск пользователя по имени, фамилии и дате рождения", async ({request}) => {
 
         const searchUser = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, {name: userData.name, lastName: userData.last_name,
-                birthday: userData.birthday }))).json()).data[0];
+            async () => userSearchResponse(request, Statuses.OK, {
+                name: userData.name, lastName: userData.last_name,
+                birthday: userData.birthday
+            }))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
@@ -93,8 +95,10 @@ test.describe("Api-тесты на поиск пользователя по па
     test("[positive] Поиск пользователя по имени, фамилии и емаил ", async ({request}) => {
 
         const searchUser = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, {name: userData.name, lastName: userData.last_name,
-                email: userData.email}))).json()).data[0];
+            async () => userSearchResponse(request, Statuses.OK, {
+                name: userData.name, lastName: userData.last_name,
+                email: userData.email
+            }))).json()).data[0];
 
 
         await test.step("Проверки", async () => {
