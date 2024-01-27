@@ -1,6 +1,9 @@
 import {expect, test} from "@playwright/test";
 import api from '../../api.json';
 import {Statuses} from "@libs/statuses";
+import requestTestData from "@data/request.json";
+import {RequestSource} from "@libs/requestSource";
+
 
 test.describe("Api-тесты на создание заметки ", async () => {
     test("[positive] создать заметку", async ({request}) => {
@@ -12,9 +15,9 @@ test.describe("Api-тесты на создание заметки ", async () =
                 },
                 data:
                     {
-                        session_id: "123",
-                        request_id: "321",
-                        request_source: "crm",
+                        session_id: requestTestData.session_id,
+                        request_id: requestTestData.request_id,
+                        request_source: RequestSource.CRM,
                         data: [
                             {
                                 text: "тест пулл",

@@ -19,7 +19,8 @@
       "@requests/*": ["requests/*"],
       "@libs/*": ["libs/*"],
       "@entities/*": ["entities/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@data/*": ["data/*"]
     }
   }
 }

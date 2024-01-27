@@ -1,6 +1,7 @@
 import {APIRequestContext, APIResponse, expect} from "@playwright/test";
 import paths from '../api.json';
 import {log} from "../utils/logger";
+import * as child_process from "child_process";
 
 export default class BaseRequests {
     protected baseUrl: string;
@@ -11,6 +12,7 @@ export default class BaseRequests {
     ) {
         this.baseUrl = paths.urls.base_url_api
     }
+
     async get(url: string, status: number, parameters?: any): Promise<APIResponse> {
         log("request url", url);
         log("parameters", parameters);
@@ -31,6 +33,5 @@ export default class BaseRequests {
 
         expect(response.status()).toEqual(status);
         return response;
-    }
-
-}
+    };
+};

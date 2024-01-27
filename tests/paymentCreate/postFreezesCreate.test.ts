@@ -1,5 +1,5 @@
 import {APIRequestContext, expect, test} from "@playwright/test";
-import {getDate, getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import {getDate, getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
@@ -7,6 +7,10 @@ import {Statuses} from "@libs/statuses";
 import {PaymentProvider} from "@libs/providers";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
+import {RequestSource} from "@libs/requestSource";
+import requestTestData from "@data/request.json"
+import {SportExperience} from "@libs/sportExperience";
+import userTestData from "@data/user.json";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
     let clubId: number;
@@ -31,9 +35,9 @@ test.describe("Api-тесты на создание заморозки поль�
             ],
             currency: "RUB",
             employee_id: 4650,
-            request_id: "123",
-            session_id: "2",
-            request_source: "123"
+            request_id: requestTestData.request_id,
+            session_id: requestTestData.session_id,
+            request_source: RequestSource.CRM,
         }
         return await new PaymentCreateRequests(request).postFreezesCreate(status, requestBody);
     }
@@ -45,23 +49,20 @@ test.describe("Api-тесты на создание заморозки поль�
         });
         userId = await test.step("Получить id клиента", async () => {
             const requestBody = {
-                session_id: "123",
-                request_id: "321",
-                request_source: "crm",
+                session_id: requestTestData.session_id,
+                request_id: requestTestData.request_id,
+                request_source: RequestSource.CRM,
                 data: {
                     email: getRandomEmail(),
-                    name: "Test",
-                    last_name: "Test",
-                    middle_name: "",
-                    sex: "male",
+                    name: getRandomName(),
+                    last_name: userTestData.last_name,
+                    middle_name: userTestData.middle_name,
+                    sex: userTestData.sex.male,
                     phone: getRandomPhoneNumber(),
-                    birthday: "1999-11-11",
-                    password: "qwerty123",
-                    lang: "ru",
-                    club_access: true,
-                    admin_panel_access: true,
-                    group_training_registration_access: true,
-                    sport_experience: "Нет опыта",
+                    birthday: userTestData.birthday,
+                    password: userTestData.password,
+                    lang: userTestData.lang,
+                    sport_experience: SportExperience.FIVE_YEARS,
                     home_club_id: clubId
                 }
             }
@@ -75,9 +76,9 @@ test.describe("Api-тесты на создание заморозки поль�
                 start_date: getDate(),
                 payment_plan_id: 163,
                 verification_token: "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
-                request_id: "123",
-                session_id: "123",
-                request_source: "123"
+                request_id: requestTestData.request_id,
+                session_id: requestTestData.session_id,
+                request_source: RequestSource.CRM,
             }
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
@@ -86,9 +87,9 @@ test.describe("Api-тесты на создание заморозки поль�
 
         await test.step("Создание подписки", async () => {
             const requestBody = {
-                session_id: "123",
-                request_id: "123",
-                request_source: "123",
+                session_id: requestTestData.session_id,
+                request_id: requestTestData.request_id,
+                request_source: RequestSource.CRM,
                 provider_id: PaymentProvider.RECURRENT,
                 type: "payment",
                 gate_id: 1,

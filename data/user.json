@@ -1,0 +1,12 @@
+{
+  "name": "Test",
+  "last_name": "Test",
+  "middle_name": "Test",
+  "sex": {
+    "male": "male",
+    "female": "female"
+  },
+  "birthday": "1999-11-11",
+  "password": "qwerty123",
+  "lang": "ru"
+}

@@ -1,32 +1,52 @@
-import {test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber,} from "@utils/random";
+import {APIRequestContext, expect, test} from "@playwright/test";
+import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
+import {RequestSource} from "@libs/requestSource";
+import {SportExperience} from "@libs/sportExperience";
+import userTestData from "@data/user.json"
+import requestTestData from "@data/request.json"
+import ClubsRequests from "@requests/clubs.requests";
+import {getBaseParameters} from "@entities/baseParameters";
 
-const sportExperiense = ['Нет опыта', '0-6 месяцев', 'Больше 5 лет', '2-3 года', '1-2 года', '3-5 лет']
-const requestBody = {
-    "session_id": "123",
-    "request_id": "321",
-    "request_source": "crm",
-    "data": {
-        "email": getRandomEmail(),
-        "name": "Test",
-        "last_name": "last_name",
-        "middle_name": "string",
-        "sex": "male",
-        "phone": getRandomPhoneNumber(),
-        "birthday": "1999-11-11",
-        "password": "qwerty123",
-        "lang": "ru",
-        "home_club_id": 1,
-        "club_access": true,
-        "admin_panel_access": true,
-        "group_training_registration_access": true,
-        "sport_experience": "Нет опыта"
-    }
-}
 test.describe("Api-тест на создание клиента", async () => {
-    test("[positive] Создать нового клиента", async ({request}) => {
-        await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)
+    let clubId: number
+
+    const userCrateResponse = async (request: APIRequestContext, status: Statuses) => {
+        const requestBody = {
+            session_id: requestTestData.session_id,
+            request_id: requestTestData.request_id,
+            request_source: RequestSource.CRM,
+            data: {
+                email: getRandomEmail(),
+                name: getRandomName(),
+                last_name: userTestData.last_name,
+                middle_name: userTestData.middle_name,
+                sex: userTestData.sex.male,
+                phone: getRandomPhoneNumber(),
+                birthday: userTestData.birthday,
+                password: userTestData.password,
+                lang: userTestData.lang,
+                sport_experience: SportExperience.FIVE_YEARS,
+                home_club_id: clubId
+            }
+        }
+        return await new UsersRequests(request).postCreateUser(status, requestBody);
+    }
+
+    test.beforeAll(async ({request}) => {
+        clubId = await test.step("Получить id клуба", async () => {
+            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
+            return getClubs.id
+        })
+    });
+
+    test("[positive] Создание пользователя", async ({request}) => {
+        const userCreateSuccessResponse = await test.step("создание пользователя",
+            async () => userCrateResponse(request, Statuses.OK));
+
+        await test.step("Проверки", async () => {
+            expect((await userCreateSuccessResponse.json()).data.home_club_id).toEqual(clubId);
+        })
     })
-})
+});

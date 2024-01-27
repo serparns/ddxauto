@@ -4,6 +4,10 @@ import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
+import requestTestData from "@data/request.json";
+import {RequestSource} from "@libs/requestSource";
+import {SportExperience} from "@libs/sportExperience";
+import userTestData from "@data/user.json";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
     let userData: any
@@ -20,9 +24,9 @@ test.describe("Api-тесты на поиск пользователя по па
             birthday?: string | any
         }) => {
         const requestBody = {
-            session_id: "234",
-            request_id: "123",
-            request_source: "123",
+            session_id: requestTestData.session_id,
+            request_id: requestTestData.request_id,
+            request_source: RequestSource.CRM,
             data: {
                 name: parameters.name,
                 email: parameters.email,
@@ -41,23 +45,20 @@ test.describe("Api-тесты на поиск пользователя по па
 
         userData = await test.step("создать пользователя и получить данные о нем", async () => {
             const requestBody = {
-                session_id: "123",
-                request_id: "321",
-                request_source: "123",
+                session_id: requestTestData.session_id,
+                request_id: requestTestData.request_id,
+                request_source: RequestSource.CRM,
                 data: {
                     email: getRandomEmail(),
                     name: getRandomName(),
-                    last_name: "Test",
-                    middle_name: "",
-                    sex: "male",
+                    last_name: userTestData.last_name,
+                    middle_name: userTestData.middle_name,
+                    sex: userTestData.sex.male,
                     phone: getRandomPhoneNumber(),
-                    birthday: "1999-11-11",
-                    password: "qwerty123",
-                    lang: "ru",
-                    club_access: true,
-                    admin_panel_access: true,
-                    group_training_registration_access: true,
-                    sport_experience: "Нет опыта",
+                    birthday: userTestData.birthday,
+                    password: userTestData.password,
+                    lang: userTestData.lang,
+                    sport_experience: SportExperience.FIVE_YEARS,
                     home_club_id: clubId
                 }
             }
@@ -66,7 +67,7 @@ test.describe("Api-тесты на поиск пользователя по па
     })
     test("[negative] поиск пользователя по номеру телефона", async ({request}) => {
         const searchUser = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.NOT_FOUND, {phone: "903203"}))).json()).error;
+            async () => userSearchResponse(request, Statuses.NOT_FOUND, {phone: "111111111"}))).json()).error;
 
         await test.step("Проверки", async () => {
             expect(searchUser.code).toEqual('data_find_error');

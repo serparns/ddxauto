@@ -1,9 +1,13 @@
 import {expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import ClubsRequests from "@requests/clubs.requests";
 import {Statuses} from "@libs/statuses";
+import requestTestData from "@data/request.json";
+import {RequestSource} from "@libs/requestSource";
+import {SportExperience} from "@libs/sportExperience";
+import userTestData from "@data/user.json";
 
 test.describe("Api-тест на создание юзера с клубом и получения данных о нем", async () => {
     test("[positive] получить юзера с подстановкой id клуба из запроса", async ({request}) => {
@@ -14,23 +18,20 @@ test.describe("Api-тест на создание юзера с клубом и 
 
         const createUser = await test.step("Получить id клиента", async () => {
             const requestBody = {
-                session_id: "123",
-                request_id: "321",
-                request_source: "crm",
+                session_id: requestTestData.session_id,
+                request_id: requestTestData.request_id,
+                request_source: RequestSource.CRM,
                 data: {
                     email: getRandomEmail(),
-                    name: "Test",
-                    last_name: "Test",
-                    middle_name: "",
-                    sex: "male",
+                    name: getRandomName(),
+                    last_name: userTestData.last_name,
+                    middle_name: userTestData.middle_name,
+                    sex: userTestData.sex.male,
                     phone: getRandomPhoneNumber(),
-                    birthday: "1999-11-11",
-                    password: "qwerty123",
-                    lang: "ru",
-                    club_access: true,
-                    admin_panel_access: true,
-                    group_training_registration_access: true,
-                    sport_experience: "Нет опыта",
+                    birthday: userTestData.birthday,
+                    password: userTestData.password,
+                    lang: userTestData.lang,
+                    sport_experience: SportExperience.FIVE_YEARS,
                     home_club_id: clubId
                 }
             }

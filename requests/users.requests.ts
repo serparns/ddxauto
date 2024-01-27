@@ -10,10 +10,10 @@ export default class UsersRequests extends BaseRequests {
     async getUser(status: number, parameters: object, userId: number): Promise<APIResponse> {
         return await this.get(`${this.baseUrl}${paths.paths.users}/${userId}`, status, parameters);
     }
+
     async postUsersSearch(status: number, body: object): Promise<APIResponse> {
         return await this.post(`${this.baseUrl}${paths.paths.users_search}`, status, body);
     }
-
 }
 
 
