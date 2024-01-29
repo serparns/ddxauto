@@ -1,10 +1,10 @@
 {
   "order_by": {
     "desc": "desc",
-    "ans":"ans"
+    "asc":"asc"
   },
   "is_active":{
-    "true": "true",
-    "false": "false"
+    "true": true,
+    "false": false
   }
 }

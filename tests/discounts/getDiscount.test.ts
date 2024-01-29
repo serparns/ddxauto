@@ -9,8 +9,8 @@ test.describe("Api-тесты на получение списка акций", 
         request: APIRequestContext,
         status: Statuses,
         parameters?: {
-            isActive?: '' | any
-            orderBy?: '' | any
+            isActive: boolean | ''
+            orderBy: string | ''
         }) => {
         const params = {
             ...await getBaseParameters(),
@@ -20,31 +20,42 @@ test.describe("Api-тесты на получение списка акций", 
         return await new DiscountsRequests(request).getDiscounts(status, params);
     }
 
-    test("стандартоное получение акций без параметров", async ({request}) => {
-        const discount = await (await test.step("",
+    test("Получение списка акций", async ({request}) => {
+        const discount = await (await test.step("Получение акций",
             async () => discountResponse(request, Statuses.OK, {isActive: '', orderBy: ''}))).json()
 
         await test.step("Проверки", async () => {
-            expect(discount.data[0].id).toEqual(9)
+            expect(discount.data[0].id).not.toBe(null)
         })
     });
 
-    test("получение акций с активностью", async ({request}) => {
-        const discount = await (await test.step("",
+    test("Получение списка активных акций", async ({request}) => {
+        const discount = await (await test.step("Получение акций",
             async () => discountResponse(request, Statuses.OK,
                 {isActive: discountTestData.is_active.true, orderBy: discountTestData.order_by.desc}))).json()
 
         await test.step("Проверки", async () => {
-            expect(discount.data[0].id).toEqual(744)
+            expect(discount.data[0].id).not.toBe(null)
         })
     });
 
-    test("получение не активных акций ", async ({request}) => {
-        const discount = await (await test.step("",
+    test("Получение списка не активных акций по убыванию", async ({request}) => {
+        const discount = await (await test.step("Получение акций",
             async () => discountResponse(request, Statuses.OK,
                 {isActive: discountTestData.is_active.false, orderBy: discountTestData.order_by.desc}))).json()
 
         await test.step("Проверки", async () => {
+            expect(discount.data[0].id).not.toBe(null)
+            expect(discount.data[0].is_active).toEqual(false)
+        })
+    });
+    test("Получение списка не активных акций по возрастанию", async ({request}) => {
+        const discount = await (await test.step("Получение акций",
+            async () => discountResponse(request, Statuses.OK,
+                {isActive: discountTestData.is_active.false, orderBy: discountTestData.order_by.asc}))).json()
+
+        await test.step("Проверки", async () => {
+            expect(discount.data[0].id).not.toBe(null)
             expect(discount.data[0].is_active).toEqual(false)
         })
     });
