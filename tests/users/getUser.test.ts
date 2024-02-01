@@ -8,6 +8,7 @@ import requestTestData from "@data/request.json";
 import {RequestSource} from "@libs/requestSource";
 import {SportExperience} from "@libs/sportExperience";
 import userTestData from "@data/user.json";
+import {getUserRequestJson} from "@entities/user.requestJson";
 
 test.describe("Api-тест на создание юзера с клубом и получения данных о нем", async () => {
     test("[positive] получить юзера с подстановкой id клуба из запроса", async ({request}) => {
@@ -17,24 +18,11 @@ test.describe("Api-тест на создание юзера с клубом и 
         });
 
         const createUser = await test.step("Получить id клиента", async () => {
-            const requestBody = {
-                session_id: requestTestData.session_id,
-                request_id: requestTestData.request_id,
-                request_source: RequestSource.CRM,
-                data: {
-                    email: getRandomEmail(),
-                    name: getRandomName(),
-                    last_name: userTestData.last_name,
-                    middle_name: userTestData.middle_name,
-                    sex: userTestData.sex.male,
-                    phone: getRandomPhoneNumber(),
-                    birthday: userTestData.birthday,
-                    password: userTestData.password,
-                    lang: userTestData.lang,
-                    sport_experience: SportExperience.FIVE_YEARS,
-                    home_club_id: clubId
-                }
-            }
+                const requestBody = await getUserRequestJson(clubId,
+                    getRandomEmail(),
+                    getRandomPhoneNumber(),
+                    SportExperience.FIVE_YEARS,
+                    userTestData.password);
             const createUser = await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)
             return createUser.json()
         });

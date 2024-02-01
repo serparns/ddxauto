@@ -11,5 +11,3 @@ export default class ClubsRequests extends BaseRequests {
         return await this.get(`${this.baseUrl}${paths.paths.clubs}`, status, parameters);
     }
 }
-
-

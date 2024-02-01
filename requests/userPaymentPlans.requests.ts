@@ -7,5 +7,3 @@ export default class UserPaymentPlansRequests extends BaseRequests {
         return await this.post(`${this.baseUrl}${paths.paths.users}/${userId}${paths.paths.user_payment_plans}`, status, body);
     }
 }
-
-

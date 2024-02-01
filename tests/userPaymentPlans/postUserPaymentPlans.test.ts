@@ -1,5 +1,5 @@
 import {expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
+import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import ClubsRequests from "@requests/clubs.requests";
@@ -8,10 +8,9 @@ import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import TransactionRequests from "@requests/transaction.requests";
 import {Statuses} from "@libs/statuses";
 import {PaymentProvider} from "@libs/providers";
-import requestTestData from "@data/request.json"
-import {RequestSource} from "@libs/requestSource";
-import {SportExperience} from "@libs/sportExperience";
-import userTestData from "@data/user.json";
+import {getUserRequestJson} from "@entities/user.requestJson";
+import {getPaymentPlanRequestJson} from "@entities/paymentPlan.requestJson";
+import {getPaymentCreateRequestJson} from "@entities/paymentCrate.requestJson";
 
 test.describe("Api-тесты на регистрацию подписки пользователя", async () => {
     test("[positive] регистрация подписки", async ({request}) => {
@@ -21,57 +20,19 @@ test.describe("Api-тесты на регистрацию подписки по�
         });
 
         const userId = await test.step("Получить id клиента", async () => {
-            const requestBody = {
-                session_id: requestTestData.session_id,
-                request_id: requestTestData.request_id,
-                request_source: RequestSource.CRM,
-                data: {
-                    email: getRandomEmail(),
-                    name: getRandomName(),
-                    last_name: userTestData.last_name,
-                    middle_name: userTestData.middle_name,
-                    sex: userTestData.sex.male,
-                    phone: getRandomPhoneNumber(),
-                    birthday: userTestData.birthday,
-                    password: userTestData.password,
-                    lang: userTestData.lang,
-                    sport_experience: SportExperience.FIVE_YEARS,
-                    home_club_id: clubId
-                }
-            }
+            const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             const createUser = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return createUser.id
         });
 
-        const paymentId = await test.step("Отправить запрость на создание подписки", async () => {
-            const requestBody = {
-                club_id: clubId,
-                start_date: "2024-11-29",
-                payment_plan_id: 163,
-                verification_token: "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
-                request_id: requestTestData.request_id,
-                session_id: requestTestData.session_id,
-                request_source: RequestSource.CRM,
-            }
+        const paymentId = await test.step("Отправить запрос на создание подписки", async () => {
+            const requestBody = await getPaymentPlanRequestJson(clubId);
             const userPayment = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPayment.id
         });
 
         const {transactionId, transactionStatus} = await test.step("Запрос на создание оплаты", async () => {
-            const requestBody = {
-                session_id: requestTestData.session_id,
-                request_id: requestTestData.request_id,
-                request_source: RequestSource.CRM,
-                provider_id: PaymentProvider.RECURRENT,
-                type: "payment",
-                gate_id: 1,
-                user_id: userId,
-                user_payment_plan_id: paymentId,
-                currency: "RUB",
-                payment_service_id: 2,
-                employee_id: 3134,
-                fiscal_method: "OrangeData"
-            }
+            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, paymentId, userId);
             const payment = (await (await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody)).json()).transaction
             return {
                 transactionId: payment.id,

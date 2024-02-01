@@ -1,0 +1,24 @@
+import {BaseRequestJson} from "@entities/base.requestJson";
+import {UserDataRequestJson} from "@entities/user.requestJson";
+import {getDate} from "@utils/random";
+import requestTestData from "@data/request.json";
+import {RequestSource} from "@libs/requestSource";
+
+export interface PaymentPlanRequestJson {
+    club_id: number;
+    start_date: string;
+    payment_plan_id: number
+    verification_token: string
+}
+
+export const getPaymentPlanRequestJson = async (clubId: number) : Promise<BaseRequestJson<PaymentPlanRequestJson>>  => {
+    return {
+        session_id: requestTestData.session_id,
+        request_id: requestTestData.request_id,
+        request_source: RequestSource.CRM,
+        club_id: clubId,
+        start_date: getDate(),
+        payment_plan_id: 163,
+        verification_token: "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
+    }
+};

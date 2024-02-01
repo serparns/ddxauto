@@ -11,6 +11,3 @@ export default class PaymentCreateRequests extends BaseRequests {
         return await this.post(`${this.baseUrl}${paths.paths.freezes_create}`, status, body);
     }
 }
-
-
-

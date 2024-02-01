@@ -15,9 +15,9 @@ test.describe("Api-тесты на получение списка акций", 
         }) => {
         const params = async (): Promise<object> => {
             let params = await getBaseParameters()
-            if (parameters?.isActive != undefined) params = { ...params, ...{ is_active: parameters.isActive } }
-            if (parameters?.orderBy != undefined) params = { ...params, ...{ order_by: parameters.orderBy } }
-            if (parameters?.limit != undefined) params = { ...params, ...{ limit: parameters.limit } }
+            if (parameters?.isActive != undefined) params = {...params, ...{is_active: parameters.isActive}}
+            if (parameters?.orderBy != undefined) params = {...params, ...{order_by: parameters.orderBy}}
+            if (parameters?.limit != undefined) params = {...params, ...{limit: parameters.limit}}
             return params;
         }
         return await new DiscountsRequests(request).getDiscounts(status, await params());

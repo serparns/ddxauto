@@ -1,13 +1,11 @@
 import {APIRequestContext, expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
+import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
-import {RequestSource} from "@libs/requestSource";
-import {SportExperience} from "@libs/sportExperience";
-import userTestData from "@data/user.json"
-import requestTestData from "@data/request.json"
+import {getUserRequestJson} from "@entities/user.requestJson";
+import {getUserSearchRequestJson} from "@entities/userSearch.requestJson";
 
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
@@ -24,18 +22,12 @@ test.describe("Api-тесты на поиск пользователя по па
             email?: string,
             birthday?: string
         }) => {
-        const requestBody = {
-            session_id: requestTestData.session_id,
-            request_id: requestTestData.request_id,
-            request_source: RequestSource.CRM,
-            data: {
-                name: parameters.name,
-                email: parameters.email,
-                phone: parameters.phone,
-                last_name: parameters.lastName,
-                birthday: parameters.birthday
-            }
-        }
+        const requestBody = await getUserSearchRequestJson(
+            parameters.name,
+            parameters.email,
+            parameters.phone,
+            parameters.lastName,
+            parameters.birthday);
         return await new UsersRequests(request).postUsersSearch(status, requestBody);
     }
 
@@ -46,26 +38,8 @@ test.describe("Api-тесты на поиск пользователя по па
         });
 
         userData = await test.step("создать пользователя и получить данные о нем", async () => {
-            const requestBody = {
-                session_id: requestTestData.session_id,
-                request_id: requestTestData.request_id,
-                request_source: RequestSource.CRM,
-                data: {
-                    email: getRandomEmail(),
-                    name: getRandomName(),
-                    last_name: userTestData.last_name,
-                    middle_name: userTestData.middle_name,
-                    sex: userTestData.sex.male,
-                    phone: getRandomPhoneNumber(),
-                    birthday: userTestData.birthday,
-                    password: userTestData.password,
-                    lang: userTestData.lang,
-                    sport_experience: SportExperience.FIVE_YEARS,
-                    home_club_id: clubId
-                }
-            }
-            const userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
-            return userData;
+            const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
+            return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
     })
 

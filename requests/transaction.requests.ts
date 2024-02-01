@@ -7,5 +7,3 @@ export default class TransactionRequests extends BaseRequests {
         return await this.get(`${this.baseUrl}${paths.paths.transactions}/${transactionId}`, status, body);
     }
 }
-
-

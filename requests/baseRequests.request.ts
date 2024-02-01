@@ -1,7 +1,6 @@
 import {APIRequestContext, APIResponse, expect} from "@playwright/test";
 import paths from '../api.json';
 import {log} from "../utils/logger";
-import * as child_process from "child_process";
 
 export default class BaseRequests {
     protected baseUrl: string;

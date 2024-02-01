@@ -7,5 +7,3 @@ export default class NotificationsRequests extends BaseRequests {
         return await this.get(`${this.baseUrl}${userID}${paths.paths.notifications}`, status, parameters);
     }
 }
-
-

@@ -7,4 +7,3 @@ export default class DiscountsRequests extends BaseRequests {
         return await this.get(`${this.baseUrl}${paths.paths.discounts}`, status, parameters);
     }
 }
-

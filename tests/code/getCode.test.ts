@@ -1,5 +1,5 @@
 import {expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
+import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import ClubsRequests from "@requests/clubs.requests";
@@ -7,8 +7,7 @@ import VerifyRequests from "@requests/verify.requests";
 import {Statuses} from "@libs/statuses";
 import requestTestData from "@data/request.json"
 import {RequestSource} from "@libs/requestSource";
-import {SportExperience} from "@libs/sportExperience";
-import userTestData from "@data/user.json";
+import {getUserRequestJson} from "@entities/user.requestJson";
 
 
 test.describe("Api-тесты на получение кода верификации", async () => {
@@ -21,24 +20,7 @@ test.describe("Api-тесты на получение кода верифика�
         });
 
         const {userId, userPhone} = await test.step("Получить id клиента", async () => {
-            const requestBody = {
-                session_id: requestTestData.session_id,
-                request_id: requestTestData.request_id,
-                request_source: RequestSource.CRM,
-                data: {
-                    email: getRandomEmail(),
-                    name: getRandomName(),
-                    last_name: userTestData.last_name,
-                    middle_name: userTestData.middle_name,
-                    sex: userTestData.sex.male,
-                    phone: getRandomPhoneNumber(),
-                    birthday: userTestData.birthday,
-                    password: userTestData.password,
-                    lang: userTestData.lang,
-                    sport_experience: SportExperience.FIVE_YEARS,
-                    home_club_id: clubId
-                }
-            }
+            const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             const response = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return {
                 userId: response.id,
@@ -64,10 +46,6 @@ test.describe("Api-тесты на получение кода верифика�
         });
         await test.step("EXPECT", async () => {
             expect(response.status).toEqual('OK');
-
-
         })
-
-
     });
 });

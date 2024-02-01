@@ -1,5 +1,5 @@
 import {APIRequestContext, expect, test} from "@playwright/test";
-import {getDate, getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
+import {getDate, getRandomEmail, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
@@ -9,8 +9,9 @@ import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import {RequestSource} from "@libs/requestSource";
 import requestTestData from "@data/request.json"
-import {SportExperience} from "@libs/sportExperience";
-import userTestData from "@data/user.json";
+import {getPaymentPlanRequestJson} from "@entities/paymentPlan.requestJson";
+import {getUserRequestJson} from "@entities/user.requestJson";
+import {getPaymentCreateRequestJson} from "@entities/paymentCrate.requestJson";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
     let clubId: number;
@@ -48,58 +49,20 @@ test.describe("Api-тесты на создание заморозки поль�
             return getClubs.id
         });
         userId = await test.step("Получить id клиента", async () => {
-            const requestBody = {
-                session_id: requestTestData.session_id,
-                request_id: requestTestData.request_id,
-                request_source: RequestSource.CRM,
-                data: {
-                    email: getRandomEmail(),
-                    name: getRandomName(),
-                    last_name: userTestData.last_name,
-                    middle_name: userTestData.middle_name,
-                    sex: userTestData.sex.male,
-                    phone: getRandomPhoneNumber(),
-                    birthday: userTestData.birthday,
-                    password: userTestData.password,
-                    lang: userTestData.lang,
-                    sport_experience: SportExperience.FIVE_YEARS,
-                    home_club_id: clubId
-                }
-            }
+            const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             const createUser = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return createUser.id
         });
 
         userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
-            const requestBody = {
-                club_id: clubId,
-                start_date: getDate(),
-                payment_plan_id: 163,
-                verification_token: "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
-                request_id: requestTestData.request_id,
-                session_id: requestTestData.session_id,
-                request_source: RequestSource.CRM,
-            }
+            const requestBody = await getPaymentPlanRequestJson(clubId);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPaymentPlanId.id
         });
 
         await test.step("Создание подписки", async () => {
-            const requestBody = {
-                session_id: requestTestData.session_id,
-                request_id: requestTestData.request_id,
-                request_source: RequestSource.CRM,
-                provider_id: PaymentProvider.RECURRENT,
-                type: "payment",
-                gate_id: 1,
-                user_id: userId,
-                user_payment_plan_id: userPaymentPlanId,
-                currency: "RUB",
-                payment_service_id: 2,
-                employee_id: 3134,
-                fiscal_method: "OrangeData"
-            }
+            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
             return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
         })
     })

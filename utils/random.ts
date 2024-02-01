@@ -19,7 +19,7 @@ export function getDate(): string {
     const year = now.getFullYear();
     const month = now.getMonth();
     const day = now.getDate();
-    return (`${year}-0${month + 1}-${day}`);
+    return (`${year}-0${month + 1}-0${day}`);
 }
 
 export function randomSport_experience(): string {

@@ -15,5 +15,3 @@ export default class UsersRequests extends BaseRequests {
         return await this.post(`${this.baseUrl}${paths.paths.users_search}`, status, body);
     }
 }
-
-
