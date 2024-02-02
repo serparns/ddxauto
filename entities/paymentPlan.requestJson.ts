@@ -1,5 +1,4 @@
 import {BaseRequestJson} from "@entities/base.requestJson";
-import {UserDataRequestJson} from "@entities/user.requestJson";
 import {getDate} from "@utils/random";
 import requestTestData from "@data/request.json";
 import {RequestSource} from "@libs/requestSource";

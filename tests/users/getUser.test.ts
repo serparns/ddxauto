@@ -1,11 +1,9 @@
 import {expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
+import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import ClubsRequests from "@requests/clubs.requests";
 import {Statuses} from "@libs/statuses";
-import requestTestData from "@data/request.json";
-import {RequestSource} from "@libs/requestSource";
 import {SportExperience} from "@libs/sportExperience";
 import userTestData from "@data/user.json";
 import {getUserRequestJson} from "@entities/user.requestJson";

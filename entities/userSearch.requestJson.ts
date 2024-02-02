@@ -1,9 +1,6 @@
 import {BaseRequestJson} from "@entities/base.requestJson";
 import requestTestData from "@data/request.json";
 import {RequestSource} from "@libs/requestSource";
-import {getRandomEmail, getRandomName, getRandomPhoneNumber} from "@utils/random";
-import userTestData from "@data/user.json";
-import {SportExperience} from "@libs/sportExperience";
 
 export interface UserSearchRequestJson {
     email: string;

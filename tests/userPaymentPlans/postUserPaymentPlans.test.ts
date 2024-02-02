@@ -10,7 +10,7 @@ import {Statuses} from "@libs/statuses";
 import {PaymentProvider} from "@libs/providers";
 import {getUserRequestJson} from "@entities/user.requestJson";
 import {getPaymentPlanRequestJson} from "@entities/paymentPlan.requestJson";
-import {getPaymentCreateRequestJson} from "@entities/paymentCrate.requestJson";
+import {getPaymentCreateRequestJson} from "@entities/paymentCreate.requestJson";
 
 test.describe("Api-тесты на регистрацию подписки пользователя", async () => {
     test("[positive] регистрация подписки", async ({request}) => {

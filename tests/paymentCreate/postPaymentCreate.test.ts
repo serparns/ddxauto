@@ -9,7 +9,7 @@ import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import {getPaymentPlanRequestJson} from "@entities/paymentPlan.requestJson";
 import {getUserRequestJson} from "@entities/user.requestJson";
-import {getPaymentCreateRequestJson} from "@entities/paymentCrate.requestJson";
+import {getPaymentCreateRequestJson} from "@entities/paymentCreate.requestJson";
 
 test.describe("Api-тесты на создание платежа", async () => {
     let clubId: number;
