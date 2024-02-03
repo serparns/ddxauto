@@ -20,12 +20,11 @@ test.describe("Api-тесты на создание платежа", async () =>
         request: APIRequestContext,
         status: Statuses,
         parameters: {
-            providerId?: PaymentProvider,
-            sessionId?: string,
+            providerId?: PaymentProvider | undefined
             depositAmount?: number,
             userPaymentPlanId?: number
         }) => {
-        const requestBody = await getPaymentCreateRequestJson(parameters.providerId, parameters.userPaymentPlanId, userId, parameters.depositAmount);
+        const requestBody = await getPaymentCreateRequestJson(userId, parameters.userPaymentPlanId, parameters.providerId, parameters.depositAmount);
         return await new PaymentCreateRequests(request).postPaymentCreate(status, requestBody);
     }
 
@@ -54,7 +53,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         const paymentCreateSuccessResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.OK, {
                 providerId: PaymentProvider.RECURRENT,
-                sessionId: "123", userPaymentPlanId: userPaymentPlanId
+                userPaymentPlanId: userPaymentPlanId
             }));
 
 
@@ -78,7 +77,6 @@ test.describe("Api-тесты на создание платежа", async () =>
     test("[negative] создание платежа, без провайдера", async ({request}) => {
         const paymentCreateErrorResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.BAD_REQUEST, {
-                sessionId: "123",
                 userPaymentPlanId: userPaymentPlanId
             }));
 

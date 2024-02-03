@@ -22,7 +22,7 @@ export interface UserDataRequestJson {
     sport_experience: string;
 }
 
-export const getUserRequestJson =  async (clubId: number, email: string, phoneNumber: string, sportExpirence?: string,
+export const getUserRequestJson =  async (clubId?: number, email?: string, phoneNumber?: string, sportExpirence?: string,
                                           password?: string ) : Promise<BaseRequestJson<UserDataRequestJson>>  => {
     return {
         session_id: requestTestData.session_id,
