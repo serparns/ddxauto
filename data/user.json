@@ -8,5 +8,18 @@
   },
   "birthday": "1999-11-11",
   "password": "qwerty123",
-  "lang": "ru"
+  "lang": "ru",
+  "user_photo_id": 123,
+  "club_access": {
+    "true": true,
+    "false": false
+  },
+  "admin_panel_access": {
+    "true": true,
+    "false": false
+  },
+  "group_training_registration_access": {
+    "true": true,
+    "false": false
+  }
 }

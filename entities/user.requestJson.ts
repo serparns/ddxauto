@@ -5,6 +5,8 @@ import {getRandomName} from "@utils/random";
 import userTestData from "@data/user.json";
 
 export interface UserDataRequestJson {
+    sport_experience?: string;
+    password?: string;
     email: string;
     name: string;
     last_name: string;
@@ -12,14 +14,12 @@ export interface UserDataRequestJson {
     sex: string;
     phone: string;
     birthday: string;
-    password: string;
     lang: string;
     user_photo_id: number
     home_club_id: number;
     club_access: boolean;
     admin_panel_access: boolean;
     group_training_registration_access: boolean;
-    sport_experience: string;
 }
 
 export const getUserRequestJson =  async (clubId: number, email: string, phoneNumber: string, sportExpirence?: string,
@@ -39,7 +39,11 @@ export const getUserRequestJson =  async (clubId: number, email: string, phoneNu
             password: password,
             lang: userTestData.lang,
             sport_experience: sportExpirence,
-            home_club_id: clubId
+            home_club_id: clubId,
+            user_photo_id: 12,
+            club_access: userTestData.club_access.true,
+            admin_panel_access: userTestData.admin_panel_access.false,
+            group_training_registration_access: userTestData.group_training_registration_access.true
         }
     }
 };
