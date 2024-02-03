@@ -62,7 +62,7 @@ test.describe("Api-тесты на создание заморозки поль�
         });
 
         await test.step("Создание подписки", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId, );
+            const requestBody = await getPaymentCreateRequestJson(userId , userPaymentPlanId, PaymentProvider.RECURRENT, );
             return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
         })
     })

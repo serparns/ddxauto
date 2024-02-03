@@ -32,7 +32,7 @@ test.describe("Api-тесты на регистрацию подписки по�
         });
 
         const {transactionId, transactionStatus} = await test.step("Запрос на создание оплаты", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, paymentId, userId);
+            const requestBody = await getPaymentCreateRequestJson(userId, paymentId ,PaymentProvider.RECURRENT );
             const payment = (await (await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody)).json()).transaction
             return {
                 transactionId: payment.id,
