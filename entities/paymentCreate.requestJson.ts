@@ -1,9 +1,12 @@
-import {BaseRequestJson} from "@entities/base.requestJson";
+import {BaseRequestJson, BaseRequestNoDataJson} from "@entities/base.requestJson";
 import requestTestData from "@data/request.json";
 import {RequestSource} from "@libs/requestSource";
 
 export interface PaymentCreateRequestJson {
-    provider_id: number;
+    session_id: string;
+    request_id: string;
+    request_source: string;
+    provider_id?: number;
     deposit_amount: number;
     type: string;
     gate_id: number;
@@ -14,9 +17,9 @@ export interface PaymentCreateRequestJson {
     employee_id: number;
     fiscal_method: string;
 }
-export const getPaymentCreateRequestJson = async (providerId: number, userPaymentPlanId?: number,
-                                                  userId?: number, depositAmount?: number)
-    : Promise<BaseRequestJson<PaymentCreateRequestJson>>  => {
+export const getPaymentCreateRequestJson = async (providerId: number, userPaymentPlanId: number,
+                                                  userId: number, depositAmount: number)
+    : Promise<PaymentCreateRequestJson>  => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
@@ -31,6 +34,5 @@ export const getPaymentCreateRequestJson = async (providerId: number, userPaymen
         payment_service_id: 2,
         employee_id: 3134,
         fiscal_method: "OrangeData"
-
     }
 }
