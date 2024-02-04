@@ -5,8 +5,8 @@ import {getRandomName} from "@utils/random";
 import userTestData from "@data/user.json";
 
 export interface UserDataRequestJson {
-    sport_experience?: string;
-    password?: string;
+    sport_experience: string;
+    password: string;
     email: string;
     name: string;
     last_name: string;
@@ -36,9 +36,9 @@ export const getUserRequestJson =  async (clubId: number, email: string, phoneNu
             sex: userTestData.sex.male,
             phone: phoneNumber,
             birthday: userTestData.birthday,
-            password: password,
+            password: password != undefined ? password : '',
             lang: userTestData.lang,
-            sport_experience: sportExpirence,
+            sport_experience: sportExpirence != undefined ? sportExpirence : '',
             home_club_id: clubId,
             user_photo_id: 12,
             club_access: userTestData.club_access.true,
