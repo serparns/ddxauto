@@ -1,4 +1,3 @@
-import {BaseRequestJson} from "@entities/base.requestJson";
 import {getDate} from "@utils/random";
 import requestTestData from "@data/request.json";
 import {RequestSource} from "@libs/requestSource";
@@ -13,7 +12,7 @@ export interface PaymentPlanRequestJson {
     verification_token: string
 }
 
-export const getPaymentPlanRequestJson = async (clubId: number) : Promise<PaymentPlanRequestJson>  => {
+export const getPaymentPlanRequestJson = async (clubId: number): Promise<PaymentPlanRequestJson> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
@@ -22,6 +21,6 @@ export const getPaymentPlanRequestJson = async (clubId: number) : Promise<Paymen
         start_date: getDate(),
         payment_plan_id: 163,
         verification_token: "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
-        }
+    }
 
 };

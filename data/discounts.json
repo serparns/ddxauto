@@ -1,9 +1,9 @@
 {
   "order_by": {
     "desc": "desc",
-    "asc":"asc"
+    "asc": "asc"
   },
-  "is_active":{
+  "is_active": {
     "true": true,
     "false": false
   }
