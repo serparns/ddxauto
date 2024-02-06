@@ -20,7 +20,8 @@
       "@libs/*": ["libs/*"],
       "@entities/*": ["entities/*"],
       "@utils/*": ["utils/*"],
-      "@data/*": ["data/*"]
+      "@data/*": ["data/*"],
+      "@api": ["api.json"]
     }
   }
 }

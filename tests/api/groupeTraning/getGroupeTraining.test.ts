@@ -1,5 +1,5 @@
 import {expect, test} from "@playwright/test";
-import api from '../../api.json';
+import api from "@api"
 import {getBaseParameters} from "@entities/baseParameters";
 import {log} from "@utils/logger";
 import {Statuses} from "@libs/statuses";
