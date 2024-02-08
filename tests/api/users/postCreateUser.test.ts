@@ -8,7 +8,6 @@ import {getUserRequestJson} from "@entities/user.requestJson";
 import {SportExperience} from "@libs/sportExperience";
 import userTestData from "@data/user.json";
 
-
 test.describe("Api-тест на создание клиента", async () => {
     let clubId: number
     const userCrateResponse = async (
@@ -60,7 +59,6 @@ test.describe("Api-тест на создание клиента", async () => {
         });
     });
 
-
     test("[positive] Создание пользователя без sport_experience", async ({request}) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
             async () => userCrateResponse(request, Statuses.OK, {password: userTestData.password}));
@@ -70,7 +68,6 @@ test.describe("Api-тест на создание клиента", async () => {
         });
     });
 
-
     test("[positive] Создание пользователя без пароля", async ({request}) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
             async () => userCrateResponse(request, Statuses.OK));
@@ -79,7 +76,6 @@ test.describe("Api-тест на создание клиента", async () => {
             expect((await userCreateSuccessResponse.json()).data.home_club_id).toEqual(clubId);
         });
     });
-
 
     test("[negative] Создание пользователя с невалидным sport_experience", async ({request}) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
