@@ -3,7 +3,7 @@ import {Statuses} from "@libs/statuses";
 import {getBaseParameters} from "@entities/baseParameters";
 import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
 
-test.describe("Api-тесты на на получения категорий груповых тренировок", async () => {
+test.describe("Api-тесты на на получения категорий групповых тренировок", async () => {
     const groupTrainingCategoryResponse = async (
         request: APIRequestContext,
         status: Statuses,
@@ -18,8 +18,8 @@ test.describe("Api-тесты на на получения категорий г
         return await new GroupTrainingCategoriesRequests(request).getGroupTrainingCategories(status, await params());
     }
 
-    test("Получение списка не удаленных категорий груповых тренировок", async ({request}) => {
-        const groupTrainingCategory = await (await test.step("Получение груповых тренировок",
+    test("Получение списка не удаленных категорий групповых тренировок", async ({request}) => {
+        const groupTrainingCategory = await (await test.step("Получение групповых тренировок",
             async () => groupTrainingCategoryResponse(request,  Statuses.OK,
                 {isDeleted: false}))).json()
 
@@ -29,8 +29,8 @@ test.describe("Api-тесты на на получения категорий г
         })
     });
 
-    test("Получение списка логически удаленных категорий груповых тренировок", async ({request}) => {
-        const groupTrainingCategory = await (await test.step("Получение груповых тренировок",
+    test("Получение списка логически удаленных категорий групповых тренировок", async ({request}) => {
+        const groupTrainingCategory = await (await test.step("Получение групповых тренировок",
             async () => groupTrainingCategoryResponse(request, Statuses.OK,
                 {isDeleted: true}))).json()
 

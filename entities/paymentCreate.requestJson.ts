@@ -6,7 +6,7 @@ export interface PaymentCreateRequestJson {
     request_id: string;
     request_source: string;
     provider_id?: number;
-    deposit_amount: number;
+    deposit_amount?: number;
     type: string;
     gate_id: number;
     user_id: number;
@@ -18,7 +18,7 @@ export interface PaymentCreateRequestJson {
 }
 
 export const getPaymentCreateRequestJson = async (providerId: number, userPaymentPlanId: number,
-                                                  userId: number, depositAmount: number)
+                                                  userId: number, depositAmount?: number)
     : Promise<PaymentCreateRequestJson> => {
     return {
         session_id: requestTestData.session_id,
