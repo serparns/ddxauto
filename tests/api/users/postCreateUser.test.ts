@@ -7,6 +7,8 @@ import {getBaseParameters} from "@entities/baseParameters";
 import {getUserRequestJson} from "@entities/user.requestJson";
 import {SportExperience} from "@libs/sportExperience";
 import userTestData from "@data/user.json";
+import {validatorJson} from "@utils/validator";
+import {userDataJsonSchema} from "@entities/user.response";
 
 test.describe("Api-тест на создание клиента", async () => {
     let clubId: number
@@ -74,6 +76,9 @@ test.describe("Api-тест на создание клиента", async () => {
 
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).data.home_club_id).toEqual(clubId);
+        });
+        await test.step("Проверить схему ответа", async () => {
+            await validatorJson(userDataJsonSchema, (await userCreateSuccessResponse.json()).data);
         });
     });
 
