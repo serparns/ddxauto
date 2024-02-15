@@ -20,7 +20,7 @@ test.describe("Api-тесты на на получения категорий г
 
     test("Получение списка не удаленных категорий групповых тренировок", async ({request}) => {
         const groupTrainingCategory = await (await test.step("Получение групповых тренировок",
-            async () => groupTrainingCategoryResponse(request,  Statuses.OK,
+            async () => groupTrainingCategoryResponse(request, Statuses.OK,
                 {isDeleted: false}))).json()
 
         await test.step("Проверки", async () => {
@@ -39,4 +39,4 @@ test.describe("Api-тесты на на получения категорий г
             expect(groupTrainingCategory.data[0].is_deleted).toEqual(true)
         })
     });
-    })
+})

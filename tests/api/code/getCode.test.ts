@@ -7,8 +7,7 @@ import VerifyRequests from "@requests/verify.requests";
 import {Statuses} from "@libs/statuses";
 import requestTestData from "@data/request.json"
 import {RequestSource} from "@libs/requestSource";
-import {getUserRequestJson} from "@entities/user.requestJson";
-
+import {getUserRequestJson} from "@entities/interface/user.requestJson";
 
 test.describe("Api-тесты на получение кода верификации", async () => {
     test("[positive] отправка кода верификации клиенту", async ({request}) => {

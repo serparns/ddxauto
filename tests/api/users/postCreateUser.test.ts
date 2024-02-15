@@ -4,11 +4,13 @@ import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
-import {getUserRequestJson} from "@entities/user.requestJson";
+import {getUserRequestJson} from "@entities/interface/user.requestJson";
 import {SportExperience} from "@libs/sportExperience";
 import userTestData from "@data/user.json";
 import {validatorJson} from "@utils/validator";
-import {userDataJsonSchema} from "@entities/user.response";
+import {userDataJsonSchema} from "@entities/JsonSchema/user.response";
+import {baseDataJsonSchema} from "@entities/JsonSchema/base.response";
+import {ErrorDataJsonSchema} from "@entities/JsonSchema/error.response";
 
 test.describe("Api-тест на создание клиента", async () => {
     let clubId: number
@@ -59,6 +61,11 @@ test.describe("Api-тест на создание клиента", async () => {
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).data.home_club_id).toEqual(clubId);
         });
+
+        await test.step("Проверить схему ответа", async () => {
+            await validatorJson(userDataJsonSchema, (await userCreateSuccessResponse.json()).data);
+            await validatorJson(baseDataJsonSchema, (await userCreateSuccessResponse.json()));
+        });
     });
 
     test("[positive] Создание пользователя без sport_experience", async ({request}) => {
@@ -67,6 +74,11 @@ test.describe("Api-тест на создание клиента", async () => {
 
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).data.sport_experience).toEqual("Не указан");
+        });
+
+        await test.step("Проверить схему ответа", async () => {
+            await validatorJson(userDataJsonSchema, (await userCreateSuccessResponse.json()).data);
+            await validatorJson(baseDataJsonSchema, (await userCreateSuccessResponse.json()));
         });
     });
 
@@ -77,8 +89,10 @@ test.describe("Api-тест на создание клиента", async () => {
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).data.home_club_id).toEqual(clubId);
         });
+
         await test.step("Проверить схему ответа", async () => {
             await validatorJson(userDataJsonSchema, (await userCreateSuccessResponse.json()).data);
+            await validatorJson(baseDataJsonSchema, (await userCreateSuccessResponse.json()));
         });
     });
 
@@ -89,6 +103,11 @@ test.describe("Api-тест на создание клиента", async () => {
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).error.code).toEqual("user_create_error");
             expect((await userCreateSuccessResponse.json()).error.message).toEqual("ERROR: invalid input value for enum sport_experience: \"Не скажу\" (SQLSTATE 22P02)");
+        });
+
+        await test.step("Проверить схему ответа", async () => {
+            await validatorJson(ErrorDataJsonSchema, (await userCreateSuccessResponse.json()).error);
+            await validatorJson(baseDataJsonSchema, (await userCreateSuccessResponse.json()));
         });
     });
 })

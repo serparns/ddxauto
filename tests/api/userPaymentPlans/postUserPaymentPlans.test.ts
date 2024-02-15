@@ -8,9 +8,9 @@ import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import TransactionRequests from "@requests/transaction.requests";
 import {Statuses} from "@libs/statuses";
 import {PaymentProvider} from "@libs/providers";
-import {getUserRequestJson} from "@entities/user.requestJson";
-import {getPaymentPlanRequestJson} from "@entities/paymentPlan.requestJson";
-import {getPaymentCreateRequestJson} from "@entities/paymentCreate.requestJson";
+import {getUserRequestJson} from "@entities/interface/user.requestJson";
+import {getPaymentPlanRequestJson} from "@entities/interface/paymentPlan.requestJson";
+import {getPaymentCreateRequestJson} from "@entities/interface/paymentCreate.requestJson";
 
 test.describe("Api-тесты на регистрацию подписки пользователя", async () => {
     test("[positive] регистрация подписки", async ({request}) => {

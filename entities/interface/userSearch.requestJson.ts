@@ -1,4 +1,4 @@
-import {BaseRequestJson} from "@entities/base.requestJson";
+import {BaseRequestJson} from "@entities/interface/base.requestJson";
 import requestTestData from "@data/request.json";
 import {RequestSource} from "@libs/requestSource";
 

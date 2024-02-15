@@ -42,7 +42,7 @@ export const userDataJsonSchema: JSONSchemaType<UsersDataJson> = {
         lang: {type: "string"},
         user_photo: {type: "string"},
         home_club_id: {type: "integer"},
-        balance: {type: "number"},
+        balance: {type: "integer"},
         club_access: {type: "boolean"},
         admin_panel_access: {type: "boolean"},
         group_training_registration_access: {type: "boolean"},

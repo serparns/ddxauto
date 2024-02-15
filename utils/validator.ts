@@ -14,5 +14,4 @@ export async function validatorJson (schema: any, json: JSON | any): Promise<boo
         console.log(validate.errors)
         throw new Error("RESPONSE DIDN'T VALIDATE").message;
     }
-
 }

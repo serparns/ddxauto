@@ -9,9 +9,9 @@ import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import {RequestSource} from "@libs/requestSource";
 import requestTestData from "@data/request.json"
-import {getPaymentPlanRequestJson} from "@entities/paymentPlan.requestJson";
-import {getUserRequestJson} from "@entities/user.requestJson";
-import {getPaymentCreateRequestJson} from "@entities/paymentCreate.requestJson";
+import {getPaymentPlanRequestJson} from "@entities/interface/paymentPlan.requestJson";
+import {getUserRequestJson} from "@entities/interface/user.requestJson";
+import {getPaymentCreateRequestJson} from "@entities/interface/paymentCreate.requestJson";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
     let clubId: number;

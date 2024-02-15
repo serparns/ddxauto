@@ -4,8 +4,8 @@ import UsersRequests from "@requests/users.requests";
 import {Statuses} from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
-import {getUserRequestJson} from "@entities/user.requestJson";
-import {getUserSearchRequestJson} from "@entities/userSearch.requestJson";
+import {getUserRequestJson} from "@entities/interface/user.requestJson";
+import {getUserSearchRequestJson} from "@entities/interface/userSearch.requestJson";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
     let userData: any
