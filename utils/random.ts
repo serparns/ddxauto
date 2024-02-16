@@ -14,12 +14,12 @@ export function getRandomCardNumber(): string {
     return `qa${new Date().getTime().toString()}test`
 }
 
-export function getDate(): string {
+export function getDate(): string  {
     const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const day = now.getDate();
-    return (`${year}-0${month + 1}-0${day}`);
+    const year = now.getFullYear().toString()
+    const month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1).toString() : `0${now.getMonth() +1}`
+    const day = (now.getDate() + 1) > 9 ? (now.getDate() + 1).toString() : `0${now.getDate() +1}`
+    return (`${year}-${month}-${day}`);
 }
 
 export function randomSport_experience(): string {
