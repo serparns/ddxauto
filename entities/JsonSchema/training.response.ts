@@ -1,6 +1,6 @@
 import {JSONSchemaType} from "ajv";
 
-export default  class  TrainingDataJson {
+export default class TrainingDataJson {
     group_training_time_table_id: number;
     parent_id: number;
 }

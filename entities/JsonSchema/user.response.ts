@@ -1,6 +1,6 @@
 import {JSONSchemaType} from "ajv";
 
-export default  class  UsersDataJson {
+export default class UsersDataJson {
     id: number;
     created_at: string;
     updated_at: string;

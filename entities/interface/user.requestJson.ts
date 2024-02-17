@@ -38,7 +38,7 @@ export const getUserRequestJson = async (clubId: number, email: string, phoneNum
             birthday: userTestData.birthday,
             password: password != undefined ? password : '',
             lang: userTestData.lang,
-            sport_experience: sportExpirence != undefined ? sportExpirence: '',
+            sport_experience: sportExpirence != undefined ? sportExpirence : '',
             home_club_id: clubId,
             user_photo_id: 12,
             club_access: userTestData.club_access.true,

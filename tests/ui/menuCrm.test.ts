@@ -27,7 +27,7 @@ test.describe("Тест на переход по ссылкам", async () => {
             await page.getByRole('button', {name: 'Добавить занятие'}).waitFor({state: "visible", timeout: 3000});
         });
 
-        await test.step("Проверить что пользователь находится на странице акции, и видит текст 'Доступные интерфейсы'", async () => {
+        await test.step("Проверить что пользователь находится на странице акций, и видит текст 'Доступные интерфейсы'", async () => {
             await page.locator("//div/a[@href='/discounts-dictionary']").click();
             await page.getByText("Доступные интерфейсы").waitFor({state: "visible", timeout: 3000});
         });
@@ -42,7 +42,7 @@ test.describe("Тест на переход по ссылкам", async () => {
             await page.getByRole('button', {name: 'Фильтры'}).waitFor({state: "visible", timeout: 3000});
         });
 
-        await test.step("Проверить что пользователь находится на странице аналитика, и видит ''", async () => {
+        await test.step("Проверить что пользователь находится на странице аналитика, и видит 'Фрейм аналитики'", async () => {
             await page.locator("//div/a[@href='/analytics']").click();
             await page.locator("//iframe").waitFor({state: "visible", timeout: 3000});
         });

@@ -10,8 +10,8 @@ export interface UserSearchRequestJson {
     birthday?: string;
 }
 
-export const getUserSearchRequestJson =  async (name?: string, email?: string, phoneNumber?: string, lastName?: string, birthday?: string,
-                                         ) : Promise<BaseRequestJson<UserSearchRequestJson>>  => {
+export const getUserSearchRequestJson = async (name?: string, email?: string, phoneNumber?: string, lastName?: string, birthday?: string,
+): Promise<BaseRequestJson<UserSearchRequestJson>> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,

@@ -34,7 +34,7 @@ export const postGroupTrainingTimeTablesRequestJson = async (groupTrainingId: nu
             employee_id: trainingTestData.employee_id,
             count_seats: countSeats,
             is_repeat: isRepeat,
-            repeat_rule: repeatRule != undefined ? repeatRule: ''
+            repeat_rule: repeatRule != undefined ? repeatRule : ''
         }
     }
 };

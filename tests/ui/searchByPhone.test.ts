@@ -6,6 +6,7 @@ import {getRandomPhoneNumber} from "@utils/random";
 test.describe("Поиск нового клиента по номеру телефона", async () => {
     test("Поиск по номеру телефона", async ({page}) => {
         const userPhone = getRandomPhoneNumber();
+
         await test.step("Перейти на страницу входа", async () => {
             await page.goto(`${api.urls.base_url_CRM}`)
 
@@ -26,7 +27,9 @@ test.describe("Поиск нового клиента по номеру теле
 
         await test.step("Проверить что пользователь находится на странице создания нового клиента", async () => {
             expect(page.url()).toContain(`add-client?phone=${userPhone.replace("+", "")}`);
-            await page.inputValue(userPhone)
+        });
+        await test.step("Проверить что номер в инпуте соответствуете валиден и соответствует ранее введенному номеру", async () => {
+            await expect(page.locator("input.css-z6awom")).toHaveValue(userPhone.replace(/^\+(\d)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+ $1 ($2) $3-$4-$5'));
         });
     });
 });
