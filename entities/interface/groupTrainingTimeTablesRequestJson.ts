@@ -4,7 +4,7 @@ import {RequestSource} from "@libs/requestSource";
 import trainingTestData from "@data/training.json";
 
 
-export interface groupTrainingTimeTablesRequestJson {
+export interface GroupTrainingTimeTablesRequestJson {
     group_training_id: number;
     start_time: string;
     end_time: string;
@@ -20,7 +20,7 @@ export interface groupTrainingTimeTablesRequestJson {
 export const postGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number,
                                                              club_id: number, startTime: string,
                                                              endTime: string, countSeats: number, isRepeat: boolean, repeatRule?: string
-): Promise<BaseRequestJson<groupTrainingTimeTablesRequestJson>> => {
+): Promise<BaseRequestJson<GroupTrainingTimeTablesRequestJson>> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
