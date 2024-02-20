@@ -10,7 +10,7 @@ import userTestData from "@data/user.json";
 import {validatorJson} from "@utils/validator";
 import {userDataJsonSchema} from "@entities/JsonSchema/user.response";
 import {baseDataJsonSchema} from "@entities/JsonSchema/base.response";
-import {ErrorDataJsonSchema} from "@entities/JsonSchema/error.response";
+import {errorDataJsonSchema} from "@entities/JsonSchema/error.response";
 
 test.describe("Api-тест на создание клиента", async () => {
     let clubId: number
@@ -106,7 +106,7 @@ test.describe("Api-тест на создание клиента", async () => {
         });
 
         await test.step("Проверить схему ответа", async () => {
-            await validatorJson(ErrorDataJsonSchema, (await userCreateSuccessResponse.json()).error);
+            await validatorJson(errorDataJsonSchema, (await userCreateSuccessResponse.json()).error);
             await validatorJson(baseDataJsonSchema, (await userCreateSuccessResponse.json()));
         });
     });

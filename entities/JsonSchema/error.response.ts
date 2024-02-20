@@ -6,7 +6,7 @@ export default class errorDataJson {
 
 }
 
-export const ErrorDataJsonSchema: JSONSchemaType<errorDataJson> = {
+export const errorDataJsonSchema: JSONSchemaType<errorDataJson> = {
     type: "object",
     properties: {
         code: {type: "string"},

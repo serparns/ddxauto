@@ -4,7 +4,7 @@ import {getBaseParameters} from "@entities/baseParameters";
 import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
 import ClubsRequests from "@requests/clubs.requests";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
-import {postGroupTrainingTimeTablesRequestJson} from "@entities/interface/groupTrainingTimeTables.requestJson";
+import {postGroupTrainingTimeTablesRequestJson} from "@entities/interface/groupTrainingTimeTablesRequestJson";
 import trainingTestData from "@data/training.json";
 import {validatorJson} from "@utils/validator";
 import {trainingDataJsonSchema} from "@entities/JsonSchema/training.response";
@@ -13,7 +13,7 @@ test.describe("Api-тесты на добавление групповых тр�
     let groupTrainingId: number;
     let clubId: number;
 
-    const GroupTrainingTimeTablesResponse = async (
+    const groupTrainingTimeTablesResponse = async (
         request: APIRequestContext,
         status: Statuses,
         parameters: {
@@ -45,7 +45,7 @@ test.describe("Api-тесты на добавление групповых тр�
 
     test("Добавить в расписание групповую тренировку на 5 мест", async ({request}) => {
         const groupTrainingCategory = await (await test.step("Добавление групповой тренировки",
-            async () => GroupTrainingTimeTablesResponse(request, Statuses.OK,
+            async () => groupTrainingTimeTablesResponse(request, Statuses.OK,
                 {
                     startTime: trainingTestData.start_time.future,
                     endTime: trainingTestData.start_time.future,
@@ -61,7 +61,7 @@ test.describe("Api-тесты на добавление групповых тр�
 
     test("Добавить в расписание групповую тренировку в прошлом", async ({request}) => {
         const groupTrainingCategory = await (await test.step("Добавление групповой тренировки",
-            async () => GroupTrainingTimeTablesResponse(request, Statuses.OK,
+            async () => groupTrainingTimeTablesResponse(request, Statuses.OK,
                 {
                     startTime: trainingTestData.start_time.backInTime,
                     endTime: trainingTestData.start_time.backInTime,
