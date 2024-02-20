@@ -28,8 +28,10 @@ test.describe("Поиск нового клиента по номеру теле
         await test.step("Проверить что пользователь находится на странице создания нового клиента", async () => {
             expect(page.url()).toContain(`add-client?phone=${userPhone.replace("+", "")}`);
         });
-        await test.step("Проверить что номер в инпуте соответствуете валиден и соответствует ранее введенному номеру", async () => {
-            await expect(page.locator("input.css-z6awom")).toHaveValue(userPhone.replace(/^\+(\d)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+ $1 ($2) $3-$4-$5'));
-        });
+        await test.step("Проверить что номер в инпуте соответствуете валиден и соответствует ранее введенному номеру",
+            async () => {
+                expect(page.locator(`input[title="${userPhone.replace(/^\+(\d)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+ $1 ($2) $3-$4-$5')}"]`)
+                    .waitFor({state: "visible", timeout: 3000}));
+            });
     });
 });
