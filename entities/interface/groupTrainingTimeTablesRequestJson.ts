@@ -3,7 +3,6 @@ import requestTestData from "@data/request.json";
 import {RequestSource} from "@libs/requestSource";
 import trainingTestData from "@data/training.json";
 
-
 export interface GroupTrainingTimeTablesRequestJson {
     group_training_id: number;
     start_time: string;
@@ -15,7 +14,6 @@ export interface GroupTrainingTimeTablesRequestJson {
     is_repeat: boolean;
     repeat_rule: string;
 }
-
 
 export const postGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number,
                                                              club_id: number, startTime: string,

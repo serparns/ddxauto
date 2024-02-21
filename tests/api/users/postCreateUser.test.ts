@@ -108,6 +108,4 @@ test.describe("Api-тест на создание клиента", async () => {
             await validatorJson(baseDataJsonSchema, (await userCreateSuccessResponse.json()));
         });
     });
-})
-
-
+});

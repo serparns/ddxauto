@@ -4,7 +4,6 @@ import {log} from "../utils/logger";
 
 export default class BaseRequests {
     protected baseUrl: string;
-
     constructor(
         protected request: APIRequestContext,
         private token = paths.tokens.test

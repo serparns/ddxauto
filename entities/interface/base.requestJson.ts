@@ -3,5 +3,4 @@ export interface BaseRequestJson<T> {
     request_id: string;
     request_source: string;
     data?: T;
-
 }

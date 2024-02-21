@@ -11,5 +11,3 @@ export default class AccessCardsRequests extends BaseRequests {
         return await this.get(`${this.baseUrl}${paths.paths.access_cards}/${accessCardId}`, status, parameters);
     }
 }
-
-

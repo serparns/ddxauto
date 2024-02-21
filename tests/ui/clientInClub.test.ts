@@ -23,5 +23,4 @@ test.describe("Тест на переход в клиенты в клубе", as
             await page.getByRole('button', {name: 'Фильтры'}).waitFor({state: "visible", timeout: 3000});
         });
     });
-
 });
