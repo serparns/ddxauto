@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import {log} from "@utils/logger";
+import { log } from "@utils/logger";
 
 export async function validatorJson(schema: any, json: JSON | any): Promise<boolean> {
     const ajv = new Ajv();

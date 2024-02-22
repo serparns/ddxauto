@@ -1,16 +1,16 @@
-import {APIRequestContext, expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import UsersRequests from "@requests/users.requests";
-import {Statuses} from "@libs/statuses";
+import { Statuses } from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
-import {getBaseParameters} from "@entities/baseParameters";
-import {getUserRequestJson} from "@entities/interface/user.requestJson";
-import {SportExperience} from "@libs/sportExperience";
+import { getBaseParameters } from "@entities/baseParameters";
+import { getUserRequestJson } from "@entities/interface/user.requestJson";
+import { SportExperience } from "@libs/sportExperience";
 import userTestData from "@data/user.json";
-import {validatorJson} from "@utils/validator";
-import {userDataJsonSchema} from "@entities/JsonSchema/user.response";
-import {baseDataJsonSchema} from "@entities/JsonSchema/base.response";
-import {errorDataJsonSchema} from "@entities/JsonSchema/error.response";
+import { validatorJson } from "@utils/validator";
+import { userDataJsonSchema } from "@entities/JsonSchema/user.response";
+import { baseDataJsonSchema } from "@entities/JsonSchema/base.response";
+import { errorDataJsonSchema } from "@entities/JsonSchema/error.response";
 
 test.describe("Api-тест на создание клиента", async () => {
     let clubId: number
@@ -29,7 +29,7 @@ test.describe("Api-тест на создание клиента", async () => {
         return await new UsersRequests(request).postCreateUser(status, requestBody);
     }
 
-    test.beforeAll(async ({request}) => {
+    test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
             const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
             return getClubs.id
@@ -42,7 +42,7 @@ test.describe("Api-тест на создание клиента", async () => {
     }
 
     Object.values(SportExperience).forEach(sport_expirince => {
-        test(`[positive] Создание пользователя с опытом ${sport_expirince} `, async ({request}) => {
+        test(`[positive] Создание пользователя с опытом ${sport_expirince} `, async ({ request }) => {
             const userCreateSuccessResponse = await test.step("создание пользователя",
                 async () => userCrateResponse(request, Statuses.OK, {
                     sportExperience: sport_expirince,
@@ -57,7 +57,7 @@ test.describe("Api-тест на создание клиента", async () => {
         })
     })
 
-    test("[positive] Создание пользователя", async ({request}) => {
+    test("[positive] Создание пользователя", async ({ request }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
             async () => userCrateResponse(request, Statuses.OK, {
                 sportExperience: SportExperience.FIVE_YEARS,
@@ -71,9 +71,9 @@ test.describe("Api-тест на создание клиента", async () => {
         await test.step("Проверить схему ответа", async () => validator(userCreateSuccessResponse));
     });
 
-    test("[positive] Создание пользователя без sport_experience", async ({request}) => {
+    test("[positive] Создание пользователя без sport_experience", async ({ request }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
-            async () => userCrateResponse(request, Statuses.OK, {password: userTestData.password}));
+            async () => userCrateResponse(request, Statuses.OK, { password: userTestData.password }));
 
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).data.sport_experience).toEqual("Не указан");
@@ -82,7 +82,7 @@ test.describe("Api-тест на создание клиента", async () => {
         await test.step("Проверить схему ответа", async () => validator(userCreateSuccessResponse));
     });
 
-    test("[positive] Создание пользователя без пароля", async ({request}) => {
+    test("[positive] Создание пользователя без пароля", async ({ request }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
             async () => userCrateResponse(request, Statuses.OK));
 
@@ -94,9 +94,9 @@ test.describe("Api-тест на создание клиента", async () => {
 
     });
 
-    test("[negative] Создание пользователя с невалидным sport_experience", async ({request}) => {
+    test("[negative] Создание пользователя с невалидным sport_experience", async ({ request }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
-            async () => userCrateResponse(request, Statuses.BAD_REQUEST, {sportExperience: "Не скажу"}));
+            async () => userCrateResponse(request, Statuses.BAD_REQUEST, { sportExperience: "Не скажу" }));
 
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).error.code).toEqual("user_create_error");

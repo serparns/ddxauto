@@ -1,4 +1,4 @@
-import {JSONSchemaType} from "ajv";
+import { JSONSchemaType } from "ajv";
 
 export default class baseDataJson {
     session_id: string;
@@ -11,11 +11,11 @@ export default class baseDataJson {
 export const baseDataJsonSchema: JSONSchemaType<baseDataJson> = {
     type: "object",
     properties: {
-        session_id: {type: "string"},
-        request_id: {type: "string"},
-        request_source: {type: "string"},
-        data: {type: "object"},
-        error: {type: "object"}
+        session_id: { type: "string" },
+        request_id: { type: "string" },
+        request_source: { type: "string" },
+        data: { type: "object" },
+        error: { type: "object" }
     },
     required: [
         "session_id",

@@ -1,15 +1,15 @@
-import {APIRequestContext, expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
-import {Statuses} from "@libs/statuses";
-import {PaymentProvider} from "@libs/providers";
+import { Statuses } from "@libs/statuses";
+import { PaymentProvider } from "@libs/providers";
 import ClubsRequests from "@requests/clubs.requests";
-import {getBaseParameters} from "@entities/baseParameters";
-import {getPaymentPlanRequestJson} from "@entities/interface/paymentPlan.requestJson";
-import {getUserRequestJson} from "@entities/interface/user.requestJson";
-import {getPaymentCreateRequestJson} from "@entities/interface/paymentCreate.requestJson";
+import { getBaseParameters } from "@entities/baseParameters";
+import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
+import { getUserRequestJson } from "@entities/interface/user.requestJson";
+import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 
 test.describe("Api-тесты на создание платежа", async () => {
     let clubId: number;
@@ -29,14 +29,14 @@ test.describe("Api-тесты на создание платежа", async () =>
         return await new PaymentCreateRequests(request).postPaymentCreate(status, requestBody);
     }
 
-    test.beforeAll(async ({request}) => {
+    test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
             const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
             return getClubs.id
         });
     })
 
-    test.beforeEach(async ({request}) => {
+    test.beforeEach(async ({ request }) => {
         userId = await test.step("Получить id клиента", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             const createUser = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
@@ -50,7 +50,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         });
     })
 
-    test("[positive] Создание платежа", async ({request}) => {
+    test("[positive] Создание платежа", async ({ request }) => {
         const paymentCreateSuccessResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.OK, {
                 providerId: PaymentProvider.RECURRENT,
@@ -63,7 +63,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         })
     });
 
-    test("[positive] Пополение депозита", async ({request}) => {
+    test("[positive] Пополение депозита", async ({ request }) => {
         const paymentCreateSuccessResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.OK, {
                 providerId: PaymentProvider.DEPOSIT, depositAmount: 100
@@ -75,7 +75,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         })
     });
 
-    test("[negative] создание платежа, без провайдера", async ({request}) => {
+    test("[negative] создание платежа, без провайдера", async ({ request }) => {
         const paymentCreateErrorResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.BAD_REQUEST, {
                 sessionId: "123",

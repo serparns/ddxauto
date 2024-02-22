@@ -1,5 +1,5 @@
 import BaseRequests from "./baseRequests.request";
-import {APIResponse} from "@playwright/test";
+import { APIResponse } from "@playwright/test";
 import paths from '../api.json';
 
 export default class VerifyRequests extends BaseRequests {

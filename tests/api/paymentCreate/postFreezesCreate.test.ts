@@ -1,17 +1,17 @@
-import {APIRequestContext, expect, test} from "@playwright/test";
-import {getDate, getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import UsersRequests from "@requests/users.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
-import {Statuses} from "@libs/statuses";
-import {PaymentProvider} from "@libs/providers";
+import { Statuses } from "@libs/statuses";
+import { PaymentProvider } from "@libs/providers";
 import ClubsRequests from "@requests/clubs.requests";
-import {getBaseParameters} from "@entities/baseParameters";
-import {RequestSource} from "@libs/requestSource";
+import { getBaseParameters } from "@entities/baseParameters";
+import { RequestSource } from "@libs/requestSource";
 import requestTestData from "@data/request.json"
-import {getPaymentPlanRequestJson} from "@entities/interface/paymentPlan.requestJson";
-import {getUserRequestJson} from "@entities/interface/user.requestJson";
-import {getPaymentCreateRequestJson} from "@entities/interface/paymentCreate.requestJson";
+import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
+import { getUserRequestJson } from "@entities/interface/user.requestJson";
+import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
     let clubId: number;
@@ -43,7 +43,7 @@ test.describe("Api-тесты на создание заморозки поль�
         return await new PaymentCreateRequests(request).postFreezesCreate(status, requestBody);
     }
 
-    test.beforeAll(async ({request}) => {
+    test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
             const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
             return getClubs.id
@@ -67,7 +67,7 @@ test.describe("Api-тесты на создание заморозки поль�
         })
     })
 
-    test("[positive] Создание заморозки", async ({request}) => {
+    test("[positive] Создание заморозки", async ({ request }) => {
         const freezesCreateSuccessResponse = await test.step("Запрос на создание оплаты",
             async () => postFreezesResponse(request, Statuses.OK, PaymentProvider.FREEZES));
 

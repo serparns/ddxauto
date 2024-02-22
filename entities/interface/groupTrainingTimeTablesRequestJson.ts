@@ -1,6 +1,6 @@
-import {BaseRequestJson} from "@entities/interface/base.requestJson";
+import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import requestTestData from "@data/request.json";
-import {RequestSource} from "@libs/requestSource";
+import { RequestSource } from "@libs/requestSource";
 import trainingTestData from "@data/training.json";
 
 export interface GroupTrainingTimeTablesRequestJson {
@@ -16,8 +16,8 @@ export interface GroupTrainingTimeTablesRequestJson {
 }
 
 export const postGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number,
-                                                             club_id: number, startTime: string,
-                                                             endTime: string, countSeats: number, isRepeat: boolean, repeatRule?: string
+    club_id: number, startTime: string,
+    endTime: string, countSeats: number, isRepeat: boolean, repeatRule?: string
 ): Promise<BaseRequestJson<GroupTrainingTimeTablesRequestJson>> => {
     return {
         session_id: requestTestData.session_id,

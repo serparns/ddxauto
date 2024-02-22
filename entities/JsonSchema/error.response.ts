@@ -1,4 +1,4 @@
-import {JSONSchemaType} from "ajv";
+import { JSONSchemaType } from "ajv";
 
 export default class errorDataJson {
     code: string;
@@ -9,8 +9,8 @@ export default class errorDataJson {
 export const errorDataJsonSchema: JSONSchemaType<errorDataJson> = {
     type: "object",
     properties: {
-        code: {type: "string"},
-        message: {type: "string"}
+        code: { type: "string" },
+        message: { type: "string" }
 
     },
     required: [

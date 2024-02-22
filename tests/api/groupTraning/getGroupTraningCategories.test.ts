@@ -1,6 +1,6 @@
-import {APIRequestContext, expect, test} from "@playwright/test";
-import {Statuses} from "@libs/statuses";
-import {getBaseParameters} from "@entities/baseParameters";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import { Statuses } from "@libs/statuses";
+import { getBaseParameters } from "@entities/baseParameters";
 import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
 
 test.describe("Api-тесты на на получения категорий групповых тренировок", async () => {
@@ -12,16 +12,16 @@ test.describe("Api-тесты на на получения категорий г
         }) => {
         const params = async (): Promise<object> => {
             let params = await getBaseParameters()
-            if (parameters?.isDeleted != undefined) params = {...params, ...{is_deleted: parameters.isDeleted}}
+            if (parameters?.isDeleted != undefined) params = { ...params, ...{ is_deleted: parameters.isDeleted } }
             return params;
         }
         return await new GroupTrainingCategoriesRequests(request).getGroupTrainingCategories(status, await params());
     }
 
-    test("Получение списка не удаленных категорий групповых тренировок", async ({request}) => {
+    test("Получение списка не удаленных категорий групповых тренировок", async ({ request }) => {
         const groupTrainingCategory = await (await test.step("Получение групповых тренировок",
             async () => groupTrainingCategoryResponse(request, Statuses.OK,
-                {isDeleted: false}))).json()
+                { isDeleted: false }))).json()
 
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0].id).not.toBe(null)
@@ -29,10 +29,10 @@ test.describe("Api-тесты на на получения категорий г
         })
     });
 
-    test("Получение списка логически удаленных категорий групповых тренировок", async ({request}) => {
+    test("Получение списка логически удаленных категорий групповых тренировок", async ({ request }) => {
         const groupTrainingCategory = await (await test.step("Получение групповых тренировок",
             async () => groupTrainingCategoryResponse(request, Statuses.OK,
-                {isDeleted: true}))).json()
+                { isDeleted: true }))).json()
 
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0].id).not.toBe(null)

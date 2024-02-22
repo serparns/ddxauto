@@ -1,11 +1,11 @@
-import {APIRequestContext, expect, test} from "@playwright/test";
-import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import UsersRequests from "@requests/users.requests";
-import {Statuses} from "@libs/statuses";
+import { Statuses } from "@libs/statuses";
 import ClubsRequests from "@requests/clubs.requests";
-import {getBaseParameters} from "@entities/baseParameters";
-import {getUserRequestJson} from "@entities/interface/user.requestJson";
-import {getUserSearchRequestJson} from "@entities/interface/userSearch.requestJson";
+import { getBaseParameters } from "@entities/baseParameters";
+import { getUserRequestJson } from "@entities/interface/user.requestJson";
+import { getUserSearchRequestJson } from "@entities/interface/userSearch.requestJson";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
     let userData: any;
@@ -30,7 +30,7 @@ test.describe("Api-тесты на поиск пользователя по па
         return await new UsersRequests(request).postUsersSearch(status, requestBody);
     }
 
-    test.beforeAll(async ({request}) => {
+    test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
             const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
             return getClubs.id;
@@ -42,16 +42,16 @@ test.describe("Api-тесты на поиск пользователя по па
         });
     })
 
-    test("[positive] Поиск пользователя по номеру телефона", async ({request}) => {
+    test("[positive] Поиск пользователя по номеру телефона", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.OK, {phone: userData.phone}))).json()).data[0];
+            async () => userSearchResponse(request, Statuses.OK, { phone: userData.phone }))).json()).data[0];
 
         await test.step("Проверки", async () => {
             expect(searchUser.id).toEqual(userData["id"]);
         })
     });
 
-    test("[positive] Поиск пользователя по имени, фамилии и дате рождения", async ({request}) => {
+    test("[positive] Поиск пользователя по имени, фамилии и дате рождения", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
             async () => userSearchResponse(request, Statuses.OK, {
                 name: userData.name, lastName: userData.last_name,
@@ -63,7 +63,7 @@ test.describe("Api-тесты на поиск пользователя по па
         })
     });
 
-    test("[positive] Поиск пользователя по имени, фамилии и емаил ", async ({request}) => {
+    test("[positive] Поиск пользователя по имени, фамилии и емаил ", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
             async () => userSearchResponse(request, Statuses.OK, {
                 name: userData.name, lastName: userData.last_name,

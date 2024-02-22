@@ -1,4 +1,4 @@
-import {JSONSchemaType} from "ajv";
+import { JSONSchemaType } from "ajv";
 
 export default class TrainingDataJson {
     group_training_time_table_id: number;
@@ -8,8 +8,8 @@ export default class TrainingDataJson {
 export const trainingDataJsonSchema: JSONSchemaType<TrainingDataJson> = {
     type: "object",
     properties: {
-        group_training_time_table_id: {type: "integer"},
-        parent_id: {type: "integer"},
+        group_training_time_table_id: { type: "integer" },
+        parent_id: { type: "integer" },
 
     },
     required: [

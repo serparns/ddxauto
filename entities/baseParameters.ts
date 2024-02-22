@@ -1,5 +1,5 @@
 import requestTestData from "@data/request.json";
-import {RequestSource} from "@libs/requestSource";
+import { RequestSource } from "@libs/requestSource";
 
 export async function getBaseParameters(): Promise<object> {
     return {

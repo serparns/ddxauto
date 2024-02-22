@@ -1,7 +1,7 @@
-import {BaseRequestJson} from "@entities/interface/base.requestJson";
+import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import requestTestData from "@data/request.json";
-import {RequestSource} from "@libs/requestSource";
-import {getRandomName} from "@utils/random";
+import { RequestSource } from "@libs/requestSource";
+import { getRandomName } from "@utils/random";
 import userTestData from "@data/user.json";
 
 export interface UserDataRequestJson {
@@ -23,7 +23,7 @@ export interface UserDataRequestJson {
 }
 
 export const getUserRequestJson = async (clubId: number, email: string, phoneNumber: string, sportExpirence?: string,
-                                         password?: string): Promise<BaseRequestJson<UserDataRequestJson>> => {
+    password?: string): Promise<BaseRequestJson<UserDataRequestJson>> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,

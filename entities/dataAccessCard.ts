@@ -1,4 +1,4 @@
-import {getRandomCardNumber} from "../utils/random";
+import { getRandomCardNumber } from "../utils/random";
 
 export async function dataAccessCard(): Promise<object> {
     return {

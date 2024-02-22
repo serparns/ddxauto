@@ -1,5 +1,5 @@
 import requestTestData from "@data/request.json";
-import {RequestSource} from "@libs/requestSource";
+import { RequestSource } from "@libs/requestSource";
 
 export interface PaymentCreateRequestJson {
     session_id: string;
@@ -18,7 +18,7 @@ export interface PaymentCreateRequestJson {
 }
 
 export const getPaymentCreateRequestJson = async (providerId?: number, userPaymentPlanId?: number,
-                                                  userId?: number, depositAmount?: number)
+    userId?: number, depositAmount?: number)
     : Promise<PaymentCreateRequestJson> => {
     return {
         session_id: requestTestData.session_id,
