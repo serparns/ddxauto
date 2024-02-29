@@ -1,8 +1,8 @@
-import { test } from "@playwright/test";
+import {expect, test} from "@playwright/test";
 import api from "@api"
 import authCRMTestData from "@data/authCRM.json"
 
-test.describe("Тест на переход по ссылкам", async () => {
+test.describe("Тест на навигацию по боковому меню", async () => {
     test("Успешный переход по всем ссылкам из меню", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto(`${api.urls.base_url_CRM}`);
@@ -25,11 +25,13 @@ test.describe("Тест на переход по ссылкам", async () => {
         await test.step("Проверить что пользователь находится на странице расписание, и видит кнопку 'Добавить занятие'", async () => {
             await page.locator("//div/a[@href='/schedule']").click();
             await page.getByRole('button', { name: 'Добавить занятие' }).waitFor({ state: "visible", timeout: 3000 });
+            expect.soft(page.url()).toContain('/schedule');
         });
 
         await test.step("Проверить что пользователь находится на странице акций, и видит текст 'Доступные интерфейсы'", async () => {
             await page.locator("//div/a[@href='/discounts-dictionary']").click();
             await page.getByText("Доступные интерфейсы").waitFor({ state: "visible", timeout: 3000 });
+            expect.soft(page.url()).toContain('/discounts-dictionary');
         });
 
         await test.step("Проверить что пользователь находится на странице клубы, и видит текст 'Clubs Page'", async () => {
