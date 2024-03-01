@@ -19,15 +19,16 @@ test.describe("Поиск нового клиента по номеру теле
             return getClubs.id
         });
 
-        await test.step("Получить id клиента", async () => {
+        const userDataResponse = await test.step("Получить id клиента", async () => {
             const requestBody = await getUserRequestJson(clubId,
                 getRandomEmail(),
                 userPhone,
                 SportExperience.FIVE_YEARS,
                 userTestData.password);
-            await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody);
+            return (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data;
         });
     });
+ /////////// Сделать нормальную проверку, попробовать использовать данные из респонса 
 
     test("Поиск по существующего клиента номеру телефона", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
@@ -44,6 +45,7 @@ test.describe("Поиск нового клиента по номеру теле
             await page.locator("//input[@data-testid='phone-input']").fill(userPhone);
             await page.locator("//div[@data-testid='search']").click();
             await page.locator("//div[text()='Открыть']").waitFor({ state: "visible" });
+            await page.getByRole('button', { name: 'Открыть' }).click();
         });
     });
 

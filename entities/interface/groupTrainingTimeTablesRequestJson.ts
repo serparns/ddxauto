@@ -42,22 +42,22 @@ export interface GetGroupTrainingTimeTablesRequestJson {
     session_id: string;
     request_id: string;
     request_source: string;
-    club_id: number;
-    category_id: any;
-    group_training_id: any;
-    employee_id: any;
-    date_from: string;
-    date_to: string;
+    club_id?: number;
+    category_id?: any;
+    group_training_id?: any;
+    employee_id?: any;
+    date_from?: string;
+    date_to?: string;
 }
 
-export const getGroupTrainingTimeTablesRequestJson = async (clubId: number ): Promise<GetGroupTrainingTimeTablesRequestJson> => {
+export const getGroupTrainingTimeTablesRequestJson = async (clubId: number, groupTrainingId: number ): Promise<GetGroupTrainingTimeTablesRequestJson> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
         request_source: RequestSource.CRM,
         club_id: clubId,
-        category_id:'' ,
-        group_training_id:'' ,
+        category_id: groupTrainingId ,
+        group_training_id: '',
         employee_id:'' ,
         date_from: '' ,
         date_to:'',

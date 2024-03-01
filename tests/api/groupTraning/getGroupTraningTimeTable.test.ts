@@ -9,6 +9,9 @@ import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
 import DiscountsRequests from "@requests/discounts.requests";
+import trainingTestData from "@data/training.json";
+import {validatorJson} from "@utils/validator";
+import {trainingDataJsonSchema} from "@entities/JsonSchema/training.response";
 
 
 test.describe("Api-тесты на получения групповых тренировок", async () => {
@@ -16,16 +19,13 @@ test.describe("Api-тесты на получения групповых тре�
     let clubId: number;
     let groupTrainingTimeTableId : number
 
-    const groupTrainingTimeTableRequest = async (
+    const getGroupTrainingTimeTablesResponse = async (
         request: APIRequestContext,
         status: Statuses,
         parameters?: {
-            club_id?: boolean
-            category_id?: string
             date_from?: string
         }) => {
-        const params = await getGroupTrainingTimeTablesRequestJson(clubId,
-            )
+        const params = await getGroupTrainingTimeTablesRequestJson(clubId, groupTrainingId)
         return await new GroupTrainingTimeTableRequest(request).getGroupTrainingTimeTable(status, params);
     }
 
@@ -44,4 +44,14 @@ test.describe("Api-тесты на получения групповых тре�
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
     })
+
+    test("Получить групповую тренировку", async ({ request }) => {
+        const groupTrainingCategory = await (await test.step("Получение групповой тренировки",
+            async () => getGroupTrainingTimeTablesResponse(request, Statuses.OK,))).json()
+
+        await test.step("Проверки", async () => {
+            expect(groupTrainingCategory.data[0]).not.toBe(null)
+            await validatorJson(trainingDataJsonSchema, (await groupTrainingCategory.data[0]));
+        })
+    });
 })

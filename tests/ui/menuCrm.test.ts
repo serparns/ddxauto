@@ -20,6 +20,7 @@ test.describe("Тест на навигацию по боковому меню",
         await test.step("Проверить что пользователь находится на Главной странице, и видит текст 'Нужно найти клиента'", async () => {
             await page.locator("//div/a[@href='/']").click();
             await page.getByText("Нужно найти клиента").waitFor({ state: "visible", timeout: 3000 });
+            expect.soft(page.url()).toContain('/');
         });
 
         await test.step("Проверить что пользователь находится на странице расписание, и видит кнопку 'Добавить занятие'", async () => {
@@ -37,21 +38,25 @@ test.describe("Тест на навигацию по боковому меню",
         await test.step("Проверить что пользователь находится на странице клубы, и видит текст 'Clubs Page'", async () => {
             await page.locator("//div/a[@href='/clubs']").click();
             await page.getByText("Clubs Page").waitFor({ state: "visible", timeout: 3000 });
+            expect.soft(page.url()).toContain('/clubs');
         });
 
         await test.step("Проверить что пользователь находится на странице клиенты в клубе и видит фильтры", async () => {
             await page.locator("//div/a[@href='/clients-in-club']").click();
             await page.getByRole('button', { name: 'Фильтры' }).waitFor({ state: "visible", timeout: 3000 });
+            expect.soft(page.url()).toContain('/clients-in-club');
         });
 
         await test.step("Проверить что пользователь находится на странице аналитика, и видит 'Фрейм аналитики'", async () => {
             await page.locator("//div/a[@href='/analytics']").click();
             await page.locator("//iframe").waitFor({ state: "visible", timeout: 3000 });
+            expect.soft(page.url()).toContain('/analytics');
         });
 
         await test.step("Проверить что пользователь находится на странице FAQ", async () => {
             await page.locator("//div/a[@href='/faq']").click();
             await page.locator("//input[@data-testid='search-select']").waitFor({ state: "visible", timeout: 3000 });
+            expect.soft(page.url()).toContain('/faq');
         });
     });
 
