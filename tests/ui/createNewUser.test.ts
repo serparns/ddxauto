@@ -8,7 +8,7 @@ test.describe("Создание нового пользователя и про�
         const userPhone = getRandomPhoneNumber();
         const email = getRandomEmail();
         const name = getRandomName();
-        
+
         await test.step("Перейти на страницу входа", async () => {
             await page.goto(`${api.urls.base_url_CRM}`)
         });
@@ -31,7 +31,7 @@ test.describe("Создание нового пользователя и про�
 
         await test.step("Проверить что номер в инпуте соответствуете валиден и соответствует ранее введенному номеру", async () => {
             expect(page.locator(`input[title="${userPhone.replace(/^\+(\d)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+ $1 ($2) $3-$4-$5')}"]`)
-                .waitFor({ state: "visible", timeout: 3000 }));
-        });
+                .waitFor({ state: "visible", timeout: 3000 })); 
+        }); //TODO сделать тесты на добавления данных, и запилить проверки
     });
 });

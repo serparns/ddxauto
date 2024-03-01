@@ -6,29 +6,25 @@ import ClubsRequests from "@requests/clubs.requests";
 import {Statuses} from "@libs/statuses";
 import {getBaseParameters} from "@entities/baseParameters";
 import {getUserRequestJson} from "@entities/interface/user.requestJson";
-import {SportExperience} from "@libs/sportExperience";
-import userTestData from "@data/user.json";
 import UsersRequests from "@requests/users.requests";
 
 test.describe("Поиск нового клиента по номеру телефона", async () => {
     const userPhone = getRandomPhoneNumber()
+    let userData: any;
+    let clubId: number;
 
-    test.beforeAll( async ({ request }) => {
-        const clubId = await test.step("Получить id клуба", async () => {
+    test.beforeAll(async ({ request }) => {
+        clubId = await test.step("Получить id клуба", async () => {
             const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
-            return getClubs.id
+            return getClubs.id;
         });
 
-        const userDataResponse = await test.step("Получить id клиента", async () => {
-            const requestBody = await getUserRequestJson(clubId,
-                getRandomEmail(),
-                userPhone,
-                SportExperience.FIVE_YEARS,
-                userTestData.password);
-            return (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data;
+        userData = await test.step("создать пользователя и получить данные о нем", async () => {
+            const requestBody = await getUserRequestJson(clubId, getRandomEmail(), userPhone);
+            return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
-    });
- /////////// Сделать нормальную проверку, попробовать использовать данные из респонса 
+    })
+ /////////// 
 
     test("Поиск по существующего клиента номеру телефона", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
@@ -45,7 +41,11 @@ test.describe("Поиск нового клиента по номеру теле
             await page.locator("//input[@data-testid='phone-input']").fill(userPhone);
             await page.locator("//div[@data-testid='search']").click();
             await page.locator("//div[text()='Открыть']").waitFor({ state: "visible" });
+        });
+
+        await test.step("Открыть страницу пользователя, и проверить заполненость данных", async () => {
             await page.getByRole('button', { name: 'Открыть' }).click();
+            expect(page.url()).toContain(`client/${userData.id}`); 
         });
     });
 

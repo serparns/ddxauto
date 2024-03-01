@@ -1,15 +1,11 @@
 import {APIRequestContext, expect, test} from "@playwright/test";
 import {Statuses} from "@libs/statuses";
-import {
-    getGroupTrainingTimeTablesRequestJson,
-    postGroupTrainingTimeTablesRequestJson
-} from "@entities/interface/groupTrainingTimeTablesRequestJson";
+import {getGroupTrainingTimeTablesRequestJson, postGroupTrainingTimeTablesRequestJson} from "@entities/interface/groupTrainingTimeTablesRequestJson";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
-import DiscountsRequests from "@requests/discounts.requests";
-import trainingTestData from "@data/training.json";
+
 import {validatorJson} from "@utils/validator";
 import {trainingDataJsonSchema} from "@entities/JsonSchema/training.response";
 
@@ -52,6 +48,6 @@ test.describe("Api-тесты на получения групповых тре�
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0]).not.toBe(null)
             await validatorJson(trainingDataJsonSchema, (await groupTrainingCategory.data[0]));
-        })
+        }) //TODO Разобраться как же всетаки работает фильтр по категории
     });
 })
