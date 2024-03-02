@@ -5,7 +5,6 @@ import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.requ
 import ClubsRequests from "@requests/clubs.requests";
 import {getBaseParameters} from "@entities/baseParameters";
 import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
-
 import {validatorJson} from "@utils/validator";
 import {trainingDataJsonSchema} from "@entities/JsonSchema/training.response";
 
