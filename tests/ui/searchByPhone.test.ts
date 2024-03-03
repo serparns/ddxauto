@@ -24,8 +24,7 @@ test.describe("Поиск нового клиента по номеру теле
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
     })
-
-    test("Поиск по существующего клиента номеру телефона", async ({ page }) => {
+    test.only("Поиск по существующего клиента номеру телефона", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto(`${api.urls.base_url_CRM}`)
         });
@@ -50,6 +49,10 @@ test.describe("Поиск нового клиента по номеру теле
         await test.step("Софовые проверки заполненности данных", async () => {
             expect.soft(page.locator(`div[title="${userData.email}"]`)).toContainText(userData.email);  
             expect.soft(page.locator(`div[title="${userData.phone}"]`)).toContainText(userData.phone);
+            expect.soft(page.locator(`${userData.sportExperience}`)).toContainText(userData.sportExperience);
+            expect.soft(page.locator("//div[text()='Нет активных подписок']").waitFor({ state: "visible" }));
+            expect.soft(page.locator("//span[text()='Нет привязанного браслета']").waitFor({ state: "visible" }));
+            expect.soft(page.locator("//div[text()='Нет истории посещений']").waitFor({ state: "visible" }));
             //TODO Допилить другие проверки, возможно придется переходить на страницу редактирования клиента
         });
     }); 

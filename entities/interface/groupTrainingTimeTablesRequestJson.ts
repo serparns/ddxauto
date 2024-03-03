@@ -59,7 +59,7 @@ export const getGroupTrainingTimeTablesRequestJson = async (clubId: number, grou
         category_id: groupTrainingId ,
         group_training_id: '',
         employee_id:'' ,
-        date_from: '' ,
+        date_from: trainingTestData.start_time.future,
         date_to:'',
 
     }
