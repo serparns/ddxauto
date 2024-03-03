@@ -24,7 +24,6 @@ test.describe("Поиск нового клиента по номеру теле
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
     })
- /////////// 
 
     test("Поиск по существующего клиента номеру телефона", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
@@ -43,11 +42,17 @@ test.describe("Поиск нового клиента по номеру теле
             await page.locator("//div[text()='Открыть']").waitFor({ state: "visible" });
         });
 
-        await test.step("Открыть страницу пользователя, и проверить заполненость данных", async () => {
+        await test.step("Открыть страницу пользователя, и проверить id на соответствие", async () => {
             await page.getByRole('button', { name: 'Открыть' }).click();
-            expect(page.url()).toContain(`client/${userData.id}`); 
+            expect(page.url()).toContain(`client/${userData.id}`);      
         });
-    });
+
+        await test.step("Софовые проверки заполненности данных", async () => {
+            expect.soft(page.locator(`div[title="${userData.email}"]`)).toContainText(userData.email);  
+            expect.soft(page.locator(`div[title="${userData.phone}"]`)).toContainText(userData.phone);
+            //TODO Допилить другие проверки, возможно придется переходить на страницу редактирования клиента
+        });
+    }); 
 
     test("Поиск по номеру телефона", async ({ page }) => {
         const userPhone = getRandomPhoneNumber();
