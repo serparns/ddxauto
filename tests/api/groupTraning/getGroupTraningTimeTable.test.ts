@@ -17,9 +17,7 @@ test.describe("Api-тесты на получения групповых тре�
     const getGroupTrainingTimeTablesResponse = async (
         request: APIRequestContext,
         status: Statuses,
-        parameters?: {
-            date_from?: string
-        }) => {
+    ) => {
         const params = await getGroupTrainingTimeTablesRequestJson(groupTrainingId)
         return await new GroupTrainingTimeTableRequest(request).getGroupTrainingTimeTable(status, params);
     }

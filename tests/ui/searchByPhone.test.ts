@@ -24,7 +24,8 @@ test.describe("Поиск нового клиента по номеру теле
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
     })
-    test.only("Поиск по существующего клиента номеру телефона", async ({ page }) => {
+
+    test("Поиск по существующего клиента номеру телефона", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto(`${api.urls.base_url_CRM}`)
         });
@@ -46,11 +47,13 @@ test.describe("Поиск нового клиента по номеру теле
             expect(page.url()).toContain(`client/${userData.id}`);
         });
 
+        let birthday = userData.birthday.split('-').reverse().join('.');
+        
         await test.step("Софтовые проверки 'Блок клиент'" , async () => {
             await expect.soft(page.locator(`//*[text()="Email"]/../div[2][@class][text()="${userData.email}"]`)).toBeVisible();
             await expect.soft(page.locator(`//*[text()="Телефон"]/../div[2][@class][text()="${userData.phone}"]`)).toBeVisible();
             await expect.soft(page.locator(`//*[text()="Опыт в фитнесе"]/../div[2][@class][text()="${userData.sport_experience}"]`)).toBeVisible();
-            // await expect.soft(page.locator(`//*[text()="День рождения"]/../div[2][@class][contains(text(),"${userData.birthday.replace(^(\d\d)/(\d\d)/, '$1-$2-$3')}")]`)).toBeVisible();
+            await expect.soft(page.locator(`//*[text()="День рождения"]/../div[2][@class][contains(text(),"${birthday}")]`)).toBeVisible();
             await expect.soft(page.locator(`//div[@title='${userData.sex}']`)).toBeVisible();
 
         });
@@ -59,10 +62,11 @@ test.describe("Поиск нового клиента по номеру теле
             await expect.soft(page.locator("//div[text()='Нет активных подписок']")).toBeVisible();
             await expect.soft(page.locator("//span[text()='Нет привязанного браслета']")).toBeVisible();
             await expect.soft(page.locator("//div[text()='Нет истории посещений']")).toBeVisible();
-            console.log("как это заебало")
+            await expect.soft(page.locator(`//*[text()="Smart Start"]/../div[1]//*[text()='Нет активной записи']`)).toBeVisible();
+            await expect.soft(page.locator(`//*[text()="Запись на групповые"]/../div[1]//*[text()='Нет активной записи']`)).toBeVisible();
         });
     });
-
+    
     test("Поиск по номеру телефона", async ({ page }) => {
         const userPhone = getRandomPhoneNumber();
         await test.step("Перейти на страницу входа", async () => {
@@ -86,8 +90,7 @@ test.describe("Поиск нового клиента по номеру теле
         });
 
         await test.step("Проверить что номер в инпуте соответствуете валиден и соответствует ранее введенному номеру", async () => {
-            expect(page.locator(`input[title="${userPhone.replace(/^\+(\d)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+ $1 ($2) $3-$4-$5')}"]`)
-                .waitFor({ state: "visible", timeout: 3000 }));
+            await expect(page.locator(`input[title="${userPhone.replace(/^\+(\d)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+ $1 ($2) $3-$4-$5')}"]`)).toBeVisible();
         });
     });
 });

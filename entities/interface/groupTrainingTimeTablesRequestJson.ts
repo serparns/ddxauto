@@ -42,7 +42,7 @@ export interface GetGroupTrainingTimeTablesRequestJson {
     session_id: string;
     request_id: string;
     request_source: string;
-    club_id?: number;
+    club_id?: string;
     category_id?: any;
     group_training_id?: any;
     employee_id?: any;
@@ -50,16 +50,16 @@ export interface GetGroupTrainingTimeTablesRequestJson {
     date_to?: string;
 }
 
-export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number): Promise<GetGroupTrainingTimeTablesRequestJson> => {
+export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number, dateFrom?: string, clubId?: string): Promise<GetGroupTrainingTimeTablesRequestJson> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
         request_source: RequestSource.CRM,
-        // club_id: clubId,
+        club_id: clubId != undefined ? clubId: '' ,
         category_id: groupTrainingId,
         group_training_id: '',
         employee_id: '',
-        date_from: '',
+        date_from: dateFrom != undefined ? dateFrom : trainingTestData.start_time.future,
         date_to: '',
 
     }
