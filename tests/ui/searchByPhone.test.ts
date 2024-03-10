@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 import api from "@api"
 import authCRMTestData from "@data/authCRM.json"
-import {getRandomEmail, getRandomPhoneNumber} from "@utils/random";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import ClubsRequests from "@requests/clubs.requests";
-import {Statuses} from "@libs/statuses";
-import {getBaseParameters} from "@entities/baseParameters";
-import {getUserRequestJson} from "@entities/interface/user.requestJson";
+import { Statuses } from "@libs/statuses";
+import { getBaseParameters } from "@entities/baseParameters";
+import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import UsersRequests from "@requests/users.requests";
 
 test.describe("Поиск нового клиента по номеру телефона", async () => {
@@ -43,11 +43,11 @@ test.describe("Поиск нового клиента по номеру теле
 
         await test.step("Открыть страницу пользователя, и проверить id на соответствие", async () => {
             await page.getByRole('button', { name: 'Открыть' }).click();
-            expect(page.url()).toContain(`client/${userData.id}`);      
+            expect(page.url()).toContain(`client/${userData.id}`);
         });
 
         await test.step("Софовые проверки заполненности данных", async () => {
-            expect.soft(page.locator(`div[title="${userData.email}"]`)).toContainText(userData.email);  
+            expect.soft(page.locator(`div[title="${userData.email}"]`)).toContainText(userData.email);
             expect.soft(page.locator(`div[title="${userData.phone}"]`)).toContainText(userData.phone);
             expect.soft(page.locator(`${userData.sportExperience}`)).toContainText(userData.sportExperience);
             expect.soft(page.locator("//div[text()='Нет активных подписок']").waitFor({ state: "visible" }));
@@ -55,7 +55,7 @@ test.describe("Поиск нового клиента по номеру теле
             expect.soft(page.locator("//div[text()='Нет истории посещений']").waitFor({ state: "visible" }));
             //TODO Допилить другие проверки, возможно придется переходить на страницу редактирования клиента
         });
-    }); 
+    });
 
     test("Поиск по номеру телефона", async ({ page }) => {
         const userPhone = getRandomPhoneNumber();

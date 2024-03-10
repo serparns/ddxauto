@@ -1,4 +1,4 @@
-import {expect, test} from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import api from "@api"
 import authCRMTestData from "@data/authCRM.json"
 
@@ -59,5 +59,4 @@ test.describe("Тест на навигацию по боковому меню",
             expect.soft(page.url()).toContain('/faq');
         });
     });
-
 });
