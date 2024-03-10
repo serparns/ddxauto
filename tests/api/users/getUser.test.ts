@@ -1,12 +1,12 @@
-import { expect, test } from "@playwright/test";
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import UsersRequests from "@requests/users.requests";
-import { getBaseParameters } from "@entities/baseParameters";
-import ClubsRequests from "@requests/clubs.requests";
-import { Statuses } from "@libs/statuses";
-import { SportExperience } from "@libs/sportExperience";
 import userTestData from "@data/user.json";
+import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
+import { SportExperience } from "@libs/sportExperience";
+import { Statuses } from "@libs/statuses";
+import { expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
+import UsersRequests from "@requests/users.requests";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тест на создание юзера с клубом и получения данных о нем", async () => {
     test("[positive] получить юзера с подстановкой id клуба из запроса", async ({ request }) => {

@@ -1,11 +1,11 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import UsersRequests from "@requests/users.requests";
-import { Statuses } from "@libs/statuses";
-import ClubsRequests from "@requests/clubs.requests";
 import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { getUserSearchRequestJson } from "@entities/interface/userSearch.requestJson";
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
+import UsersRequests from "@requests/users.requests";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
     let userData: any;

@@ -1,8 +1,8 @@
-import { expect, test } from "@playwright/test";
-import api from "@api"
-import { Statuses } from "@libs/statuses";
+import api from "@api";
 import requestTestData from "@data/request.json";
 import { RequestSource } from "@libs/requestSource";
+import { Statuses } from "@libs/statuses";
+import { expect, test } from "@playwright/test";
 
 
 test.describe("Api-тесты на создание заметки ", async () => {

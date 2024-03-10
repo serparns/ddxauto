@@ -1,13 +1,13 @@
-import { expect, test } from "@playwright/test";
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import UsersRequests from "@requests/users.requests";
+import requestTestData from "@data/request.json";
 import { getBaseParameters } from "@entities/baseParameters";
-import ClubsRequests from "@requests/clubs.requests";
-import VerifyRequests from "@requests/verify.requests";
-import { Statuses } from "@libs/statuses";
-import requestTestData from "@data/request.json"
-import { RequestSource } from "@libs/requestSource";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
+import { RequestSource } from "@libs/requestSource";
+import { Statuses } from "@libs/statuses";
+import { expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
+import UsersRequests from "@requests/users.requests";
+import VerifyRequests from "@requests/verify.requests";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на получение кода верификации", async () => {
     test("[positive] отправка кода верификации клиенту", async ({ request }) => {

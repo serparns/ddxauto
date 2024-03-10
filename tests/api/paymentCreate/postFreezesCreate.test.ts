@@ -1,17 +1,17 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import UsersRequests from "@requests/users.requests";
-import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
-import PaymentCreateRequests from "@requests/paymentCreate.requests";
-import { Statuses } from "@libs/statuses";
-import { PaymentProvider } from "@libs/providers";
-import ClubsRequests from "@requests/clubs.requests";
+import requestTestData from "@data/request.json";
 import { getBaseParameters } from "@entities/baseParameters";
-import { RequestSource } from "@libs/requestSource";
-import requestTestData from "@data/request.json"
+import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
-import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
+import { PaymentProvider } from "@libs/providers";
+import { RequestSource } from "@libs/requestSource";
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
+import PaymentCreateRequests from "@requests/paymentCreate.requests";
+import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
+import UsersRequests from "@requests/users.requests";
+import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
     let clubId: number;

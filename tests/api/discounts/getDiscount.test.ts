@@ -1,8 +1,8 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { Statuses } from "@libs/statuses";
-import DiscountsRequests from "@requests/discounts.requests";
+import discountTestData from "@data/discounts.json";
 import { getBaseParameters } from "@entities/baseParameters";
-import discountTestData from "@data/discounts.json"
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import DiscountsRequests from "@requests/discounts.requests";
 
 test.describe("Api-тесты на получение списка акций", async () => {
     const discountResponse = async (

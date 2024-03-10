@@ -1,15 +1,15 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import UsersRequests from "@requests/users.requests";
-import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
-import PaymentCreateRequests from "@requests/paymentCreate.requests";
-import { Statuses } from "@libs/statuses";
-import { PaymentProvider } from "@libs/providers";
-import ClubsRequests from "@requests/clubs.requests";
 import { getBaseParameters } from "@entities/baseParameters";
+import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
-import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
+import { PaymentProvider } from "@libs/providers";
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
+import PaymentCreateRequests from "@requests/paymentCreate.requests";
+import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
+import UsersRequests from "@requests/users.requests";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на создание платежа", async () => {
     let clubId: number;

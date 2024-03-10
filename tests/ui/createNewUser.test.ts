@@ -1,7 +1,7 @@
+import api from "@api";
+import authCRMTestData from "@data/authCRM.json";
 import { expect, test } from "@playwright/test";
-import api from "@api"
-import authCRMTestData from "@data/authCRM.json"
-import { getRandomEmail, getRandomName, getRandomPhoneNumber } from "@utils/random";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Создание нового пользователя", async () => {
     test("Создание ного пользователя", async ({ page }) => {
@@ -38,7 +38,7 @@ test.describe("Создание нового пользователя", async ()
             await page.getByPlaceholder("Введите фамилию").fill('QatestAuto');
             await page.getByPlaceholder("Введите email").fill(email);
             await page.locator("//*[text()='Выберите интервал']").click();
-            await page.locator("//*[@title='6-12 месяцев']").click();           
+            await page.locator("//*[@title='6-12 месяцев']").click();
             await page.locator("//*[@type='radio'][@name='sex'][@value='male']/..").click()
             await page.getByPlaceholder("__.__.____").nth(0).fill("12121999")
         });
@@ -50,7 +50,7 @@ test.describe("Создание нового пользователя", async ()
             await page.locator("//*[@title='DDX София']").click();
         });
 
-        await test.step("Нажать на кнопку отправки формы регистрации и проверить что кнопка подтверждения", async () => {
+        await test.step("Нажать на кнопку отправки формы регистрации и проверить что появилась кнопка подтверждения", async () => {
             await page.locator("//*[text()='Отправить']").nth(0).click();
             await expect(page.getByRole('button', { name: 'Подтвердить' })).toBeVisible();
         });

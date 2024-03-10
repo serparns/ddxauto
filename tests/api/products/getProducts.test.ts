@@ -1,6 +1,6 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { Statuses } from "@libs/statuses";
 import { getBaseParameters } from "@entities/baseParameters";
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
 import ProductdRequests from "@requests/products.requests";
 
 test.describe("Api-тест на получение продуктов", async () => {

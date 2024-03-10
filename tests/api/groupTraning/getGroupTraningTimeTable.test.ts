@@ -1,12 +1,12 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { Statuses } from "@libs/statuses";
-import { getGroupTrainingTimeTablesRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
-import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
-import ClubsRequests from "@requests/clubs.requests";
-import { getBaseParameters } from "@entities/baseParameters";
-import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
-import { validatorJson } from "@utils/validator";
 import { timeTableShema } from "@entities/JsonSchema/timeTable.response";
+import { getBaseParameters } from "@entities/baseParameters";
+import { getGroupTrainingTimeTablesRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
+import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
+import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
+import { validatorJson } from "@utils/validator";
 
 
 test.describe("Api-тесты на получения групповых тренировок", async () => {

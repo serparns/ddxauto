@@ -1,7 +1,7 @@
-import { expect, test } from "@playwright/test";
-import api from "@api"
+import api from "@api";
 import { getBaseParameters } from "@entities/baseParameters";
 import { Statuses } from "@libs/statuses";
+import { expect, test } from "@playwright/test";
 
 test.describe("Api-тесты на получение PaymentPlans ", async () => {
     test("[positive] получить список PaymentPlans", async ({ request }) => {

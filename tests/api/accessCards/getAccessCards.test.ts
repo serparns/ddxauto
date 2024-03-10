@@ -1,8 +1,8 @@
+import { getBaseParameters } from "@entities/baseParameters";
+import { Statuses } from "@libs/statuses";
 import { expect, test } from "@playwright/test";
 import AccessCardsRequests from "@requests/accessCards.requests";
 import { getRandomCardNumber } from "@utils/random";
-import { getBaseParameters } from "@entities/baseParameters";
-import { Statuses } from "@libs/statuses";
 
 const requestBody = {
     "session_id": "123",

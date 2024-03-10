@@ -1,7 +1,7 @@
+import { Statuses } from "@libs/statuses";
 import { test } from "@playwright/test";
 import AccessCardsRequests from "@requests/accessCards.requests";
 import { getRandomCardNumber } from "@utils/random";
-import { Statuses } from "@libs/statuses";
 
 const requestBody = {
     "session_id": "123",

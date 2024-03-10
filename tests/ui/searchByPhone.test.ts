@@ -1,12 +1,12 @@
-import { expect, test } from "@playwright/test";
-import api from "@api"
-import authCRMTestData from "@data/authCRM.json"
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import ClubsRequests from "@requests/clubs.requests";
-import { Statuses } from "@libs/statuses";
+import api from "@api";
+import authCRMTestData from "@data/authCRM.json";
 import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
+import { Statuses } from "@libs/statuses";
+import { expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
 import UsersRequests from "@requests/users.requests";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Поиск нового клиента по номеру телефона", async () => {
     const userPhone = getRandomPhoneNumber()
@@ -46,14 +46,20 @@ test.describe("Поиск нового клиента по номеру теле
             expect(page.url()).toContain(`client/${userData.id}`);
         });
 
-        await test.step("Софовые проверки заполненности данных", async () => {
-            expect.soft(page.locator(`div[title="${userData.email}"]`)).toContainText(userData.email);
-            expect.soft(page.locator(`div[title="${userData.phone}"]`)).toContainText(userData.phone);
-            expect.soft(page.locator(`${userData.sportExperience}`)).toContainText(userData.sportExperience);
-            expect.soft(page.locator("//div[text()='Нет активных подписок']").waitFor({ state: "visible" }));
-            expect.soft(page.locator("//span[text()='Нет привязанного браслета']").waitFor({ state: "visible" }));
-            expect.soft(page.locator("//div[text()='Нет истории посещений']").waitFor({ state: "visible" }));
-            //TODO Допилить другие проверки, возможно придется переходить на страницу редактирования клиента
+        await test.step("Софтовые проверки 'Блок клиент'" , async () => {
+            await expect.soft(page.locator(`//*[text()="Email"]/../div[2][@class][text()="${userData.email}"]`)).toBeVisible();
+            await expect.soft(page.locator(`//*[text()="Телефон"]/../div[2][@class][text()="${userData.phone}"]`)).toBeVisible();
+            await expect.soft(page.locator(`//*[text()="Опыт в фитнесе"]/../div[2][@class][text()="${userData.sport_experience}"]`)).toBeVisible();
+            // await expect.soft(page.locator(`//*[text()="День рождения"]/../div[2][@class][contains(text(),"${userData.birthday.replace(^(\d\d)/(\d\d)/, '$1-$2-$3')}")]`)).toBeVisible();
+            await expect.soft(page.locator(`//div[@title='${userData.sex}']`)).toBeVisible();
+
+        });
+
+        await test.step("Софтовые проверки 'Информация за пределами блока клиентских данных'", async () => {
+            await expect.soft(page.locator("//div[text()='Нет активных подписок']")).toBeVisible();
+            await expect.soft(page.locator("//span[text()='Нет привязанного браслета']")).toBeVisible();
+            await expect.soft(page.locator("//div[text()='Нет истории посещений']")).toBeVisible();
+            console.log("как это заебало")
         });
     });
 

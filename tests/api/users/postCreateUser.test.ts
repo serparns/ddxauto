@@ -1,16 +1,16 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import UsersRequests from "@requests/users.requests";
-import { Statuses } from "@libs/statuses";
-import ClubsRequests from "@requests/clubs.requests";
+import userTestData from "@data/user.json";
+import { baseDataJsonSchema } from "@entities/JsonSchema/base.response";
+import { errorDataJsonSchema } from "@entities/JsonSchema/error.response";
+import { userDataJsonSchema } from "@entities/JsonSchema/user.response";
 import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { SportExperience } from "@libs/sportExperience";
-import userTestData from "@data/user.json";
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
+import ClubsRequests from "@requests/clubs.requests";
+import UsersRequests from "@requests/users.requests";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { validatorJson } from "@utils/validator";
-import { userDataJsonSchema } from "@entities/JsonSchema/user.response";
-import { baseDataJsonSchema } from "@entities/JsonSchema/base.response";
-import { errorDataJsonSchema } from "@entities/JsonSchema/error.response";
 
 test.describe("Api-тест на создание клиента", async () => {
     let clubId: number

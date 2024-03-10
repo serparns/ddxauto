@@ -1,8 +1,8 @@
-import { expect, test } from "@playwright/test";
-import api from "@api"
+import api from "@api";
 import { getBaseParameters } from "@entities/baseParameters";
-import { log } from "@utils/logger";
 import { Statuses } from "@libs/statuses";
+import { expect, test } from "@playwright/test";
+import { log } from "@utils/logger";
 
 const club_id = ['3', '5', '1000'];
 

@@ -1,6 +1,6 @@
-import { APIRequestContext, expect, test } from "@playwright/test";
-import { Statuses } from "@libs/statuses";
 import { getBaseParameters } from "@entities/baseParameters";
+import { Statuses } from "@libs/statuses";
+import { APIRequestContext, expect, test } from "@playwright/test";
 import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
 
 test.describe("Api-тесты на на получения категорий групповых тренировок", async () => {

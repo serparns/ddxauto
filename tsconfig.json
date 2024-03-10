@@ -11,17 +11,35 @@
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,
     "baseUrl": ".",
-    "types": ["node", "@wdio/globals/types", "webdriverio/async", "mocha", "expect-webdriverio"],
+    "types": [
+      "node",
+      "@wdio/globals/types",
+      "webdriverio/async",
+      "mocha",
+      "expect-webdriverio"
+    ],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@requests/*": ["requests/*"],
-      "@libs/*": ["libs/*"],
-      "@entities/*": ["entities/*"],
-      "@utils/*": ["utils/*"],
-      "@data/*": ["data/*"],
-      "@api": ["api.json"]
+      "@requests/*": [
+        "requests/*"
+      ],
+      "@libs/*": [
+        "libs/*"
+      ],
+      "@entities/*": [
+        "entities/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@data/*": [
+        "data/*"
+      ],
+      "@api": [
+        "api.json"
+      ]
     }
   }
 }
