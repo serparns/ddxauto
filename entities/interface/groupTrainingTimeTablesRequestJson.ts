@@ -1,7 +1,7 @@
-import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import requestTestData from "@data/request.json";
-import { RequestSource } from "@libs/requestSource";
 import trainingTestData from "@data/training.json";
+import { BaseRequestJson } from "@entities/interface/base.requestJson";
+import { RequestSource } from "@libs/requestSource";
 
 export interface GroupTrainingTimeTablesRequestJson {
     group_training_id: number;
@@ -42,7 +42,7 @@ export interface GetGroupTrainingTimeTablesRequestJson {
     session_id: string;
     request_id: string;
     request_source: string;
-    club_id?: string;
+    club_id?: number;
     category_id?: any;
     group_training_id?: any;
     employee_id?: any;
@@ -50,12 +50,12 @@ export interface GetGroupTrainingTimeTablesRequestJson {
     date_to?: string;
 }
 
-export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number, dateFrom?: string, clubId?: string): Promise<GetGroupTrainingTimeTablesRequestJson> => {
+export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number, clubId?: number, dateFrom?: string): Promise<GetGroupTrainingTimeTablesRequestJson> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
         request_source: RequestSource.CRM,
-        club_id: clubId != undefined ? clubId: '' ,
+        club_id: clubId,
         category_id: groupTrainingId,
         group_training_id: '',
         employee_id: '',

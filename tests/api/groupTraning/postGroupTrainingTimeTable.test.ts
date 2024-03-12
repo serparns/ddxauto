@@ -5,7 +5,7 @@ import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/grou
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext, expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
-import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
+import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
 import { validatorJson } from "@utils/validator";
 
@@ -39,7 +39,7 @@ test.describe("Api-тесты на добавление групповых тр�
         });
 
         groupTrainingId = await test.step("получить id групповой тренировки", async () => {
-            return groupTrainingId = (await (await new GroupTrainingCategoriesRequests(request).getGroupTrainingCategories(Statuses.OK, await getBaseParameters())).json()).data[0].id;
+            return groupTrainingId = (await (await new GroupTrainingRequests(request).getGroupTrainingCategories(Statuses.OK, await getBaseParameters())).json()).data[0].id;
         });
     })
 

@@ -48,8 +48,8 @@ test.describe("Поиск нового клиента по номеру теле
         });
 
         let birthday = userData.birthday.split('-').reverse().join('.');
-        
-        await test.step("Софтовые проверки 'Блок клиент'" , async () => {
+
+        await test.step("Софтовые проверки 'Блок клиент'", async () => {
             await expect.soft(page.locator(`//*[text()="Email"]/../div[2][@class][text()="${userData.email}"]`)).toBeVisible();
             await expect.soft(page.locator(`//*[text()="Телефон"]/../div[2][@class][text()="${userData.phone}"]`)).toBeVisible();
             await expect.soft(page.locator(`//*[text()="Опыт в фитнесе"]/../div[2][@class][text()="${userData.sport_experience}"]`)).toBeVisible();
@@ -66,7 +66,7 @@ test.describe("Поиск нового клиента по номеру теле
             await expect.soft(page.locator(`//*[text()="Запись на групповые"]/../div[1]//*[text()='Нет активной записи']`)).toBeVisible();
         });
     });
-    
+
     test("Поиск по номеру телефона", async ({ page }) => {
         const userPhone = getRandomPhoneNumber();
         await test.step("Перейти на страницу входа", async () => {

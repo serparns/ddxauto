@@ -1,7 +1,7 @@
 import { getBaseParameters } from "@entities/baseParameters";
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext, expect, test } from "@playwright/test";
-import GroupTrainingCategoriesRequests from "@requests/groupTrainingRequests.request";
+import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
 
 test.describe("Api-тесты на на получения категорий групповых тренировок", async () => {
     const groupTrainingCategoryResponse = async (
@@ -15,7 +15,7 @@ test.describe("Api-тесты на на получения категорий г
             if (parameters?.isDeleted != undefined) params = { ...params, ...{ is_deleted: parameters.isDeleted } }
             return params;
         }
-        return await new GroupTrainingCategoriesRequests(request).getGroupTrainingCategories(status, await params());
+        return await new GroupTrainingRequests(request).getGroupTrainingCategories(status, await params());
     }
 
     test("Получение списка не удаленных категорий групповых тренировок", async ({ request }) => {
