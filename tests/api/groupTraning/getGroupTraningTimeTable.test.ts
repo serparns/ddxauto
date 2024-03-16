@@ -43,15 +43,9 @@ test.describe("Api-тесты на получения групповых тре�
             async () => getGroupTrainingTimeTablesResponse(request, Statuses.OK,))).json()
 
         await test.step("Проверки", async () => {
-            // const createdWorkout = groupTrainingCategory.data;
-            // const find = groupTrainingTimeTableId
-            // expect(await createdWorkout.indexOf(find)).toBe(groupTrainingTimeTableId) 
-            //TODO Сделать поиск по масиву, или как-то иначе придумать как проверить id
-
-
-
-
-            //expect(groupTrainingTimeTableId).toContain(groupTrainingCategory.data[0/99].id)
+            let createdWorkout = groupTrainingCategory.data;
+            let expectData = createdWorkout.find((traning: { id: number; }) => traning.id === groupTrainingTimeTableId).id
+            expect(groupTrainingTimeTableId).toEqual(expectData)
             expect(groupTrainingCategory.data[0]).not.toBe(null)
             await validatorJson(timeTableShema, (await groupTrainingCategory.data[0]));
         })
