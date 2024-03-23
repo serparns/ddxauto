@@ -19,3 +19,4 @@ test-results
 .idea
 .idea/inspectionProfiles
 .idea/modules.xml
+db.json
