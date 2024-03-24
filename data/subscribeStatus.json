@@ -1,0 +1,8 @@
+{
+    "statuses": {
+        "current": "Current",
+        "freezed": "Freezed",
+        "notStarted": "NotStarted",
+        "paymentPending": "PaymentPending"
+    }
+}
