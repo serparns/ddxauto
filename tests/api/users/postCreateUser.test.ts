@@ -91,7 +91,6 @@ test.describe("Api-тест на создание клиента", async () => {
         });
 
         await test.step("Проверить схему ответа", async () => validator(userCreateSuccessResponse));
-
     });
 
     test("[negative] Создание пользователя с невалидным sport_experience", async ({ request }) => {

@@ -20,22 +20,33 @@ test.describe("Проверка отображения статусов подп
             await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 3000 });
         });
 
-        const userPaymentPlanCurrent = await test.step("Получить информацию о подписке в статусе Current", async () => {
-            return selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.current);
+        const { current, frozen, notStarted, paymentPending  } = await test.step("Получить информацию о подписке", async () => {
+            return{
+            current: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.current)).user_id,
+            frozen: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.freezed)).user_id,
+            notStarted: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.notStarted)).user_id,
+            paymentPending: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.paymentPending)).user_id
+            }
         });
 
         await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
-            await page.goto(`${api.urls.base_url_CRM}/client/${userPaymentPlanCurrent.user_id}`)
+            await page.goto(`${api.urls.base_url_CRM}/client/${current}`)
             await page.locator("//div[text()='активный']").waitFor({ state: 'visible', timeout: 5000 });
         });
 
-        const userPaymentPlanFrozen = await test.step("Получить информацию о подписке в статусе Frozen", async () => {
-            return selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.freezed);
+        await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
+            await page.goto(`${api.urls.base_url_CRM}/client/${frozen}`)
+            await page.locator("//div[text()='заморожен']").waitFor({ state: 'visible', timeout: 5000 });
         });
 
         await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
-            await page.goto(`${api.urls.base_url_CRM}/client/${userPaymentPlanFrozen.user_id}`)
-            await page.locator("//div[text()='заморожен']").waitFor({ state: 'visible', timeout: 5000 });
+            await page.goto(`${api.urls.base_url_CRM}/client/${notStarted}`)
+            await page.locator("//div[text()='не начат']").waitFor({ state: 'visible', timeout: 5000 });
+        });
+
+        await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
+            await page.goto(`${api.urls.base_url_CRM}/client/${paymentPending}`)
+            await page.locator("//div[text()='мораторий']").waitFor({ state: 'visible', timeout: 5000 });
         });
     });
 });
