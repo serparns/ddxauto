@@ -4,7 +4,7 @@ import { selectUserPaymenPlanByStatus } from "@entities/db/userPaymentPlan.db";
 import { test } from "@playwright/test";
 
 test.describe("Проверка отображения статусов подписки на карточке клиента", async () => {
-    test.only("Проветка отоброжения статуса Current ", async ({ page }) => {
+    test("Проветка отоброжения статуса Current ", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto(`${api.urls.base_url_CRM}`)
         });
