@@ -1,6 +1,6 @@
-import { getDate } from "@utils/random";
 import requestTestData from "@data/request.json";
 import { RequestSource } from "@libs/requestSource";
+import { getDate } from "@utils/random";
 
 export interface PaymentPlanRequestJson {
     session_id: string;
