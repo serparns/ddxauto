@@ -1,6 +1,6 @@
-import BaseRequests from "./baseRequests.request";
 import { APIResponse } from "@playwright/test";
 import paths from '../api.json';
+import BaseRequests from "./baseRequests.request";
 
 export default class UsersRequests extends BaseRequests {
     async postCreateUser(status: number, body: object): Promise<APIResponse> {

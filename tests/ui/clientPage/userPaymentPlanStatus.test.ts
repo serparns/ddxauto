@@ -20,12 +20,12 @@ test.describe("Проверка отображения статусов подп
             await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 3000 });
         });
 
-        const { current, frozen, notStarted, paymentPending  } = await test.step("Получить информацию о подписке", async () => {
-            return{
-            current: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.current)).user_id,
-            frozen: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.freezed)).user_id,
-            notStarted: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.notStarted)).user_id,
-            paymentPending: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.paymentPending)).user_id
+        const { current, frozen, notStarted, paymentPending } = await test.step("Получить информацию о подписке", async () => {
+            return {
+                current: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.current)).user_id,
+                frozen: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.freezed)).user_id,
+                notStarted: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.notStarted)).user_id,
+                paymentPending: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.paymentPending)).user_id
             }
         });
 

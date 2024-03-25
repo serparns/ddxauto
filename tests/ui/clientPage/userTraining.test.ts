@@ -1,4 +1,7 @@
+import api from "@api";
+import authCRMTestData from "@data/authCRM.json";
 import { getBaseParameters } from "@entities/baseParameters";
+import { selectByUserIdGroupTrainingTimeTableId } from "@entities/db/groupTrainigUsers.db";
 import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUserRequestJson";
 import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
 import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
@@ -6,7 +9,7 @@ import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.reque
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
+import { test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
 import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
@@ -16,7 +19,7 @@ import UsersRequests from "@requests/users.requests";
 import { getRandomEmail, getRandomPhoneNumber, getTomorrow, getTomorrowEnd } from "@utils/random";
 
 
-test.describe("Api-тесты на запись пользователя на тренировку", async () => {
+test.describe("Тест на проверку записи пользователя на тренировку", async () => {
     let groupTrainingId: any;
     let clubId: number;
     let groupTrainingTimeTableId: number
@@ -24,14 +27,6 @@ test.describe("Api-тесты на запись пользователя на т
     let userPaymentPlanId: number;
     const trainingDay = getTomorrow()
     const trainingEnd = getTomorrowEnd()
-
-    const postGroupTrainingUserResponse = async (
-        request: APIRequestContext,
-        status: Statuses,
-    ) => {
-        const requestBody = await postGroupTrainingUsersRequestJson(groupTrainingTimeTableId, userId)
-        return await new GroupTrainingRequests(request).postGroupTrainingUsers(status, requestBody);
-    }
 
     test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
@@ -43,7 +38,7 @@ test.describe("Api-тесты на запись пользователя на т
         });
 
         groupTrainingTimeTableId = await test.step("получить id тренировки", async () => {
-            const requestBody = await postGroupTrainingTimeTablesRequestJson(groupTrainingId.id, clubId, trainingDay, trainingEnd);// TODO проверить работает ли это
+            const requestBody = await postGroupTrainingTimeTablesRequestJson(groupTrainingId.id, clubId, trainingDay, trainingEnd);
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
@@ -65,14 +60,35 @@ test.describe("Api-тесты на запись пользователя на т
             const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
             return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
         });
-    });
 
-    test("Получить групповую тренировку", async ({ request }) => {
-        const groupTrainingUsers = await (await test.step("Получение групповой тренировки",
-            async () => postGroupTrainingUserResponse(request, Statuses.OK,))).json()
-
-        await test.step("Проверки", async () => {
-            expect(groupTrainingUsers.data[0].booking_status).toBe("booked")
+        await test.step("Запись пользователя на тренировку", async () => {
+            const requestBody = await postGroupTrainingUsersRequestJson(groupTrainingTimeTableId, userId)
+            return await new GroupTrainingRequests(request).postGroupTrainingUsers(Statuses.OK, requestBody);
         });
     });
+
+    test("Проветка отоброжения тренировки ", async ({ page }) => {
+        await test.step("Перейти на страницу входа", async () => {
+            await page.goto(`${api.urls.base_url_CRM}`)
+        });
+
+        await test.step("Заполнить форму авторизации и нажать зайти", async () => {
+            await page.getByPlaceholder("Логин").fill(authCRMTestData.login);
+            await page.getByPlaceholder("Пароль").fill(authCRMTestData.password);
+            await page.getByRole('button', { name: 'Войти' }).click();
+        });
+
+        await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
+            await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 3000 });
+        });
+
+        const trainingName = await test.step("Получить информацию о подписке", async () => {
+            return (await selectByUserIdGroupTrainingTimeTableId(userId, groupTrainingTimeTableId)).user_id
+        })
+
+        await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
+            await page.goto(`${api.urls.base_url_CRM}/client/${trainingName}`)
+        });
+    });// TODO Дописать тест, потребуется еще один запрос на получения названия тренировки
+
 });

@@ -14,7 +14,7 @@ export default class GroupTrainingRequests extends BaseRequests {
     async getGroupTraining(status: number, parameters: object): Promise<APIResponse> {
         return await this.get(`${this.baseUrl}${paths.paths.group_trainings}`, status, parameters);
     }
-    
+
     async postGroupTrainingUsers(status: number, body: object): Promise<APIResponse> {
         return await this.post(`${this.baseUrl}${paths.paths.group_training_users}`, status, body);
     }
