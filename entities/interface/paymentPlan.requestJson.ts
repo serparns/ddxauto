@@ -19,7 +19,7 @@ export const getPaymentPlanRequestJson = async (clubId: number): Promise<Payment
         request_source: RequestSource.CRM,
         club_id: clubId,
         start_date: getDate(),
-        payment_plan_id: 163,
+        payment_plan_id: 48,
         verification_token: "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
     }
 };
