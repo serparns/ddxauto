@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize";
 import dbData from "db.json";
+import { Sequelize } from "sequelize";
 
 export const db = new Sequelize(
     dbData.test.name,

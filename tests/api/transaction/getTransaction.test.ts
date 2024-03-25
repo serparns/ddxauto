@@ -5,27 +5,35 @@ import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.reque
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
+import { APIRequestContext, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
+import TransactionRequests from "@requests/transaction.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
-test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
+test.describe("Api-тесты на получение транзакций пользователя", async () => {
     let clubId: number;
     let userId: number;
     let userPaymentPlanId: number;
 
-    const postFreezesResponse = async (
+
+    const transactionResponse = async (
         request: APIRequestContext,
         status: Statuses,
-        parameters: {
-            providerId?: PaymentProvider,
+        parameters?: {
+            user?: number
+
         }) => {
-        const requestBody = await getPaymentFreezingCreateRequestJson(parameters.providerId, userPaymentPlanId, userId);
-        return await new PaymentCreateRequests(request).postFreezesCreate(status, requestBody);
+        const params = async (): Promise<object> => {
+            let params = await getBaseParameters()
+            if (parameters?.user != undefined) params = { ...params, ...{ user_id: parameters.user } }
+            return params;
+        }
+        return await new TransactionRequests(request).getTransactionUser(status, await params());
     }
+
 
     test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
@@ -49,15 +57,15 @@ test.describe("Api-тесты на создание заморозки поль�
             const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
             return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
         })
+
+        await test.step("Создание заморозки", async () => {
+            const requestBody = await getPaymentFreezingCreateRequestJson(PaymentProvider.FREEZES, userPaymentPlanId, userId);
+            return await new PaymentCreateRequests(request).postFreezesCreate(Statuses.OK, requestBody);
+        })
     })
 
-    test("[positive] Создание заморозки", async ({ request }) => {
-        const freezesCreateSuccessResponse = await test.step("Запрос на создание оплаты",
-            async () => postFreezesResponse(request, Statuses.OK, { providerId: PaymentProvider.FREEZES }));
-
-        await test.step("Проверки", async () => {
-            expect((await freezesCreateSuccessResponse.json()).data[0].transaction.status).toEqual('in progress');
-            expect((await freezesCreateSuccessResponse.json()).data[0].user_payment_plan.user_id).toEqual(userId);
-        })
+    test("Получение списка транзакций пользователя", async ({ request }) => {
+        await test.step("Получение акций",
+            async () => transactionResponse(request, Statuses.OK, { user: userId }))
     });
 });

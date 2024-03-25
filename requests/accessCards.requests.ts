@@ -1,6 +1,6 @@
-import BaseRequests from "./baseRequests.request";
 import { APIResponse } from "@playwright/test";
 import paths from '../api.json';
+import BaseRequests from "./baseRequests.request";
 
 export default class AccessCardsRequests extends BaseRequests {
     async postAccessCards(status: number, body: object): Promise<APIResponse> {

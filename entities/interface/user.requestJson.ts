@@ -1,8 +1,8 @@
-import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import requestTestData from "@data/request.json";
+import userTestData from "@data/user.json";
+import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import { RequestSource } from "@libs/requestSource";
 import { getRandomName } from "@utils/random";
-import userTestData from "@data/user.json";
 
 export interface UserDataRequestJson {
     sport_experience: string;
