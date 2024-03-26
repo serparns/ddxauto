@@ -1,7 +1,8 @@
 import api from "@api";
 import authCRMTestData from "@data/authCRM.json";
 import { getBaseParameters } from "@entities/baseParameters";
-import { selectByUserIdGroupTrainingTimeTableId } from "@entities/db/groupTrainigUsers.db";
+import { selectByUserIdGroupTrainingTimeTableId} from "@entities/db/groupTrainigUsers.db";
+import { selectNameGroupTraning } from "@entities/db/groupTraning.db";
 import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUserRequestJson";
 import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
 import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
@@ -9,7 +10,7 @@ import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.reque
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
 import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
@@ -82,12 +83,17 @@ test.describe("Тест на проверку записи пользовате�
             await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 3000 });
         });
 
-        const trainingName = await test.step("Получить информацию о подписке", async () => {
+        const userIdByTraning = await test.step("Получить пользователя на тренировке", async () => {
             return (await selectByUserIdGroupTrainingTimeTableId(userId, groupTrainingTimeTableId)).user_id
         })
 
+        const groupTraningName = await test.step("Получить название тренировки", async () => {
+            return (await selectNameGroupTraning(groupTrainingId.id)).name
+        })
+
         await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
-            await page.goto(`${api.urls.base_url_CRM}/client/${trainingName}`)
+            await page.goto(`${api.urls.base_url_CRM}/client/${userIdByTraning}`)
+            await expect.soft(page.locator(`//*[text()="Запись на групповые"]/../div[1]//*[text()='${groupTraningName}']`)).toBeVisible();
         });
     });// TODO Дописать тест, потребуется еще один запрос на получения названия тренировки
 
