@@ -66,10 +66,9 @@ test.describe("Api-тесты на получение транзакций по�
     })
 
     test("Получение списка транзакций пользователя", async ({ request }) => {
-        await test.step("Получение акций",
-            async () => transactionResponse(request, Statuses.OK, { user: userId }))
+        await test.step("Получение транзакций", async () => transactionResponse(request, Statuses.OK, { user: userId }))
 
-            const userTransaction = await test.step("Получить название тренировки", async () => {
+            const userTransaction = await test.step("Получить транзакции пользователя", async () => {
                 return (await selectTransaction(userId))
             })
              console.log(userTransaction)
