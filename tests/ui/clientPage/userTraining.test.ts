@@ -1,7 +1,7 @@
 import api from "@api";
 import authCRMTestData from "@data/authCRM.json";
 import { getBaseParameters } from "@entities/baseParameters";
-import { selectByUserIdGroupTrainingTimeTableId} from "@entities/db/groupTrainigUsers.db";
+import { selectByUserIdGroupTrainingTimeTableId } from "@entities/db/groupTrainigUsers.db";
 import { selectNameGroupTraning } from "@entities/db/groupTraning.db";
 import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUserRequestJson";
 import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
@@ -95,6 +95,6 @@ test.describe("Тест на проверку записи пользовате�
             await page.goto(`${api.urls.base_url_CRM}/client/${userIdByTraning}`)
             await expect.soft(page.locator(`//*[text()="Запись на групповые"]/../div[1]//*[text()='${groupTraningName}']`)).toBeVisible();
         });
-    });// TODO Дописать тест, потребуется еще один запрос на получения названия тренировки
+    });
 
 });

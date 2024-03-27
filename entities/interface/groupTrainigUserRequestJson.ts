@@ -1,8 +1,6 @@
 import requestTestData from "@data/request.json";
 import { RequestSource } from "@libs/requestSource";
 
-
-
 export interface PostGroupTrainingUsersRequestJson {
     session_id: string;
     request_id: string;
@@ -12,7 +10,7 @@ export interface PostGroupTrainingUsersRequestJson {
     booking_status: string;
 }
 
-export const postGroupTrainingUsersRequestJson = async (groupTrainingId: number, userId: number, ): Promise<PostGroupTrainingUsersRequestJson> => {
+export const postGroupTrainingUsersRequestJson = async (groupTrainingId: number, userId: number): Promise<PostGroupTrainingUsersRequestJson> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,

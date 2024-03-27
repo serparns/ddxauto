@@ -1,4 +1,5 @@
 import { getBaseParameters } from "@entities/baseParameters";
+import { selectTransaction } from "@entities/db/transactions.db";
 import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentFreezingCreateRequestJson } from "@entities/interface/paymentFreezingCreate.requestJson";
 import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
@@ -68,4 +69,9 @@ test.describe("Api-тесты на получение транзакций по�
         await test.step("Получение акций",
             async () => transactionResponse(request, Statuses.OK, { user: userId }))
     });
+
+    const userTransaction = await test.step("Получить название тренировки", async () => {
+        return (await selectTransaction(userId))
+    })
+    console.log(userTransaction)
 });

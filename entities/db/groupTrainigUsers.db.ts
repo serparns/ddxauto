@@ -1,5 +1,5 @@
-import { db } from "utils/dbConnect";
 import { DataTypes } from "sequelize";
+import { db } from "utils/dbConnect";
 
 export interface GroupTrainingUsersDB {
     id: number;
@@ -25,9 +25,9 @@ export const groupTrainingUsersDB = db.define(
     }
 )
 
-export async function selectByUserIdGroupTrainingTimeTableId(userId:number, groupTrainingTimeTableId: number): Promise<GroupTrainingUsersDB> {
+export async function selectByUserIdGroupTrainingTimeTableId(userId: number, groupTrainingTimeTableId: number): Promise<GroupTrainingUsersDB> {
     const result = await db.query(
         `SELECT * FROM  group_training_users WHERE user_id = ${userId} and  group_training_time_table_id = ${groupTrainingTimeTableId} ORDER BY id DESC LIMIT 1`,
         { model: groupTrainingUsersDB, mapToModel: true });
     return <GroupTrainingUsersDB | any>result[0];
-}// TODO Изменить и доработать запрос под требования
+}
