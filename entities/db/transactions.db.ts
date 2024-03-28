@@ -86,3 +86,9 @@ export async function selectTransaction(userId: number): Promise<TransactionsDB>
         { model: transactionsDB, mapToModel: true });
     return <TransactionsDB | any>result[0];
 }
+
+export async function selectTransactionIdByTypeProvider(userId: number, providerId: number): Promise<TransactionsDB> {
+    const result = await db.query(`SELECT id FROM transactions  WHERE user_id = '${userId}' and provider_id = '${providerId}'`,
+        { model: transactionsDB, mapToModel: true });
+    return <TransactionsDB | any>result[0];
+}

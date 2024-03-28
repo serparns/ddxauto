@@ -1,18 +1,19 @@
 import { getBaseParameters } from "@entities/baseParameters";
-import { selectTransaction } from "@entities/db/transactions.db";
+import { selectTransaction, selectTransactionIdByTypeProvider } from "@entities/db/transactions.db";
 import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentFreezingCreateRequestJson } from "@entities/interface/paymentFreezingCreate.requestJson";
 import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, test } from "@playwright/test";
+import { APIRequestContext, expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import TransactionRequests from "@requests/transaction.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import { NUMBER } from "sequelize";
 
 test.describe("Api-тесты на получение транзакций пользователя", async () => {
     let clubId: number;
@@ -49,8 +50,7 @@ test.describe("Api-тесты на получение транзакций по�
 
         userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
             const requestBody = await getPaymentPlanRequestJson(clubId);
-            const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
-                .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
+            const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPaymentPlanId.id
         });
 
@@ -66,11 +66,24 @@ test.describe("Api-тесты на получение транзакций по�
     })
 
     test("Получение списка транзакций пользователя", async ({ request }) => {
-        await test.step("Получение транзакций", async () => transactionResponse(request, Statuses.OK, { user: userId }))
+        const transactionId = (await (await test.step("Получение транзакций", async () => transactionResponse(request, Statuses.OK, { user: userId }))).json()).data
+        const userTransaction = await test.step("Получить транзакции пользователя", async () => { return (await selectTransaction(userId))})
+        const { idFreeze, idRecurrent } = await test.step("Получить транзакции пользователя", async () => {
+            return {
+                idFreeze: (await selectTransactionIdByTypeProvider(userId, PaymentProvider.FREEZES)).id,
+                idRecurrent: (await selectTransactionIdByTypeProvider(userId, PaymentProvider.RECURRENT)).id
+            };
+        })
 
-            const userTransaction = await test.step("Получить транзакции пользователя", async () => {
-                return (await selectTransaction(userId))
-            })
-             console.log(userTransaction)
+        // console.log(userTransaction)
+        await test.step("Проверки", async () => {
+            let getTransaction = transactionId;
+            let freeze : number = Number(idFreeze)
+            let recurrent : number = Number(idRecurrent)
+            let expectedFreezeId = getTransaction.find((transaction: { id: number; })  => transaction.id === freeze).id
+            let expectedRecurrentId = getTransaction.find((transaction: { id: number; }) => transaction.id === recurrent).id
+            expect(expectedFreezeId).toEqual(freeze)
+            expect(expectedRecurrentId).toEqual(recurrent)
+        })
     });
 });
