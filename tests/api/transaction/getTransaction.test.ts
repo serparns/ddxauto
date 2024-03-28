@@ -13,7 +13,6 @@ import TransactionRequests from "@requests/transaction.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-import { NUMBER } from "sequelize";
 
 test.describe("Api-тесты на получение транзакций пользователя", async () => {
     let clubId: number;
@@ -67,7 +66,7 @@ test.describe("Api-тесты на получение транзакций по�
 
     test("Получение списка транзакций пользователя", async ({ request }) => {
         const transactionId = (await (await test.step("Получение транзакций", async () => transactionResponse(request, Statuses.OK, { user: userId }))).json()).data
-        const userTransaction = await test.step("Получить транзакции пользователя", async () => { return (await selectTransaction(userId))})
+        const userTransaction = await test.step("Получить транзакции пользователя", async () => { return (await selectTransaction(userId)) })
         const { idFreeze, idRecurrent } = await test.step("Получить транзакции пользователя", async () => {
             return {
                 idFreeze: (await selectTransactionIdByTypeProvider(userId, PaymentProvider.FREEZES)).id,
@@ -75,12 +74,12 @@ test.describe("Api-тесты на получение транзакций по�
             };
         })
 
-        // console.log(userTransaction)
+        console.log(userTransaction)
         await test.step("Проверки", async () => {
             let getTransaction = transactionId;
-            let freeze : number = Number(idFreeze)
-            let recurrent : number = Number(idRecurrent)
-            let expectedFreezeId = getTransaction.find((transaction: { id: number; })  => transaction.id === freeze).id
+            let freeze: number = Number(idFreeze)
+            let recurrent: number = Number(idRecurrent)
+            let expectedFreezeId = getTransaction.find((transaction: { id: number; }) => transaction.id === freeze).id
             let expectedRecurrentId = getTransaction.find((transaction: { id: number; }) => transaction.id === recurrent).id
             expect(expectedFreezeId).toEqual(freeze)
             expect(expectedRecurrentId).toEqual(recurrent)
