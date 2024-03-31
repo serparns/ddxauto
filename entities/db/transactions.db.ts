@@ -1,5 +1,5 @@
-import { db } from "utils/dbConnect";
 import { DataTypes } from "sequelize";
+import { db } from "utils/dbConnect";
 
 export interface TransactionsDB {
     id: number;
@@ -87,8 +87,8 @@ export async function selectTransaction(userId: number): Promise<TransactionsDB>
     return <TransactionsDB | any>result[0];
 }
 
-export async function selectTransactionIdByTypeProvider(userId: number, providerId: number): Promise<TransactionsDB> {
-    const result = await db.query(`SELECT id FROM transactions  WHERE user_id = '${userId}' and provider_id = '${providerId}'`,
+export async function selectUserIdByTransaction(): Promise<TransactionsDB> {
+    const result = await db.query(`SELECT user_id FROM transactions order by user_id desc limit 1`,
         { model: transactionsDB, mapToModel: true });
     return <TransactionsDB | any>result[0];
 }

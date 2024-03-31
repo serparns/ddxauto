@@ -41,6 +41,7 @@ test.describe("Api-тесты на поиск пользователя по па
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
     })
+
     test("[negative] поиск пользователя по номеру телефона", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
             async () => userSearchResponse(request, Statuses.NOT_FOUND, { phone: "111111111" }))).json()).error;

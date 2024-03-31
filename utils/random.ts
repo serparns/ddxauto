@@ -18,8 +18,8 @@ export function getDate(): string {
     const now = new Date();
     const year = now.getFullYear().toString()
     const month = (now.getMonth() + 1) > 9 ? (now.getMonth() + 1).toString() : `0${now.getMonth() + 1}`
-    const day = (now.getDate() + 1) > 9 ? (now.getDate() + 1).toString() : `0${now.getDate() + 1}`
-    return (`${year}-${month}-${day}`); //что-то не то с датой, потом иследовать
+    const day = (now.getDate() + 1) > 9 ? (now.getDate()).toString() : `0${now.getDate() + 1}`
+    return (`${year}-${month}-${day}`); //TODO Проследить как работает на разных датах, так как убран вывод +1
 }
 
 export function randomSport_experience(): string {
@@ -31,12 +31,12 @@ export function randomSport_experience(): string {
 export function getTomorrow() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-${tomorrow.getDate()}T03:00:00Z`;
-} //TOTO УБрать костыль
+    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-0${tomorrow.getDate()}T03:00:00Z`; //TODO Придумать как правильно убрать костыль, и выводить дату нормально
+} 
 
 
 export function getTomorrowEnd() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-${tomorrow.getDate()}T04:00:00Z`;
-}//TOTO УБрать костыль
+    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-0${tomorrow.getDate()}T04:00:00Z`;  //TODO Придумать как правильно убрать костыль, и выводить дату нормально
+}

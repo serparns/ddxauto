@@ -6,19 +6,19 @@ export interface TransactionResponse {
     currency: string;
     deposit_amount: number;
     description: string;
-    discount:  object;
+    discount: object;
     discount_amount: number;
-    employee:  object;
+    employee: object;
     fiscal_method: string;
-    gate:  object;
+    gate: object;
     id: number;
     join_fee: number;
     membership_fee: number;
     our_amount: number;
     partner_amount: number;
-    payment_service:  object;
+    payment_service: object;
     payment_transaction_id: number;
-    provider:  object;
+    provider: object;
     public_card_number: string;
     refund_balance: number;
     response_code: number;
@@ -27,7 +27,7 @@ export interface TransactionResponse {
     total_amount: number;
     type: string;
     updated_at: string;
-    user:  object;
+    user: object;
     user_payment_plan_id: number;
     receipt: object;
 }
