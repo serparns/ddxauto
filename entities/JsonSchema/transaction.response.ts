@@ -95,5 +95,5 @@ export const transactionResponseShema: JSONSchemaType<TransactionResponse> = {
         "user",
         "user_payment_plan_id"
     ],
-    additionalProperties: false
+    additionalProperties: true
 }

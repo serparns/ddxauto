@@ -24,13 +24,15 @@ test.describe("Api-тесты на получение транзакций по�
 
     test("Получение списка транзакций пользователя", async ({ request }) => {
         const userId = (await test.step("Получить id пользователя", async () => { return (await selectUserIdByTransaction()) })).user_id
-        const transactionId = (await (await test.step("Получение транзакций", async () => transactionResponse(request, Statuses.OK, { userId: userId }))).json()).data[0]
+        const getTransaction = await (await test.step("Получение транзакций", async () => transactionResponse(request, Statuses.OK, { userId: userId }))).json()
         const selectTransactionId = (await test.step("Получить транзакции пользователя", async () => { return (await selectTransaction(userId)) })).id
 
         await test.step("Проверки", async () => {
             let selectTransactionIdNumber: number = Number(selectTransactionId)
-            expect(transactionId.id).toEqual(selectTransactionIdNumber)
-            await validatorJson(transactionResponseShema, (transactionId));
+            let transaction = getTransaction.data
+            let getTransactionId = transaction.find((transaction: { id: number; }) => transaction.id === selectTransactionIdNumber).id
+            expect(getTransactionId).toEqual(selectTransactionIdNumber)
+            await validatorJson(transactionResponseShema, (getTransaction.data[0]));
         })
     });
 });

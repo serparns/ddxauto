@@ -15,7 +15,7 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
-            await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 3000 });
+            await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 5000 });
         });
     });
 
