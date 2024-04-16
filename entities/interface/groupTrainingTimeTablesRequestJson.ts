@@ -37,7 +37,6 @@ export const postGroupTrainingTimeTablesRequestJson = async (groupTrainingId: nu
     }
 };
 
-
 export interface GetGroupTrainingTimeTablesRequestJson {
     session_id: string;
     request_id: string;
@@ -61,6 +60,31 @@ export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: num
         employee_id: '',
         date_from: dateFrom != undefined ? dateFrom : trainingTestData.start_time.future,
         date_to: '',
+
+    }
+};
+
+export interface PostGroupTrainingTimeTablesChangeRequestJson {
+    session_id: string;
+    request_id: string;
+    request_source: string;
+    club_zone_id?: number;
+    employee_id?: number;
+    count_seats?: number;
+    include_repeats?: boolean;
+    start_time?: string;
+}
+
+export const postGroupTrainingTimeTablesChangeRequestJson = async (): Promise<PostGroupTrainingTimeTablesChangeRequestJson> => {
+    return {
+        session_id: requestTestData.session_id,
+        request_id: requestTestData.request_id,
+        request_source: RequestSource.CRM,
+        club_zone_id: trainingTestData.club_zone_id,
+        count_seats: 15,
+        employee_id: 114,
+        start_time:  trainingTestData.start_time.future,
+
 
     }
 };

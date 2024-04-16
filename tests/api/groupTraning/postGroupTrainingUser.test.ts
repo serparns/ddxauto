@@ -43,7 +43,7 @@ test.describe("Api-тесты на запись пользователя на т
         });
 
         groupTrainingTimeTableId = await test.step("получить id тренировки", async () => {
-            const requestBody = await postGroupTrainingTimeTablesRequestJson(groupTrainingId.id, clubId, trainingDay, trainingEnd);// TODO проверить работает ли это
+            const requestBody = await postGroupTrainingTimeTablesRequestJson(groupTrainingId.id, clubId, trainingDay, trainingEnd);
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
@@ -67,8 +67,8 @@ test.describe("Api-тесты на запись пользователя на т
         });
     });
 
-    test("Получить групповую тренировку", async ({ request }) => {
-        const groupTrainingUsers = await (await test.step("Получение групповой тренировки",
+    test("Записать пользователя на тренировку", async ({ request }) => {
+        const groupTrainingUsers = await (await test.step("Запись пользователя на тренировку",
             async () => postGroupTrainingUserResponse(request, Statuses.OK,))).json()
 
         await test.step("Проверки", async () => {

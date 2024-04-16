@@ -31,12 +31,12 @@ export function randomSport_experience(): string {
 export function getTomorrow() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-0${tomorrow.getDate()}T03:00:00Z`; //TODO Придумать как правильно убрать костыль, и выводить дату нормально
+    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-${tomorrow.getDate()}T03:00:00Z`; //TODO Придумать как правильно убрать костыль, и выводить дату нормально
 } 
 
 
 export function getTomorrowEnd() {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-0${tomorrow.getDate()}T04:00:00Z`;  //TODO Придумать как правильно убрать костыль, и выводить дату нормально
+    return `${tomorrow.getFullYear()}-0${tomorrow.getMonth() + 1}-${tomorrow.getDate()}T04:00:00Z`;  //TODO Придумать как правильно убрать костыль, и выводить дату нормально
 }

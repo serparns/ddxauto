@@ -32,4 +32,14 @@ export default class BaseRequests {
         expect(response.status()).toEqual(status);
         return response;
     };
+
+    async delete(url: string, status: number,): Promise<APIResponse> {
+        log("request url", url);
+        const response = await this.request.post(url, { headers: { 'Authorization': this.token }});
+        log("response status", await response.status());
+        log("response body", JSON.stringify(await response.json(), null, '\t'));
+
+        expect(response.status()).toEqual(status);
+        return response;
+    };
 };
