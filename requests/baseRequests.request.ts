@@ -33,9 +33,9 @@ export default class BaseRequests {
         return response;
     };
 
-    async delete(url: string, status: number,): Promise<APIResponse> {
+    async delete(url: string, status: number,parameters?: any): Promise<APIResponse> {
         log("request url", url);
-        const response = await this.request.post(url, { headers: { 'Authorization': this.token }});
+        const response = await this.request.delete(url, { headers: { 'Authorization': this.token }, params: parameters});
         log("response status", await response.status());
         log("response body", JSON.stringify(await response.json(), null, '\t'));
 

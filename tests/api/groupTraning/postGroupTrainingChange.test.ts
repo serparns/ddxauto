@@ -39,9 +39,16 @@ test.describe("Api-тесты на изменение групповой тре�
         });
     });
 
+    test.afterAll(async ({ request }) => {
+        await test.step("Удаление групповой тренировки", async () => {
+            return groupTrainingId = await new GroupTrainingTimeTableRequest(request).deleteGroupTrainingTimeTable(Statuses.NO_CONTENT, await getBaseParameters(), groupTrainingTimeTableId)
+        });
+
+    })
+
 
 
     test("Изменение данных в тренировке", async ({ request }) => {
         const traningChange = await test.step("Изменение данных в тренировке", async () => postGroupTimeTableChangeResponse(request, Statuses.OK,))
     });
-}); //TODO прикрутить проверку через базу. прикрутить удаление тренировки
+}); //TODO прикрутить проверку через базу

@@ -15,7 +15,7 @@ export default class GroupTrainingTimeTableRequest extends BaseRequests {
         return await this.post(`${this.baseUrl}${paths.paths.group_training_time_table}/${groupTraningId}/change`, status, body);
     }
 
-    async deleteGroupTrainingTimeTable(status: number, groupTraningId:number): Promise<APIResponse> {
-        return await this.delete(`${this.baseUrl}${paths.paths.group_training_time_table}/${groupTraningId}`, status);
+    async deleteGroupTrainingTimeTable(status: number, parameters: object, groupTraningId:number): Promise<APIResponse> {
+        return await this.delete(`${this.baseUrl}${paths.paths.group_training_time_table}/${groupTraningId}`, status, parameters);
     }
 }
