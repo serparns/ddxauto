@@ -2,6 +2,7 @@ import requestTestData from "@data/request.json";
 import trainingTestData from "@data/training.json";
 import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import { RequestSource } from "@libs/requestSource";
+import { getTomorrow, getTomorrowEnd } from "@utils/random";
 
 export interface GroupTrainingTimeTablesRequestJson {
     group_training_id: number;
@@ -65,26 +66,25 @@ export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: num
 };
 
 export interface PostGroupTrainingTimeTablesChangeRequestJson {
-    session_id: string;
-    request_id: string;
-    request_source: string;
-    club_zone_id?: number;
-    employee_id?: number;
+    club_zone_id?: any;
+    employee_id?: any;
     count_seats?: number;
     include_repeats?: boolean;
     start_time?: string;
+    end_time: string;
 }
 
-export const postGroupTrainingTimeTablesChangeRequestJson = async (): Promise<PostGroupTrainingTimeTablesChangeRequestJson> => {
+export const postGroupTrainingTimeTablesChangeRequestJson = async (): Promise<BaseRequestJson<PostGroupTrainingTimeTablesChangeRequestJson>> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
         request_source: RequestSource.CRM,
-        club_zone_id: trainingTestData.club_zone_id,
-        count_seats: 15,
-        employee_id: 114,
-        start_time:  trainingTestData.start_time.future,
-
-
+        data: {
+            club_zone_id: 66,
+            count_seats: 15,
+            employee_id: 2450,
+            start_time: getTomorrow(),
+            end_time: getTomorrowEnd()
+        }
     }
 };

@@ -11,11 +11,15 @@ export default class GroupTrainingTimeTableRequest extends BaseRequests {
         return await this.get(`${this.baseUrl}${paths.paths.group_training_time_table}`, status, parameters);
     }
 
-    async postGroupTrainingTimeTableChange(status: number, body: object, groupTraningId:number): Promise<APIResponse> {
+    async getGroupTrainingTimeTableTraningId(status: number, parameters: object, traningId: number): Promise<APIResponse> {
+        return await this.get(`${this.baseUrl}${paths.paths.group_training_time_table}/${traningId}`, status, parameters);
+    }
+
+    async postGroupTrainingTimeTableChange(status: number, body: object, groupTraningId: number): Promise<APIResponse> {
         return await this.post(`${this.baseUrl}${paths.paths.group_training_time_table}/${groupTraningId}/change`, status, body);
     }
 
-    async deleteGroupTrainingTimeTable(status: number, parameters: object, groupTraningId:number): Promise<APIResponse> {
+    async deleteGroupTrainingTimeTable(status: number, parameters: object, groupTraningId: number): Promise<APIResponse> {
         return await this.delete(`${this.baseUrl}${paths.paths.group_training_time_table}/${groupTraningId}`, status, parameters);
     }
 }
