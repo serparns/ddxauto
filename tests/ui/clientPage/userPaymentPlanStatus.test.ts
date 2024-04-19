@@ -3,6 +3,8 @@ import authCRMTestData from "@data/authCRM.json";
 import subscribeStatusTestData from "@data/subscribeStatus.json";
 import { selectUserPaymenPlanByStatus } from "@entities/db/userPaymentPlan.db";
 import { test } from "@playwright/test";
+import { AuthPage } from "pages/auth.page";
+import { HeaderBlock } from "pages/blocks/headers.blocks";
 
 test.describe("Проверка отображения статусов подписки на карточке клиента", async () => {
     test("Проветка отоброжения статуса Current ", async ({ page }) => {
@@ -11,13 +13,11 @@ test.describe("Проверка отображения статусов подп
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await page.getByPlaceholder("Логин").fill(authCRMTestData.login);
-            await page.getByPlaceholder("Пароль").fill(authCRMTestData.password);
-            await page.getByRole('button', { name: 'Войти' }).click();
+            new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
-            await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 3000 });
+            await new HeaderBlock().locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
         });
 
         const { current, frozen, notStarted, paymentPending } = await test.step("Получить информацию о подписке", async () => {

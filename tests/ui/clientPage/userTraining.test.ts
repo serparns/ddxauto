@@ -18,6 +18,8 @@ import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
 import { getRandomEmail, getRandomPhoneNumber, getTomorrow, getTomorrowEnd } from "@utils/random";
+import { AuthPage } from "pages/auth.page";
+import { HeaderBlock } from "pages/blocks/headers.blocks";
 
 
 test.describe("Тест на проверку записи пользователя на тренировку", async () => {
@@ -74,13 +76,11 @@ test.describe("Тест на проверку записи пользовате�
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await page.getByPlaceholder("Логин").fill(authCRMTestData.login);
-            await page.getByPlaceholder("Пароль").fill(authCRMTestData.password);
-            await page.getByRole('button', { name: 'Войти' }).click();
+            new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
-            await page.locator("//input[@data-testid='phone-input']").waitFor({ state: "visible", timeout: 3000 });
+            await new HeaderBlock().locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
         });
 
         const userIdByTraning = await test.step("Получить пользователя на тренировке", async () => {

@@ -2,6 +2,7 @@ import api from "@api";
 import authCRMTestData from "@data/authCRM.json";
 import { expect, test } from "@playwright/test";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import { AuthPage } from "pages/auth.page";
 
 test.describe("Создание нового пользователя", async () => {
     test("Создание ного пользователя", async ({ page }) => {
@@ -13,9 +14,7 @@ test.describe("Создание нового пользователя", async ()
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await page.getByPlaceholder("Логин").fill(authCRMTestData.login);
-            await page.getByPlaceholder("Пароль").fill(authCRMTestData.password);
-            await page.getByRole('button', { name: 'Войти' }).click();
+            new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Ввести номер телефона, и перейти на страницу создания нового клиента", async () => {

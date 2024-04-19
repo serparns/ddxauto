@@ -7,6 +7,7 @@ import { expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
 import UsersRequests from "@requests/users.requests";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import { AuthPage } from "pages/auth.page";
 
 test.describe("Поиск нового клиента по номеру телефона", async () => {
     const userPhone = getRandomPhoneNumber()
@@ -31,9 +32,7 @@ test.describe("Поиск нового клиента по номеру теле
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await page.getByPlaceholder("Логин").fill(authCRMTestData.login);
-            await page.getByPlaceholder("Пароль").fill(authCRMTestData.password);
-            await page.getByRole('button', { name: 'Войти' }).click();
+            new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Ввести номер телефона, и проверить наличие кнопки 'Открыть'", async () => {

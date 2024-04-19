@@ -15,7 +15,8 @@ test.describe("Api-тесты на изменение групповой тре�
     let groupTrainingId: any;
     let clubId: number;
     let groupTrainingTimeTableId: number
-    let responseData: any
+    let responseTrainingData: any
+    let oldResponseTraningData: any
     const trainingDay = getTomorrow()
     const trainingEnd = getTomorrowEnd()
 
@@ -41,18 +42,25 @@ test.describe("Api-тесты на изменение групповой тре�
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
+
+        oldResponseTraningData = await test.step("получить информацию о конкретной тренировке", async () => {
+            return oldResponseTraningData = (await (await new GroupTrainingTimeTableRequest(request)
+                .getGroupTrainingTimeTableTraningId(Statuses.OK, await getBaseParameters(), groupTrainingTimeTableId)).json()).data[0]  // Запрос на тренировку до изменения
+        });
     });
 
     test.afterAll(async ({ request }) => {
-        responseData = await test.step("получить информацию о конкретной тренировке", async () => {
-            return responseData = (await (await new GroupTrainingTimeTableRequest(request)
+        responseTrainingData = await test.step("получить информацию о конкретной тренировке", async () => {   // Запрос на тренировку после изменения
+            return responseTrainingData = (await (await new GroupTrainingTimeTableRequest(request)
                 .getGroupTrainingTimeTableTraningId(Statuses.OK, await getBaseParameters(), groupTrainingTimeTableId)).json()).data[0]
         });
 
         const countSeats = await test.step("Получить пользователя на тренировке", async () => { return (await selectByTrarningId(groupTrainingTimeTableId)).count_seats })
         await test.step("Проверки", async () => {
-            await validatorJson(timeTableShema, responseData);
-            expect(responseData.count_seats).toBe(countSeats);            
+            await validatorJson(timeTableShema, responseTrainingData);
+            expect(oldResponseTraningData.count_seats).not.toBe(responseTrainingData.count_seats);  //  сравниваю изщначальную тренировку с измененной 
+            expect(oldResponseTraningData.employee[0].id).not.toBe(responseTrainingData.employee[0].id);   //  сравниваю изщначальную тренировку с измененной 
+            expect(responseTrainingData.count_seats).toBe(countSeats);          //  сравниваю  ответ измененной тренировки  с базой  
         })
 
         await test.step("Удаление групповой тренировки", async () => {

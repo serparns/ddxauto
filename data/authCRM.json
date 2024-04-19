@@ -1,5 +1,7 @@
 {
   "login": "y@y.y",
+  "invalidLogin": "wefweewf",
   "password": "qwerty123",
+  "invalidPassword": "qwerty123qwerty",
   "email": "testoviy@parole.sbros"
 }
