@@ -5,9 +5,9 @@ export class Freeze {
     locator = {
         freeze: (page: Page): Locator => page.locator('//*[text()="Заморозки"]'),
         freezeRegistration: (page: Page): Locator => page.locator("//*[text()='Оформление заморозки']"),
-        frostHistory: (page: Page): Locator => page.locator("//*[text()='История заморозок']"),        
+        frostHistory: (page: Page): Locator => page.locator("//*[text()='История заморозок']"),
         text: (page: Page): Locator => page.locator('//p/../../*[@class][2]'),
-        title: (page: Page) : Locator =>page.locator("//div[@class][1][text()='Оформление заморозки']")
+        title: (page: Page): Locator => page.locator("//div[@class][1][text()='Оформление заморозки']")
     }
 }
 

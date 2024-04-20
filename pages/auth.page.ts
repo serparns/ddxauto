@@ -8,8 +8,8 @@ export class AuthPage {
         enterButton: (page: Page): Locator => page.getByRole('button', { name: 'Войти' }),
         reset: (page: Page): Locator => page.getByText("Не помню пароль"),
         resetPassword: (page: Page): Locator => page.getByRole('button', { name: 'Сбросить пароль' }),
-     }
-     
+    }
+
     autorization = async (page: Page, login: string, password: string) => {
         await this.locators.loginInput(page).fill(login);
         await this.locators.passwordInput(page).fill(password);

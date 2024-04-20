@@ -66,9 +66,9 @@ test.describe("Api-тесты на изменение групповой тре�
 
         await test.step("Проверки", async () => {
             await validatorJson(timeTableShema, responseTrainingData);
-            expect(oldResponseTraningData.count_seats).not.toBe(responseTrainingData.count_seats);  
-            expect(oldResponseTraningData.employee[0].id).not.toBe(responseTrainingData.employee[0].id);   
-            expect(responseTrainingData.count_seats).toBe(countSeats);   
+            expect(oldResponseTraningData.count_seats).not.toBe(responseTrainingData.count_seats);
+            expect(oldResponseTraningData.employee[0].id).not.toBe(responseTrainingData.employee[0].id);
+            expect(responseTrainingData.count_seats).toBe(countSeats);
         })
     });
 }); 
