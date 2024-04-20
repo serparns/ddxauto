@@ -50,25 +50,25 @@ test.describe("Api-тесты на изменение групповой тре�
     });
 
     test.afterAll(async ({ request }) => {
+        await test.step("Удаление групповой тренировки", async () => {
+            await new GroupTrainingTimeTableRequest(request).deleteGroupTrainingTimeTable(Statuses.NO_CONTENT, await getBaseParameters(), groupTrainingTimeTableId)
+        });
+    })
+
+    test("Изменение данных в тренировке", async ({ request }) => {
+        await test.step("Изменение данных в тренировке", async () => postGroupTimeTableChangeResponse(request, Statuses.OK,))
+        const countSeats = await test.step("Запрос на получения количества мест в тренировке", async () => { return (await selectByTrarningId(groupTrainingTimeTableId)).count_seats })
+
         responseTrainingData = await test.step("получить информацию о конкретной тренировке", async () => {   // Запрос на тренировку после изменения
             return responseTrainingData = (await (await new GroupTrainingTimeTableRequest(request)
                 .getGroupTrainingTimeTableTraningId(Statuses.OK, await getBaseParameters(), groupTrainingTimeTableId)).json()).data[0]
         });
 
-        const countSeats = await test.step("Получить пользователя на тренировке", async () => { return (await selectByTrarningId(groupTrainingTimeTableId)).count_seats })
         await test.step("Проверки", async () => {
             await validatorJson(timeTableShema, responseTrainingData);
-            expect(oldResponseTraningData.count_seats).not.toBe(responseTrainingData.count_seats);  //  сравниваю изщначальную тренировку с измененной 
-            expect(oldResponseTraningData.employee[0].id).not.toBe(responseTrainingData.employee[0].id);   //  сравниваю изщначальную тренировку с измененной 
-            expect(responseTrainingData.count_seats).toBe(countSeats);          //  сравниваю  ответ измененной тренировки  с базой  
+            expect(oldResponseTraningData.count_seats).not.toBe(responseTrainingData.count_seats);  
+            expect(oldResponseTraningData.employee[0].id).not.toBe(responseTrainingData.employee[0].id);   
+            expect(responseTrainingData.count_seats).toBe(countSeats);   
         })
-
-        await test.step("Удаление групповой тренировки", async () => {
-            return groupTrainingId = await new GroupTrainingTimeTableRequest(request).deleteGroupTrainingTimeTable(Statuses.NO_CONTENT, await getBaseParameters(), groupTrainingTimeTableId)
-        });
-    })
-
-    test("Изменение данных в тренировке", async ({ request }) => {
-        const traningChange = await test.step("Изменение данных в тренировке", async () => postGroupTimeTableChangeResponse(request, Statuses.OK,))
     });
 }); 

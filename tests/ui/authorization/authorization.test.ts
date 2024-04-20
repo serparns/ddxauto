@@ -3,6 +3,7 @@ import authCRMTestData from "@data/authCRM.json";
 import { test } from "@playwright/test";
 import { AuthPage } from "pages/auth.page";
 import { HeaderBlock } from "pages/blocks/headers.blocks";
+import { setTimeout } from 'timers/promises';
 
 test.describe("Тесты на авторизацию в CRM", async () => {
     test("Успешная авторизация в CRM", async ({ page }) => {
@@ -11,7 +12,7 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.password);
+            await new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
@@ -21,17 +22,15 @@ test.describe("Тесты на авторизацию в CRM", async () => {
 
     test("Проверка вывода ошибки при попытке сбросить пароль", async ({ page }) => {
         await test.step("Перейти на страницу входа", async () => {
-            await page.goto(`${api.urls.base_url_CRM}`);
+            await page.goto(`${api.urls.base_url_CRM}`).then(await setTimeout(1500));
         });
 
         await test.step("Нажать сбросить пароль и ввести емаил", async () => {
-            await page.getByText("Не помню пароль").click()
-            await page.getByPlaceholder("Email").fill(authCRMTestData.email);
-            await page.getByRole('button', { name: 'Сбросить пароль' }).click();
+            await new AuthPage().passwordReset(page, authCRMTestData.email)
         });
 
         await test.step("Проверить появления ошибки 'К сожалению, у вас нет разрешения на смену пароля'", async () => {
-            await page.getByText("К сожалению, у вас нет разрешения на смену пароля").waitFor({ state: "visible", timeout: 3000 });
+            await new AuthPage().error.forbidden(page).waitFor({ state: "visible", timeout: 3000 });
         });
     });
 
@@ -41,11 +40,11 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.invalidPassword);
+            await new AuthPage().autorization(page, authCRMTestData.login, authCRMTestData.invalidPassword);
         });
 
         await test.step("Проверить что пользователь видит ошибку 'Неверный логин или пароль'", async () => {
-            await page.locator("//*[text()='Неверный логин или пароль']").waitFor({ state: "visible", timeout: 5000 });
+            await new AuthPage().error.invalidCredentials(page).waitFor({ state: "visible", timeout: 3000 });
         });
     });
 });

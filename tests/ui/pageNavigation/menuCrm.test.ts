@@ -3,7 +3,7 @@ import authCRMTestData from "@data/authCRM.json";
 import { expect, test } from "@playwright/test";
 import { AuthPage } from "pages/auth.page";
 import { HeaderBlock } from "pages/blocks/headers.blocks";
-import { MenuBlock } from "pages/blocks/menu.bloks";
+import { MenuBlock } from "pages/blocks/menu.blocks";
 
 test.describe("Тест на навигацию по боковому меню", async () => {
     test("Успешный переход по всем ссылкам из меню", async ({ page }) => {
