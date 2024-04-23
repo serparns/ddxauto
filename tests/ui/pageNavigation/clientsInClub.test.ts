@@ -1,8 +1,10 @@
 import api from "@api";
 import authCRMTestData from "@data/authCRM.json";
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { AuthPage } from "pages/auth.page";
 import { HeaderBlock } from "pages/blocks/headers.blocks";
+import { MenuBlock } from "pages/blocks/menu.blocks";
+import { ClientsInClub } from "pages/clientsInClub.page";
 
 test.describe("Тест на переход в клиенты в клубе", async () => {
     test("Успешная авторизация в CRM", async ({ page }) => {
@@ -19,8 +21,8 @@ test.describe("Тест на переход в клиенты в клубе", as
         });
 
         await test.step("Проверить что пользователь находится на странице клиенты в клубе и видит фильтры", async () => {
-            await page.locator("//div/a[@href='/clients-in-club']").click();
-            await page.getByRole('button', { name: 'Фильтры' }).waitFor({ state: "visible", timeout: 3000 });
+            await new MenuBlock().locators.clientsInTheClub(page).click();
+            expect(new ClientsInClub().locators.filters(page)).toBeVisible
         });
     });
 });

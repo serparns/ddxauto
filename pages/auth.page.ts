@@ -8,6 +8,8 @@ export class AuthPage {
         enterButton: (page: Page): Locator => page.getByRole('button', { name: 'Войти' }),
         reset: (page: Page): Locator => page.getByText("Не помню пароль"),
         resetPassword: (page: Page): Locator => page.getByRole('button', { name: 'Сбросить пароль' }),
+        invalidCredentials: (page: Page): Locator => page.locator("//*[text()='Неверный логин или пароль']"),
+        forbidden: (page: Page): Locator => page.getByText("К сожалению, у вас нет разрешения на смену пароля")
     }
 
     autorization = async (page: Page, login: string, password: string) => {
@@ -20,10 +22,5 @@ export class AuthPage {
         await this.locators.reset(page).click();
         await this.locators.emailInput(page).fill(email);
         await this.locators.resetPassword(page).click();
-    }
-
-    error = {
-        invalidCredentials: (page: Page): Locator => page.locator("//*[text()='Неверный логин или пароль']"),
-        forbidden: (page: Page): Locator => page.getByText("К сожалению, у вас нет разрешения на смену пароля")
     }
 }

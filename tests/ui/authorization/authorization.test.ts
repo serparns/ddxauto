@@ -30,7 +30,7 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
 
         await test.step("Проверить появления ошибки 'К сожалению, у вас нет разрешения на смену пароля'", async () => {
-            await new AuthPage().error.forbidden(page).waitFor({ state: "visible", timeout: 3000 });
+            await new AuthPage().locators.forbidden(page).waitFor({ state: "visible", timeout: 3000 });
         });
     });
 
@@ -44,7 +44,7 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
 
         await test.step("Проверить что пользователь видит ошибку 'Неверный логин или пароль'", async () => {
-            await new AuthPage().error.invalidCredentials(page).waitFor({ state: "visible", timeout: 3000 });
+            await new AuthPage().locators.invalidCredentials(page).waitFor({ state: "visible", timeout: 3000 });
         });
     });
 });
