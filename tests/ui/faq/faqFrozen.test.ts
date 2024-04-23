@@ -26,8 +26,8 @@ test.describe("Тест на проверку статей в faq", async () => 
         await test.step("Проверить статью заморозки в faq", async () => {
             await new MenuBlock().locators.faq(page).click();
             expect(page.url()).toContain('/faq');
-            await new Freeze().locators.freeze(page).click();
-            await new Freeze().locators.freezeRegistration(page).click();
+            await new Faq().locators.freezeList(page).click();
+            await new Faq().locators.freezeRegistrationPage(page).click();
         });
 
         await test.step("Проверка хлебных кошек", async () => {
@@ -36,8 +36,8 @@ test.describe("Тест на проверку статей в faq", async () => 
             await new Freeze().locators.breadСrumbsFreezeRegistration(page).isDisabled()
             await new Freeze().locators.breadСrumbsFaq(page).click()
             await expect(new Faq().locators.searchSelect(page)).toBeVisible();
-            await new Freeze().locators.freeze(page).click();
-            await new Freeze().locators.freezeRegistration(page).click();
+            await new Faq().locators.freezeList(page).click();
+            await new Faq().locators.freezeRegistrationPage(page).click();
             await expect(new Freeze().locators.breadСrumbsFaq(page)).toBeVisible();
             await expect(new Freeze().locators.breadСrumbsFreezeRegistration(page)).toBeVisible();
         });

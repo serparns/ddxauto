@@ -3,9 +3,6 @@ import { Locator, Page } from "@playwright/test";
 
 export class Freeze {
     locators = {
-        freeze: (page: Page): Locator => page.locator('//*[text()="Заморозки"]'),
-        freezeRegistration: (page: Page): Locator => page.locator("//*[text()='Оформление заморозки']"),
-        frostHistory: (page: Page): Locator => page.locator("//*[text()='История заморозок']"),
         text: (page: Page): Locator => page.locator('//p/../../*[@class][2]'),
         title: (page: Page): Locator => page.locator("//div[@class][1][text()='Оформление заморозки']"),
         authАnchor: (page: Page): Locator => page.locator("//*/a[@class][text()='Авторизация в CRM']"),
