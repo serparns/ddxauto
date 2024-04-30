@@ -1,10 +1,9 @@
 import authCRMTestData from "@data/authCRM.json";
-import { HeaderBlock } from "pages/blocks/headers.blocks";
+import test from "@tests/ui/baseTest.fixture";
 import { setTimeout } from 'timers/promises';
-import test from "../baseTest.test";
 
 test.describe("Тесты на авторизацию в CRM", async () => {
-    test("Успешная авторизация в CRM", async ({ page, authPage }) => {
+    test("Успешная авторизация в CRM", async ({ page, authPage, headerBlock }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto("")
         });
@@ -14,7 +13,7 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
-            await new HeaderBlock().locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
+            await headerBlock.locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
         });
     });
 
@@ -32,7 +31,7 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
     });
 
-    test("Авторизация в CRM с невалидными даннымы", async ({ page, authPage }) => {
+    test("Авторизация в CRM с невалидными данными", async ({ page, authPage }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto("")
         });

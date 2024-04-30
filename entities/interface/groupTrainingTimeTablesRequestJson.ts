@@ -2,7 +2,7 @@ import requestTestData from "@data/request.json";
 import trainingTestData from "@data/training.json";
 import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import { RequestSource } from "@libs/requestSource";
-import { getTomorrow, getTomorrowEnd } from "@utils/random";
+import { getDate } from "@utils/random";
 
 export interface GroupTrainingTimeTablesRequestJson {
     group_training_id: number;
@@ -83,8 +83,8 @@ export const postGroupTrainingTimeTablesChangeRequestJson = async (): Promise<Ba
             club_zone_id: 66,
             count_seats: 15,
             employee_id: 2450,
-            start_time: getTomorrow(),
-            end_time: getTomorrowEnd()
+            start_time: getDate(1, 'T03:00:00Z'),
+            end_time: getDate(1, 'T04:00:00Z')
         }
     }
 };

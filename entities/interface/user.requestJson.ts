@@ -47,3 +47,26 @@ export const getUserRequestJson = async (clubId: number, email: string, phoneNum
         }
     }
 };
+
+export interface UserBlockRequestJson {
+    note: {
+        text: string;
+        employee_id: number;
+    }
+    club_access: boolean;
+}
+
+export const postUserBlockRequestJson = async (): Promise<BaseRequestJson<UserBlockRequestJson>> => {
+    return {
+        session_id: requestTestData.session_id,
+        request_id: requestTestData.request_id,
+        request_source: RequestSource.CRM,
+        data: {
+            note: {
+                text: "Где деньги Лебовски",
+                employee_id: 2450
+            },
+            club_access: false
+        }
+    }
+};

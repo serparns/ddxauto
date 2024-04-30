@@ -48,4 +48,4 @@ export async function selectNameGroupTraning(tranigId: number): Promise<GroupTra
         `SELECT * FROM  group_trainings WHERE id =  ${tranigId}`,
         { model: groupTrainingDB, mapToModel: true });
     return <GroupTrainingDB | any>result[0];
-}// TODO Изменить и доработать запрос под требования
+}

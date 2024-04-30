@@ -29,8 +29,8 @@ export const getPaymentFreezingCreateRequestJson = async (providerId?: number, u
         is_technical: false,
         provider_id: providerId,
         user_id: userId,
-        start_date: getDate(),
-        end_date: getDate(),
+        start_date: getDate(0),
+        end_date: getDate(7),
         user_payment_plan_id: userPaymentPlanId,
         payment_service_id: 2,
         products: [

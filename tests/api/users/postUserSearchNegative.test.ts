@@ -55,7 +55,7 @@ test.describe("Api-тесты на поиск пользователя по па
     test("[negative] Поиск пользователя по имени, фамилии и дате рождения", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
             async () => userSearchResponse(request, Statuses.NOT_FOUND, {
-                birthday: getDate(),
+                birthday: getDate(1),
                 name: userData.name,
                 lastName: userData.last_name
             }))).json()).error;

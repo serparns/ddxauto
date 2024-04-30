@@ -7,7 +7,7 @@ import { APIRequestContext, expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
 import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
-import { getTomorrow, getTomorrowEnd } from "@utils/random";
+import { getDate } from "@utils/random";
 import { validatorJson } from "@utils/validator";
 
 
@@ -17,8 +17,8 @@ test.describe("Api-тесты на изменение групповой тре�
     let groupTrainingTimeTableId: number
     let responseTrainingData: any
     let oldResponseTraningData: any
-    const trainingDay = getTomorrow()
-    const trainingEnd = getTomorrowEnd()
+    const trainingDay = getDate(1, 'T03:00:00Z')
+    const trainingEnd = getDate(1, 'T04:00:00Z')
 
     const postGroupTimeTableChangeResponse = async (
         request: APIRequestContext,

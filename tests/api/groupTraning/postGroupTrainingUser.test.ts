@@ -13,7 +13,7 @@ import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.requ
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import { getRandomEmail, getRandomPhoneNumber, getTomorrow, getTomorrowEnd } from "@utils/random";
+import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 
 test.describe("Api-тесты на запись пользователя на тренировку", async () => {
@@ -22,8 +22,8 @@ test.describe("Api-тесты на запись пользователя на т
     let groupTrainingTimeTableId: number
     let userId: number;
     let userPaymentPlanId: number;
-    const trainingDay = getTomorrow()
-    const trainingEnd = getTomorrowEnd()
+    const trainingDay = getDate(1, 'T03:00:00Z')
+    const trainingEnd = getDate(1, 'T04:00:00Z')
 
     const postGroupTrainingUserResponse = async (
         request: APIRequestContext,

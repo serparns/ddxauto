@@ -1,6 +1,6 @@
 import { JSONSchemaType } from "ajv";
 
-export default class baseDataJson {
+export default class baseDataShema {
     session_id: string;
     request_id: string;
     request_source: string | null
@@ -8,7 +8,7 @@ export default class baseDataJson {
     error: object | null
 }
 
-export const baseDataJsonSchema: JSONSchemaType<baseDataJson> = {
+export const baseDataJsonSchema: JSONSchemaType<baseDataShema> = {
     type: "object",
     properties: {
         session_id: { type: "string" },

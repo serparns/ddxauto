@@ -39,6 +39,12 @@
       ],
       "@api": [
         "api.json"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@tests/*": [
+        "tests/*"
       ]
     }
   }
