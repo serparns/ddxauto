@@ -68,7 +68,7 @@ test.describe("Тест на проверку записи пользовате�
         });
     });
 
-    test("Проветка отоброжения тренировки ", async ({ page, authPage, headerBlock, clientPage }) => {
+    test("Проверка отображения тренировки", async ({ page, authPage, headerBlock, clientPage }) => {
         await test.step("Перейти на страницу входа", async () => {
             await test.step("Перейти на страницу входа", async () => {
                 await page.goto("")

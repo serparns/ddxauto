@@ -4,7 +4,7 @@ import { selectUserPaymenPlanByStatus } from "@entities/db/userPaymentPlan.db";
 import test from "@tests/ui/baseTest.fixture";
 
 test.describe("Проверка отображения статусов подписки на карточке клиента", async () => {
-    test("Проветка отоброжения статуса Current ", async ({ page, authPage, headerBlock, clientPage }) => {
+    test("Проверка отображения статусов подписки", async ({ page, authPage, headerBlock, clientPage }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto('')
         });

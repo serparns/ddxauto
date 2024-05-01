@@ -36,7 +36,7 @@ test.describe("Тест на навигацию по боковому меню",
             expect.soft(page.url()).toContain('/discounts-dictionary');
         });
 
-        await test.step("Проверить что пользователь находится на странице клубы, и видит текст 'Clubs Page'", async () => {
+        await test.step("Проверить что пользователь находится на странице клубов, и видит текст 'Clubs Page'", async () => {
             await menuBlock.locators.clubs(page).click();
             await clubsPage.locators.text(page).waitFor({ state: "visible", timeout: 3000 });
             expect.soft(page.url()).toContain('/clubs');
