@@ -26,4 +26,3 @@ export function randomSport_experience(): string {
     const randomSport_experience = sport_experience[(Math.floor(Math.random() * (sport_experience.length)))];
     return randomSport_experience
 }
-

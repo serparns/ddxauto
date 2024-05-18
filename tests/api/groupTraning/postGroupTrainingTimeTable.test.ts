@@ -1,7 +1,7 @@
 import trainingTestData from "@data/training.json";
 import { trainingDataJsonSchema } from "@entities/JsonSchema/training.response";
 import { getBaseParameters } from "@entities/baseParameters";
-import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
+import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext, expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";

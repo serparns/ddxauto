@@ -17,6 +17,31 @@ test.describe("Тесты на авторизацию в CRM", async () => {
         });
     });
 
+    test("Проверка сохранения авторизационных данных", async ({ page, authPage, headerBlock, context }) => {
+        await test.step("Перейти на страницу входа", async () => {
+            await page.goto("")
+        });
+
+        await test.step("Заполнить форму авторизации и нажать зайти", async () => {
+            await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+        });
+
+        await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
+            await headerBlock.locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
+        });
+
+        await test.step("Открыть новую вкладку и проверить что пользователь авторизован", async () => {
+            const newTab = await context.newPage();
+            await newTab.goto("");
+            return newTab;
+        });
+
+        await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
+            await headerBlock.locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
+        });
+
+    });
+
     test("Проверка вывода ошибки при попытке сбросить пароль", async ({ page, authPage }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto("").then(await setTimeout(1500));

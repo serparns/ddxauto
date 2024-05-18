@@ -5,6 +5,7 @@ import { HeaderBlock } from "@pages/blocks/headers.blocks";
 import { MenuBlock } from "@pages/blocks/menu.blocks";
 import { ClientPage } from "@pages/client.page";
 import { ClientsInClub } from "@pages/clientsInClub.page";
+import { CloudPatmentPage } from "@pages/cloudPayments.page";
 import { ClubsPage } from "@pages/clubs.page";
 import { CreateUserPage } from "@pages/createUser.page";
 import { DiscountPage } from "@pages/discounts.page";
@@ -24,6 +25,7 @@ const test = mergeTests(BaseTest.extend<{
     mainPage: MainPage
     clubsPage: ClubsPage
     analyticsPage: AnalyticsPage
+    cloudPatmentPage: CloudPatmentPage
 }>({
     baseURL: api.urls.base_url_CRM,
     headless: true,
@@ -38,7 +40,8 @@ const test = mergeTests(BaseTest.extend<{
     shedulePage: async ({ }, use) => { await use(new ShedulePage()) },
     mainPage: async ({ }, use) => { await use(new MainPage()) },
     clubsPage: async ({ }, use) => { await use(new ClubsPage()) },
-    analyticsPage: async ({ }, use) => { await use(new AnalyticsPage()) }
+    analyticsPage: async ({ }, use) => { await use(new AnalyticsPage()) },
+    cloudPatmentPage: async ({ }, use) => { await use(new CloudPatmentPage()) }
 }));
 
 export default test;

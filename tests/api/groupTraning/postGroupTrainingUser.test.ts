@@ -1,6 +1,6 @@
 import { getBaseParameters } from "@entities/baseParameters";
-import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUserRequestJson";
-import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
+import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUser.requestJson";
+import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
@@ -22,8 +22,8 @@ test.describe("Api-тесты на запись пользователя на т
     let groupTrainingTimeTableId: number
     let userId: number;
     let userPaymentPlanId: number;
-    const trainingDay = getDate(1, 'T03:00:00Z')
-    const trainingEnd = getDate(1, 'T04:00:00Z')
+    const trainingDay = getDate(1, 'T03:00:00Z');
+    const trainingEnd = getDate(1, 'T04:00:00Z');
 
     const postGroupTrainingUserResponse = async (
         request: APIRequestContext,

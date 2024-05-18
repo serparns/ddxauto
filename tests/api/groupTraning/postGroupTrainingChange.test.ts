@@ -1,7 +1,7 @@
 import { timeTableShema } from "@entities/JsonSchema/timeTable.response";
 import { getBaseParameters } from "@entities/baseParameters";
 import { selectByTrarningId } from "@entities/db/groupTrainingTimeTables.db";
-import { postGroupTrainingTimeTablesChangeRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
+import { postGroupTrainingTimeTablesChangeRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext, expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
@@ -17,8 +17,8 @@ test.describe("Api-тесты на изменение групповой тре�
     let groupTrainingTimeTableId: number
     let responseTrainingData: any
     let oldResponseTraningData: any
-    const trainingDay = getDate(1, 'T03:00:00Z')
-    const trainingEnd = getDate(1, 'T04:00:00Z')
+    const trainingDay = getDate(1, 'T03:00:00Z');
+    const trainingEnd = getDate(1, 'T04:00:00Z');
 
     const postGroupTimeTableChangeResponse = async (
         request: APIRequestContext,

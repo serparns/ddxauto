@@ -12,6 +12,7 @@ export class ClientPage {
         userbirthday: (page: Page, birthday: any): Locator => page.locator(`//*[text()="День рождения"]/../div[2][@class][contains(text(),"${birthday}")]`),
         userSex: (page: Page, userData: any): Locator => page.locator(`//div[@title='${userData.sex}']`),
         noSubscribe: (page: Page): Locator => page.locator("//div[text()='Нет активных подписок']"),
+        registeredSubscribe: (page: Page): Locator => page.locator("//div[text()='зарегистрирован']"),
         currentSubscribe: (page: Page): Locator => page.locator("//div[text()='активный']"),
         frozenSubscribe: (page: Page): Locator => page.locator("//div[text()='заморожен']"),
         notStartedSubscribe: (page: Page): Locator => page.locator("//div[text()='не начат']"),

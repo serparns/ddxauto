@@ -2,8 +2,8 @@ import authCRMTestData from "@data/authCRM.json";
 import { getBaseParameters } from "@entities/baseParameters";
 import { selectByUserIdGroupTrainingTimeTableId } from "@entities/db/groupTrainigUsers.db";
 import { selectNameGroupTraning } from "@entities/db/groupTraning.db";
-import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUserRequestJson";
-import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
+import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUser.requestJson";
+import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
@@ -95,6 +95,5 @@ test.describe("Тест на проверку записи пользовате�
                 await expect.soft(clientPage.locators.activeEntryGroupTraning(page, groupTraningName)).toBeVisible();
             });
         });
-
     });
 })

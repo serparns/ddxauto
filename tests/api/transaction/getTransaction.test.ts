@@ -30,7 +30,7 @@ test.describe("Api-тесты на получение транзакций по�
         await test.step("Проверки", async () => {
             let selectTransactionIdNumber: number = Number(selectTransactionId)
             let transaction = getTransaction.data
-            let getTransactionId = transaction.find((transaction: { id: number; }) => transaction.id === selectTransactionIdNumber).id
+            let getTransactionId = transaction.find((transaction: { id: number }) => transaction.id === selectTransactionIdNumber).id
             expect(getTransactionId).toEqual(selectTransactionIdNumber)
             await validatorJson(transactionResponseShema, (getTransaction.data[0]));
         })

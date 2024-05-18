@@ -1,6 +1,6 @@
 import { timeTableShema } from "@entities/JsonSchema/timeTable.response";
 import { getBaseParameters } from "@entities/baseParameters";
-import { getGroupTrainingTimeTablesRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTablesRequestJson";
+import { getGroupTrainingTimeTablesRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext, expect, test } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
@@ -12,7 +12,7 @@ import { validatorJson } from "@utils/validator";
 test.describe("Api-тесты на получения групповых тренировок", async () => {
     let groupTrainingId: any;
     let clubId: number;
-    let groupTrainingTimeTableId: number
+    let groupTrainingTimeTableId: number;
 
     const getGroupTrainingTimeTablesResponse = async (
         request: APIRequestContext,
@@ -44,7 +44,7 @@ test.describe("Api-тесты на получения групповых тре�
 
         await test.step("Проверки", async () => {
             let createdWorkout = groupTrainingCategory.data;
-            let expectData = createdWorkout.find((traning: { id: number; }) => traning.id === groupTrainingTimeTableId).id
+            let expectData = createdWorkout.find((traning: { id: number }) => traning.id === groupTrainingTimeTableId).id
             expect(expectData).toEqual(groupTrainingTimeTableId)
             expect(groupTrainingCategory.data[0]).not.toBe(null)
             await validatorJson(timeTableShema, (await groupTrainingCategory.data[0]));
