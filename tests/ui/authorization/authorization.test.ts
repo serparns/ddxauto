@@ -30,14 +30,14 @@ test.describe("Тесты на авторизацию в CRM", async () => {
             await headerBlock.locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
         });
 
-        await test.step("Открыть новую вкладку и проверить что пользователь авторизован", async () => {
+        const newTab = await test.step("Открыть новую вкладку и проверить что пользователь авторизован", async () => {
             const newTab = await context.newPage();
             await newTab.goto("");
             return newTab;
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
-            await headerBlock.locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
+            await headerBlock.locators.searchInput(newTab).waitFor({ state: "visible", timeout: 5000 });
         });
 
     });

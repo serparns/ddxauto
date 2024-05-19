@@ -47,10 +47,10 @@ test.describe("Поиск нового клиента по номеру теле
 
         await test.step("Софтовые проверки 'Блок клиент'", async () => {
             await expect.soft(clientPage.locators.userEmail(page, userData)).toBeVisible();
-            await expect.soft(clientPage.locators.userPhone(page, userData)).toBeVisible()
-            await expect.soft(clientPage.locators.userSportExperience(page, userData)).toBeVisible()
-            await expect.soft(clientPage.locators.userbirthday(page, birthday)).toBeVisible()
-            await expect.soft(clientPage.locators.userSex(page, userData)).toBeVisible()
+            await expect.soft(clientPage.locators.userPhone(page, userData)).toBeVisible();
+            await expect.soft(clientPage.locators.userSportExperience(page, userData)).toBeVisible();
+            await expect.soft(clientPage.locators.userbirthday(page, birthday)).toBeVisible();
+            await expect.soft(clientPage.locators.userSex(page, userData)).toBeVisible();
 
         });
 

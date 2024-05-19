@@ -27,7 +27,7 @@ export const getPaymentCreateRequestJson = async (providerId?: number, userPayme
         provider_id: providerId,
         deposit_amount: depositAmount,
         type: "payment",
-        gate_id: 1,
+        gate_id: 6,
         user_id: userId,
         user_payment_plan_id: userPaymentPlanId,
         currency: "RUB",

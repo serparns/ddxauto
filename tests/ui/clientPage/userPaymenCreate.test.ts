@@ -1,4 +1,5 @@
 import authCRMTestData from "@data/authCRM.json";
+import cardTestData from '@data/cardData.json';
 import { getBaseParameters } from "@entities/baseParameters";
 import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
@@ -10,7 +11,7 @@ import ClubsRequests from "@requests/clubs.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import test from "@tests/ui/baseTest.fixture";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 
@@ -19,8 +20,6 @@ test.describe("Тест на проверку записи пользовате�
     let userId: number;
     let userPaymentPlanId: number;
     let transactionData: any;
-    //let newTab: page
-
 
     test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
@@ -37,13 +36,13 @@ test.describe("Тест на проверку записи пользовате�
             const requestBody = await getPaymentPlanRequestJson(clubId, PaymentPlan.LIGHT);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
-            return userPaymentPlanId.id
+            return userPaymentPlanId.id;
         });
 
         transactionData = await test.step("Создание подписки", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.PURCHASE, userPaymentPlanId, userId);
+            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.PAYMENT, userPaymentPlanId, userId);
             const transactionData = (await (await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody)).json()).transaction;
-            return transactionData.payment_widget_uri
+            return transactionData.payment_widget_uri;
         });
     });
 
@@ -66,16 +65,22 @@ test.describe("Тест на проверку записи пользовате�
                 await clientPage.locators.registeredSubscribe(page).waitFor({ state: 'visible', timeout: 4000 });
             });
 
-            await test.step("Открыть новую вкладку оплаты ", async () => {
+            const newTab = await test.step("Открыть новую вкладку оплаты ", async () => {
                 const newTab = await context.newPage();
                 await newTab.goto(transactionData);
                 return newTab;
-            });// TODO попробовать через let, разобраться как работать с iframe
+            });
 
+            await test.step("Проверить что открыта страница оплаты", async () => {
+                expect.soft(newTab.url()).toContain('/widgets/payment');
+                await cloudPatmentPage.successfulPayment(newTab, cardTestData.number.mir, cardTestData.date, cardTestData.cvv);
+                newTab.close();
+            });
 
-            // await test.step("", async () => {
-            //     await cloudPatmentPage.locators.cardNumber(newTab).fill('4242424242424242')
-            // });
+            await test.step("Обновить страницу и проверит что у подписки сменился статус", async () => {
+                page.reload();
+                await clientPage.locators.currentSubscribe(page).waitFor({ state: 'visible', timeout: 4000 });
+            });
         });
     })
 })

@@ -25,12 +25,14 @@ test.describe("Api-тесты на получение платежных ток�
         const userId = (await test.step("Получить id пользователя", async () => { return (await selectUserIdFromCardTokens()) })).user_id
         const countUserCardTokensDb = (await test.step("Получить колличество", async () => { return (await selectCountFromCardTokens(userId)) }))
         const getCardTokensUser = await (await test.step("Получить кардтокены пользователи из запроса", async () => getCardTokensRequestJson(request, Statuses.OK, { userId: userId }))).json()
-//TODO нужно подумать, может стоит еще дописать тест для провенрки единичного кард токена
+
         await test.step("Проверки", async () => {
             expect(getCardTokensUser.data[0].user_id.toString()).toEqual(countUserCardTokensDb[0].user_id)
-            expect(getCardTokensUser.data[0].id.toString()).toEqual(countUserCardTokensDb[0].id) // не стал использовать перебор для поиска id, понадеясля на сортировку бека:) 
-            expect(getCardTokensUser.data.length).toEqual(countUserCardTokensDb.length)// TODO перепроверить, а правильно ли считается длина в бд
+            expect(getCardTokensUser.data[0].public_card_number.toString()).toEqual(countUserCardTokensDb[0].public_card_number)
+            expect(getCardTokensUser.data[0].payment_service_id.toString()).toEqual(countUserCardTokensDb[0].payment_service_id)
+            expect(getCardTokensUser.data[0].id.toString()).toEqual(countUserCardTokensDb[0].id)
+            expect(getCardTokensUser.data.length).toEqual(countUserCardTokensDb.length)
             await validatorJson(cardTokensJsonShema, (getCardTokensUser.data[0]));
-        })
+        })// не стал использовать перебор для поиска id, понадеялcя на сортировку бека:)
     });
 });
