@@ -51,7 +51,7 @@ test.describe("Тесты на авторизацию в CRM", async () => {
             await authPage.passwordReset(page, authCRMTestData.email)
         });
 
-        await test.step("Проверить появления ошибки 'К сожалению, у вас нет разрешения на смену пароля'", async () => {
+        await test.step("Проверить появление ошибки 'К сожалению, у вас нет разрешения на смену пароля'", async () => {
             await authPage.locators.forbidden(page).waitFor({ state: "visible", timeout: 3000 });
         });
     });

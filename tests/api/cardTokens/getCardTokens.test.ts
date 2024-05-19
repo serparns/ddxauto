@@ -23,7 +23,7 @@ test.describe("Api-тесты на получение платежных ток�
 
     test("Получения Платежных токенов пользователя", async ({ request }) => {
         const userId = (await test.step("Получить id пользователя", async () => { return (await selectUserIdFromCardTokens()) })).user_id
-        const countUserCardTokensDb = (await test.step("Получить колличество", async () => { return (await selectCountFromCardTokens(userId)) }))
+        const countUserCardTokensDb = (await test.step("Получить количество", async () => { return (await selectCountFromCardTokens(userId)) }))
         const getCardTokensUser = await (await test.step("Получить кардтокены пользователи из запроса", async () => getCardTokensRequestJson(request, Statuses.OK, { userId: userId }))).json()
 
         await test.step("Проверки", async () => {
