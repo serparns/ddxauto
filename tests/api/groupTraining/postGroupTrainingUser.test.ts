@@ -1,8 +1,8 @@
 import { getBaseParameters } from "@entities/baseParameters";
-import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUser.requestJson";
 import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
-import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
-import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
+import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainingUser.requestJson";
+import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
+import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
@@ -31,7 +31,7 @@ test.describe("Api-тесты на запись пользователя на т
     ) => {
         const requestBody = await postGroupTrainingUsersRequestJson(groupTrainingTimeTableId, userId)
         return await new GroupTrainingRequests(request).postGroupTrainingUsers(status, requestBody);
-    }
+    };
 
     test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
@@ -54,15 +54,15 @@ test.describe("Api-тесты на запись пользователя на т
             return createUser.id
         });
 
-        userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
-            const requestBody = await getPaymentPlanRequestJson(clubId);
+        userPaymentPlanId = await test.step("Запрос на cоздание идентификатора пользовательского платежа", async () => {
+            const requestBody = await postPaymentPlanRequestJson(clubId);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPaymentPlanId.id
         });
 
-        await test.step("Создание подписки", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
+        await test.step("Клиентский запрос на оплату", async () => {
+            const requestBody = await postPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
             return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
         });
     });
@@ -75,4 +75,4 @@ test.describe("Api-тесты на запись пользователя на т
             expect(groupTrainingUsers.data[0].booking_status).toBe("booked")
         });
     });
-});
+}); 

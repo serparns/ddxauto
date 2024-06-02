@@ -1,6 +1,6 @@
 import { JSONSchemaType } from "ajv";
 
-export class TimeTableShema {
+export class TimeTableSchema {
     id: number;
     is_payable: boolean;
     start_time: string;
@@ -16,9 +16,9 @@ export class TimeTableShema {
     club_zone: object;
     users: string[];
     group_training: object;
-}
+};
 
-export const timeTableShema: JSONSchemaType<TimeTableShema> = {
+export const timeTableSchema: JSONSchemaType<TimeTableSchema> = {
     type: "object",
     properties: {
         id: { type: "integer" },
@@ -54,4 +54,4 @@ export const timeTableShema: JSONSchemaType<TimeTableShema> = {
         "users",
         "group_training"
     ]
-}
+};

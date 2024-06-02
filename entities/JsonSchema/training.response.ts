@@ -1,11 +1,11 @@
 import { JSONSchemaType } from "ajv";
 
-export default class TrainingDataShema {
+export default class TrainingDataSchema {
     group_training_time_table_id: number;
     parent_id: number;
-}
+};
 
-export const trainingDataJsonSchema: JSONSchemaType<TrainingDataShema> = {
+export const trainingDataJsonSchema: JSONSchemaType<TrainingDataSchema> = {
     type: "object",
     properties: {
         group_training_time_table_id: { type: "integer" },
@@ -18,4 +18,4 @@ export const trainingDataJsonSchema: JSONSchemaType<TrainingDataShema> = {
 
     ],
     additionalProperties: false
-}
+};

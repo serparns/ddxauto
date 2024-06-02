@@ -3,4 +3,4 @@ export class AnalyticsPage {
     locators = {
         iframe: (page: Page): Locator => page.locator("//iframe")
     }
-}
+}; 

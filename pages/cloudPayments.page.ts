@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { setTimeout } from 'timers/promises';
 
-export class CloudPatmentPage {
+export class CloudPaymentPage {
     locators = {
         inputCardNumber: (page: Page): Locator => page.frameLocator('iframe').locator('//*[@id="card"]'),
         inputCardDate: (page: Page): Locator => page.frameLocator('iframe').locator('//*[@id="date"]'),

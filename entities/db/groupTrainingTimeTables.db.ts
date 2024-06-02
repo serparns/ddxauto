@@ -51,7 +51,7 @@ export const groupTrainingTimeTablesDB = db.define(
     }
 )
 
-export async function selectByTrarningId(groupTrainingTimeTableId: number): Promise<GroupTrainingTimeTablesDB> {
+export async function selectByTrainingId(groupTrainingTimeTableId: number): Promise<GroupTrainingTimeTablesDB> {
     const result = await db.query(
         `SELECT * FROM group_training_time_tables WHERE id = ${groupTrainingTimeTableId}  ORDER BY id DESC`,
         { model: groupTrainingTimeTablesDB, mapToModel: true });

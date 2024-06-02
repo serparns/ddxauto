@@ -1,4 +1,4 @@
-import { timeTableShema } from "@entities/JsonSchema/timeTable.response";
+import { timeTableSchema } from "@entities/JsonSchema/timeTable.response";
 import { getBaseParameters } from "@entities/baseParameters";
 import { getGroupTrainingTimeTablesRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { Statuses } from "@libs/statuses";
@@ -20,7 +20,7 @@ test.describe("Api-тесты на получения групповых тре�
     ) => {
         const params = await getGroupTrainingTimeTablesRequestJson(groupTrainingId.group_training_category.id, clubId)
         return await new GroupTrainingTimeTableRequest(request).getGroupTrainingTimeTable(status, params);
-    }
+    };
 
     test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
@@ -36,7 +36,7 @@ test.describe("Api-тесты на получения групповых тре�
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
-    })
+    });
 
     test("Получить групповую тренировку", async ({ request }) => {
         const groupTrainingCategory = await (await test.step("Получение групповой тренировки",
@@ -47,7 +47,7 @@ test.describe("Api-тесты на получения групповых тре�
             let expectData = createdWorkout.find((traning: { id: number }) => traning.id === groupTrainingTimeTableId).id
             expect(expectData).toEqual(groupTrainingTimeTableId)
             expect(groupTrainingCategory.data[0]).not.toBe(null)
-            await validatorJson(timeTableShema, (await groupTrainingCategory.data[0]));
+            await validatorJson(timeTableSchema, (await groupTrainingCategory.data[0]));
         })
     });
-})
+});

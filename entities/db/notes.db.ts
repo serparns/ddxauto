@@ -11,7 +11,7 @@ export interface NotesDB {
     updated_at: string;
 }
 
-export const notestDB = db.define(
+export const notesDB = db.define(
     'notes',
     {
         id: { type: DataTypes.BIGINT, primaryKey: true },
@@ -27,9 +27,9 @@ export const notestDB = db.define(
     }
 )
 
-export async function selectNotestData(userId: number): Promise<NotesDB> {
+export async function selectNotesData(userId: number): Promise<NotesDB> {
     const result = await db.query(
         `SELECT * FROM  notes WHERE user_id = ${userId} ORDER BY id DESC LIMIT 1`,
-        { model: notestDB, mapToModel: true });
+        { model: notesDB, mapToModel: true });
     return <NotesDB | any>result[0];
 }

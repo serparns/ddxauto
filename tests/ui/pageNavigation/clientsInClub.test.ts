@@ -9,7 +9,7 @@ test.describe("Тест на переход в клиенты в клубе", as
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+            await authPage.authorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {

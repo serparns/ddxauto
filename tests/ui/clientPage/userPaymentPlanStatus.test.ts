@@ -1,6 +1,6 @@
 import authCRMTestData from "@data/authCRM.json";
 import subscribeStatusTestData from "@data/subscribeStatus.json";
-import { selectUserPaymenPlanByStatus } from "@entities/db/userPaymentPlan.db";
+import { selectUserPaymentPlanByStatus } from "@entities/db/userPaymentPlan.db";
 import test from "@tests/ui/baseTest.fixture";
 
 test.describe("Проверка отображения статусов подписки на карточке клиента", async () => {
@@ -10,7 +10,7 @@ test.describe("Проверка отображения статусов подп
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+            await authPage.authorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
@@ -19,10 +19,10 @@ test.describe("Проверка отображения статусов подп
 
         const { current, frozen, notStarted, paymentPending } = await test.step("Получить информацию о подписке", async () => {
             return {
-                current: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.current)).user_id,
-                frozen: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.freezed)).user_id,
-                notStarted: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.notStarted)).user_id,
-                paymentPending: (await selectUserPaymenPlanByStatus(subscribeStatusTestData.statuses.paymentPending)).user_id
+                current: (await selectUserPaymentPlanByStatus(subscribeStatusTestData.statuses.current)).user_id,
+                frozen: (await selectUserPaymentPlanByStatus(subscribeStatusTestData.statuses.freezed)).user_id,
+                notStarted: (await selectUserPaymentPlanByStatus(subscribeStatusTestData.statuses.notStarted)).user_id,
+                paymentPending: (await selectUserPaymentPlanByStatus(subscribeStatusTestData.statuses.paymentPending)).user_id
             }
         });
 

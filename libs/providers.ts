@@ -4,4 +4,4 @@ export enum PaymentProvider {
     DEPOSIT = 3,
     FREEZES = 13,
     PAYMENT = 6
-}
+};

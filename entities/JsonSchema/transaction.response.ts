@@ -1,6 +1,6 @@
 import { JSONSchemaType } from "ajv";
 
-export interface TransactionDataShema {
+export interface TransactionDataSchema {
     card_token_id: number;
     created_at: string;
     currency: string;
@@ -30,9 +30,9 @@ export interface TransactionDataShema {
     user: object;
     user_payment_plan_id: number;
     receipt: object;
-}
+};
 
-export const transactionResponseShema: JSONSchemaType<TransactionDataShema> = {
+export const transactionResponseSchema: JSONSchemaType<TransactionDataSchema> = {
     type: "object",
     properties: {
         card_token_id: { type: "number" },
@@ -96,4 +96,4 @@ export const transactionResponseShema: JSONSchemaType<TransactionDataShema> = {
         "user_payment_plan_id"
     ],
     additionalProperties: true
-}
+};

@@ -18,9 +18,10 @@ const requestBody = {
             "block_previous_card": false
         }
     ]
-}
+};
+
 test.describe("Добавление карты доступа", async () => {
     test("[positive] добавить карту доступа", async ({ request }) => {
         await new AccessCardsRequests(request).postAccessCards(Statuses.OK, requestBody)
-    })
-})
+    });
+});

@@ -1,8 +1,8 @@
 import authCRMTestData from "@data/authCRM.json";
 import cardTestData from '@data/cardData.json';
 import { getBaseParameters } from "@entities/baseParameters";
-import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
-import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
+import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
+import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentPlan } from "@libs/paymentPlan";
 import { PaymentProvider } from "@libs/providers";
@@ -32,28 +32,28 @@ test.describe("Тест на проверку записи пользовате�
             return createUser.id
         });
 
-        userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
-            const requestBody = await getPaymentPlanRequestJson(clubId, PaymentPlan.LIGHT);
+        userPaymentPlanId = await test.step("Запрос на создание идентификатора пользовательского платежа", async () => {
+            const requestBody = await postPaymentPlanRequestJson(clubId, PaymentPlan.LIGHT);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPaymentPlanId.id;
         });
 
-        transactionData = await test.step("Создание подписки", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.PAYMENT, userPaymentPlanId, userId);
+        transactionData = await test.step("Клиентский запрос на оплату", async () => {
+            const requestBody = await postPaymentCreateRequestJson(PaymentProvider.PAYMENT, userPaymentPlanId, userId);
             const transactionData = (await (await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody)).json()).transaction;
             return transactionData.payment_widget_uri;
         });
     });
 
-    test("Проверить что подписка в нужном статусе", async ({ page, authPage, headerBlock, clientPage, cloudPatmentPage, context }) => {
+    test("Проверить что подписка в нужном статусе", async ({ page, authPage, headerBlock, clientPage, cloudPaymentPage: cloudPaymentPage, context }) => {
         await test.step("Перейти на страницу входа", async () => {
             await test.step("Перейти на страницу входа", async () => {
                 await page.goto("")
             });
 
             await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-                await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+                await authPage.authorization(page, authCRMTestData.login, authCRMTestData.password);
             });
 
             await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
@@ -73,7 +73,7 @@ test.describe("Тест на проверку записи пользовате�
 
             await test.step("Проверить что открыта страница оплаты", async () => {
                 expect.soft(newTab.url()).toContain('/widgets/payment');
-                await cloudPatmentPage.successfulPayment(newTab, cardTestData.number.mir, cardTestData.date, cardTestData.cvv);
+                await cloudPaymentPage.successfulPayment(newTab, cardTestData.number.mir, cardTestData.date, cardTestData.cvv);
                 newTab.close();
             });
 

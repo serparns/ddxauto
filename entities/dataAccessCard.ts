@@ -9,4 +9,4 @@ export async function dataAccessCard(): Promise<object> {
         is_deleted: false,
         block_previous_card: false
     }
-}
+};

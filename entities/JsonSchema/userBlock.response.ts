@@ -1,14 +1,14 @@
 import { JSONSchemaType } from "ajv";
 
-export class UserBlockDataShema {
+export class UserBlockDataSchema {
     employee_id: number;
     last_name: string;
     name: string;
     notes: object;
     user: object;
-}
+};
 
-export const userBlockDataShema: JSONSchemaType<UserBlockDataShema> = {
+export const userBlockDataSchema: JSONSchemaType<UserBlockDataSchema> = {
     type: "object",
     properties: {
         employee_id: { type: "integer" },
@@ -24,4 +24,4 @@ export const userBlockDataShema: JSONSchemaType<UserBlockDataShema> = {
         "notes",
         "user"
     ]
-}
+};

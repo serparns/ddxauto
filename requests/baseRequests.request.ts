@@ -9,7 +9,7 @@ export default class BaseRequests {
         private token = paths.tokens.test
     ) {
         this.baseUrl = paths.urls.base_url_api
-    }
+    };
 
     async get(url: string, status: number, parameters?: any): Promise<APIResponse> {
         log("request url", url);
@@ -20,7 +20,7 @@ export default class BaseRequests {
 
         expect(response.status()).toEqual(status);
         return response;
-    }
+    };
 
     async post(url: string, status: number, requestBody?: any): Promise<APIResponse> {
         log("request url", url);

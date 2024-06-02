@@ -1,6 +1,6 @@
-import { userBlockDataShema } from "@entities/JsonSchema/userBlock.response";
+import { userBlockDataSchema } from "@entities/JsonSchema/userBlock.response";
 import { getBaseParameters } from "@entities/baseParameters";
-import { selectNotestData } from "@entities/db/notes.db";
+import { selectNotesData } from "@entities/db/notes.db";
 import { getUserRequestJson, postUserBlockRequestJson } from "@entities/interface/user.requestJson";
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext, expect, test } from "@playwright/test";
@@ -33,14 +33,14 @@ test.describe("Тест на блокировку пользователя", asy
 
     test("Блокировка пользователя", async ({ request }) => {
         const userBlockData = (await (await test.step("Блокировка пользователя", async () => userBlockResponse(request, Statuses.OK))).json()).data
-        const notestType = await test.step("Получить тип заметки", async () => { return (await selectNotestData(userId)).type })
+        const notesType = await test.step("Получить тип заметки", async () => { return (await selectNotesData(userId)).type })
 
         await test.step("Проверки", async () => {
             expect(userBlockData.user.id).toEqual(userId);
             expect(userBlockData.notes.text).toEqual('Где деньги Лебовски');
             expect(userBlockData.notes.type).toEqual('block');
-            expect(userBlockData.notes.type).toEqual(notestType);
-            await validatorJson(userBlockDataShema, (userBlockData));
+            expect(userBlockData.notes.type).toEqual(notesType);
+            await validatorJson(userBlockDataSchema, (userBlockData));
         })
     });
 

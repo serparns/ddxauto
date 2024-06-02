@@ -1,6 +1,6 @@
 import { JSONSchemaType } from "ajv";
 
-export default class UsersDataShema {
+export default class UsersDataSchema {
     id: number;
     created_at: string;
     updated_at: string;
@@ -22,9 +22,9 @@ export default class UsersDataShema {
     sport_experience: string;
     is_qr_check: boolean;
     qr_token: string;
-}
+};
 
-export const userDataJsonSchema: JSONSchemaType<UsersDataShema> = {
+export const userDataJsonSchema: JSONSchemaType<UsersDataSchema> = {
     type: "object",
     properties: {
         id: { type: "integer" },
@@ -73,4 +73,4 @@ export const userDataJsonSchema: JSONSchemaType<UsersDataShema> = {
         "qr_token"
     ],
     additionalProperties: false
-}
+};

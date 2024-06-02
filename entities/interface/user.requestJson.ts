@@ -22,7 +22,7 @@ export interface UserDataRequestJson {
     group_training_registration_access: boolean;
 }
 
-export const getUserRequestJson = async (clubId: number, email: string, phoneNumber: string, sportExpirence?: string,
+export const getUserRequestJson = async (clubId: number, email: string, phoneNumber: string, sportExperience?: string,
     password?: string): Promise<BaseRequestJson<UserDataRequestJson>> => {
     return {
         session_id: requestTestData.session_id,
@@ -38,7 +38,7 @@ export const getUserRequestJson = async (clubId: number, email: string, phoneNum
             birthday: userTestData.birthday,
             password: password != undefined ? password : '',
             lang: userTestData.lang,
-            sport_experience: sportExpirence != undefined ? sportExpirence : '',
+            sport_experience: sportExperience != undefined ? sportExperience : '',
             home_club_id: clubId,
             user_photo_id: 12,
             club_access: userTestData.club_access.true,

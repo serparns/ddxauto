@@ -21,7 +21,7 @@ test.describe("Api-тесты на получение списка акций", 
             return params;
         }
         return await new DiscountsRequests(request).getDiscounts(status, await params());
-    }
+    };
 
     test("Получение списка акций", async ({ request }) => {
         const discount = await (await test.step("Получение акций",
@@ -29,7 +29,7 @@ test.describe("Api-тесты на получение списка акций", 
 
         await test.step("Проверки", async () => {
             expect(discount.data[0].id).not.toBe(null)
-        })
+        });
     });
 
     test("Получение списка активных акций", async ({ request }) => {
@@ -39,7 +39,7 @@ test.describe("Api-тесты на получение списка акций", 
 
         await test.step("Проверки", async () => {
             expect(discount.data[0].id).not.toBe(null)
-        })
+        });
     });
 
     test("Получение списка не активных акций по убыванию", async ({ request }) => {
@@ -50,8 +50,9 @@ test.describe("Api-тесты на получение списка акций", 
         await test.step("Проверки", async () => {
             expect(discount.data[0].id).not.toBe(null)
             expect(discount.data[0].is_active).toEqual(false)
-        })
+        });
     });
+
     test("Получение списка не активных акций по возрастанию", async ({ request }) => {
         const discount = await (await test.step("Получение акций",
             async () => discountResponse(request, Statuses.OK,
@@ -60,7 +61,7 @@ test.describe("Api-тесты на получение списка акций", 
         await test.step("Проверки", async () => {
             expect(discount.data[0].id).not.toBe(null)
             expect(discount.data[0].is_active).toEqual(false)
-        })
+        });
     });
 
     test("Получение одной не активной акции", async ({ request }) => {
@@ -71,6 +72,6 @@ test.describe("Api-тесты на получение списка акций", 
         await test.step("Проверки", async () => {
             expect(discount.data[0].id).not.toBe(null)
             expect(discount.data[0].is_active).toEqual(false)
-        })
+        });
     });
 })

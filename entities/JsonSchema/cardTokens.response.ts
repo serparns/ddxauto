@@ -1,6 +1,6 @@
 import { JSONSchemaType } from "ajv";
 
-export default class CardTokensShema {
+export default class CardTokensSchema {
     id: number;
     user_id: number;
     payment_service_id: number;
@@ -10,7 +10,7 @@ export default class CardTokensShema {
     created_at: string;
 }
 
-export const cardTokensJsonShema: JSONSchemaType<CardTokensShema> = {
+export const cardTokensJsonSchema: JSONSchemaType<CardTokensSchema> = {
     type: "object",
     properties: {
         id: { type: "integer" },
@@ -20,7 +20,6 @@ export const cardTokensJsonShema: JSONSchemaType<CardTokensShema> = {
         is_deleted: { type: "boolean" },
         updated_at: { type: "string" },
         created_at: { type: "string" },
-
     },
     required: [
         "id",

@@ -16,7 +16,7 @@ test.describe("Api-тесты на на получения категорий г
             return params;
         }
         return await new GroupTrainingRequests(request).getGroupTrainingCategories(status, await params());
-    }
+    };
 
     test("Получение списка не удаленных категорий групповых тренировок", async ({ request }) => {
         const groupTrainingCategory = await (await test.step("Получение групповых тренировок",
@@ -26,7 +26,7 @@ test.describe("Api-тесты на на получения категорий г
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0].id).not.toBe(null)
             expect(groupTrainingCategory.data[0].is_deleted).toEqual(false)
-        })
+        });
     });
 
     test("Получение списка логически удаленных категорий групповых тренировок", async ({ request }) => {
@@ -37,6 +37,6 @@ test.describe("Api-тесты на на получения категорий г
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0].id).not.toBe(null)
             expect(groupTrainingCategory.data[0].is_deleted).toEqual(true)
-        })
+        });
     });
-})
+});

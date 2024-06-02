@@ -41,17 +41,17 @@ test.describe("Api-тест на создание клиента", async () => {
         expect(await validatorJson(userDataJsonSchema, (await userCreateSuccessResponse.json()).data));
     }
 
-    Object.values(SportExperience).forEach(sport_expirince => {
-        test(`[positive] Создание пользователя с опытом ${sport_expirince} `, async ({ request }) => {
+    Object.values(SportExperience).forEach(sport_experience => {
+        test(`[positive] Создание пользователя с опытом ${sport_experience} `, async ({ request }) => {
             const userCreateSuccessResponse = await test.step("создание пользователя",
                 async () => userCrateResponse(request, Statuses.OK, {
-                    sportExperience: sport_expirince,
+                    sportExperience: sport_experience,
                     password: userTestData.password
                 }));
 
             await test.step("Проверки", async () => {
                 expect((await userCreateSuccessResponse.json()).data.home_club_id).toEqual(clubId)
-                expect((await userCreateSuccessResponse.json()).data.sport_experience).toEqual(sport_expirince);
+                expect((await userCreateSuccessResponse.json()).data.sport_experience).toEqual(sport_experience);
             });
             await test.step("Проверить схему ответа", async () => validator(userCreateSuccessResponse));
         })

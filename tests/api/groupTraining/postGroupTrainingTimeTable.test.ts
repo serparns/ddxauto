@@ -41,7 +41,7 @@ test.describe("Api-тесты на добавление групповых тр�
         groupTrainingId = await test.step("получить id групповой тренировки", async () => {
             return groupTrainingId = (await (await new GroupTrainingRequests(request).getGroupTrainingCategories(Statuses.OK, await getBaseParameters())).json()).data[0].id;
         });
-    })
+    });
 
     test("Добавить в расписание групповую тренировку на 5 мест", async ({ request }) => {
         const groupTrainingCategory = await (await test.step("Добавление групповой тренировки",
@@ -56,7 +56,7 @@ test.describe("Api-тесты на добавление групповых тр�
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0]).not.toBe(null)
             await validatorJson(trainingDataJsonSchema, (await groupTrainingCategory.data[0]));
-        })
+        });
     });
 
     test("Добавить в расписание групповую тренировку в прошлом", async ({ request }) => {
@@ -72,6 +72,6 @@ test.describe("Api-тесты на добавление групповых тр�
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0]).not.toBe(null)
             await validatorJson(trainingDataJsonSchema, (await groupTrainingCategory.data[0]));
-        })
+        });
     });
-})
+});

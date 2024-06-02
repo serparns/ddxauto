@@ -5,12 +5,13 @@ import { HeaderBlock } from "@pages/blocks/headers.blocks";
 import { MenuBlock } from "@pages/blocks/menu.blocks";
 import { ClientPage } from "@pages/client.page";
 import { ClientsInClub } from "@pages/clientsInClub.page";
-import { CloudPatmentPage } from "@pages/cloudPayments.page";
+import { CloudPaymentPage } from "@pages/cloudPayments.page";
 import { ClubsPage } from "@pages/clubs.page";
 import { CreateUserPage } from "@pages/createUser.page";
 import { DiscountPage } from "@pages/discounts.page";
 import { MainPage } from "@pages/main.page";
-import { ShedulePage } from "@pages/shedule.page";
+import { PaymentInformationPage } from "@pages/paymentInformation.page";
+import { SchedulePage } from "@pages/schedule.page";
 import { test as BaseTest, mergeTests } from '@playwright/test';
 
 const test = mergeTests(BaseTest.extend<{
@@ -21,11 +22,12 @@ const test = mergeTests(BaseTest.extend<{
     createUserPage: CreateUserPage
     menuBlock: MenuBlock
     discountPage: DiscountPage
-    shedulePage: ShedulePage
+    schedulePage: SchedulePage
     mainPage: MainPage
     clubsPage: ClubsPage
     analyticsPage: AnalyticsPage
-    cloudPatmentPage: CloudPatmentPage
+    cloudPaymentPage: CloudPaymentPage
+    paymentInformationPage: PaymentInformationPage
 }>({
     baseURL: api.urls.base_url_CRM,
     headless: true,
@@ -37,12 +39,13 @@ const test = mergeTests(BaseTest.extend<{
     createUserPage: async ({ }, use) => { await use(new CreateUserPage()) },
     menuBlock: async ({ }, use) => { await use(new MenuBlock()) },
     discountPage: async ({ }, use) => { await use(new DiscountPage()) },
-    shedulePage: async ({ }, use) => { await use(new ShedulePage()) },
+    schedulePage: async ({ }, use) => { await use(new SchedulePage()) },
     mainPage: async ({ }, use) => { await use(new MainPage()) },
     clubsPage: async ({ }, use) => { await use(new ClubsPage()) },
     analyticsPage: async ({ }, use) => { await use(new AnalyticsPage()) },
-    cloudPatmentPage: async ({ }, use) => { await use(new CloudPatmentPage()) }
+    cloudPaymentPage: async ({ }, use) => { await use(new CloudPaymentPage()) },
+    paymentInformationPage: async ({ }, use) => { await use(new PaymentInformationPage()) }
 }));
 
 export default test;
-export const expect = test.expect;
+export const expect = test.expect;   

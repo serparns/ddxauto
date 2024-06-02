@@ -5,13 +5,13 @@ import { expect } from "@playwright/test";
 import test from "@tests/ui/baseTest.fixture";
 
 test.describe("Тест на навигацию по боковому меню", async () => {
-    test("Успешный переход по всем ссылкам из меню", async ({ page, authPage, headerBlock, menuBlock, discountPage, shedulePage, mainPage, clubsPage, analyticsPage }) => {
+    test("Успешный переход по всем ссылкам из меню", async ({ page, authPage, headerBlock, menuBlock, discountPage, schedulePage: shedulePage, mainPage, clubsPage, analyticsPage }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto('')
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+            await authPage.authorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {

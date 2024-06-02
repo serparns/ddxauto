@@ -1,6 +1,6 @@
 import authCRMTestData from "@data/authCRM.json";
 import { getBaseParameters } from "@entities/baseParameters";
-import { selectNotestData } from "@entities/db/notes.db";
+import { selectNotesData } from "@entities/db/notes.db";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { Statuses } from "@libs/statuses";
 import { expect } from "@playwright/test";
@@ -9,7 +9,7 @@ import UsersRequests from "@requests/users.requests";
 import test from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
-test.describe("Проверка блокирвки пользователя", async () => {
+test.describe("Проверка блокировки пользователя", async () => {
     const userPhone = getRandomPhoneNumber()
     let userId: any;
     let clubId: number;
@@ -32,7 +32,7 @@ test.describe("Проверка блокирвки пользователя", as
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+            await authPage.authorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Ввести номер телефона, и проверить наличие кнопки 'Открыть'", async () => {
@@ -53,8 +53,8 @@ test.describe("Проверка блокирвки пользователя", as
         });
 
         await test.step("Запрос информации из бд о том что пользователь заблокирован", async () => {
-            const notestType = await test.step("Получить тип заметки", async () => { return (await selectNotestData(userId)).type })
-            expect(notestType).toEqual('block')
+            const notesType = await test.step("Получить тип заметки", async () => { return (await selectNotesData(userId)).type })
+            expect(notesType).toEqual('block')
         });
     });
 });

@@ -1,11 +1,11 @@
 import authCRMTestData from "@data/authCRM.json";
 import { getBaseParameters } from "@entities/baseParameters";
-import { selectByUserIdGroupTrainingTimeTableId } from "@entities/db/groupTrainigUsers.db";
-import { selectNameGroupTraning } from "@entities/db/groupTraning.db";
-import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainigUser.requestJson";
+import { selectNameGroupTraining } from "@entities/db/groupTraining.db";
+import { selectByUserIdGroupTrainingTimeTableId } from "@entities/db/groupTrainingUsers.db";
 import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
-import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
-import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
+import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainingUser.requestJson";
+import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
+import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
@@ -50,15 +50,15 @@ test.describe("Тест на проверку записи пользовате�
             return createUser.id
         });
 
-        userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
-            const requestBody = await getPaymentPlanRequestJson(clubId);
+        userPaymentPlanId = await test.step("Запрос на создание идентификатора пользовательского платежа", async () => {
+            const requestBody = await postPaymentPlanRequestJson(clubId);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPaymentPlanId.id
         });
 
-        await test.step("Создание подписки", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
+        await test.step("Клиентский запрос на оплату", async () => {
+            const requestBody = await postPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
             return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
         });
 
@@ -75,24 +75,24 @@ test.describe("Тест на проверку записи пользовате�
             });
 
             await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-                await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+                await authPage.authorization(page, authCRMTestData.login, authCRMTestData.password);
             });
 
             await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
                 await headerBlock.locators.searchInput(page).waitFor({ state: "visible", timeout: 5000 });
             });
 
-            const userIdByTraning = await test.step("Получить пользователя на тренировке", async () => {
+            const userIdByTraining = await test.step("Получить пользователя на тренировке", async () => {
                 return (await selectByUserIdGroupTrainingTimeTableId(userId, groupTrainingTimeTableId)).user_id
             })
 
-            const groupTraningName = await test.step("Получить название тренировки", async () => {
-                return (await selectNameGroupTraning(groupTrainingId.id)).name
+            const groupTrainingName = await test.step("Получить название тренировки", async () => {
+                return (await selectNameGroupTraining(groupTrainingId.id)).name
             })
 
-            await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
-                await page.goto(`/client/${userIdByTraning}`)
-                await expect.soft(clientPage.locators.activeEntryGroupTraning(page, groupTraningName)).toBeVisible();
+            await test.step(`Перейти на страницу клиента и проверить что пользователь записан на тренировку ${groupTrainingName}`, async () => {
+                await page.goto(`/client/${userIdByTraining}`)
+                await expect.soft(clientPage.locators.activeEntryGroupTraining(page, groupTrainingName)).toBeVisible();
             });
         });
     });

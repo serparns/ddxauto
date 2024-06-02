@@ -40,7 +40,7 @@ test.describe("Api-тесты на поиск пользователя по па
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
-    })
+    });
 
     test("[positive] Поиск пользователя по номеру телефона", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
@@ -48,7 +48,7 @@ test.describe("Api-тесты на поиск пользователя по па
 
         await test.step("Проверки", async () => {
             expect(searchUser.id).toEqual(userData["id"]);
-        })
+        });
     });
 
     test("[positive] Поиск пользователя по имени, фамилии и дате рождения", async ({ request }) => {
@@ -60,10 +60,10 @@ test.describe("Api-тесты на поиск пользователя по па
 
         await test.step("Проверки", async () => {
             expect(searchUser.id).toEqual(userData["id"]);
-        })
+        });
     });
 
-    test("[positive] Поиск пользователя по имени, фамилии и емаил ", async ({ request }) => {
+    test("[positive] Поиск пользователя по имени, фамилии и email", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
             async () => userSearchResponse(request, Statuses.OK, {
                 name: userData.name, lastName: userData.last_name,
@@ -72,6 +72,6 @@ test.describe("Api-тесты на поиск пользователя по па
 
         await test.step("Проверки", async () => {
             expect(searchUser.id).toEqual(userData["id"]);
-        })
+        });
     });
-})
+});

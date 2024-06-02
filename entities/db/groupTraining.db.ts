@@ -43,9 +43,9 @@ export const groupTrainingDB = db.define(
     }
 )
 
-export async function selectNameGroupTraning(tranigId: number): Promise<GroupTrainingDB> {
+export async function selectNameGroupTraining(trainingId: number): Promise<GroupTrainingDB> {
     const result = await db.query(
-        `SELECT * FROM  group_trainings WHERE id =  ${tranigId}`,
+        `SELECT * FROM  group_trainings WHERE id =  ${trainingId}`,
         { model: groupTrainingDB, mapToModel: true });
     return <GroupTrainingDB | any>result[0];
 }

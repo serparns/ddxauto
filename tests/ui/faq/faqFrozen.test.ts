@@ -14,7 +14,7 @@ test.describe("Тест на проверку статей в faq", async () => 
         });
 
         await test.step("Заполнить форму авторизации и нажать зайти", async () => {
-            await authPage.autorization(page, authCRMTestData.login, authCRMTestData.password);
+            await authPage.authorization(page, authCRMTestData.login, authCRMTestData.password);
         });
 
         await test.step("Проверить что пользователь находится в CRM и видит поле поиска", async () => {
@@ -29,25 +29,25 @@ test.describe("Тест на проверку статей в faq", async () => 
         });
 
         await test.step("Проверка хлебных кошек", async () => {
-            await expect(new Freeze().locators.breadСrumbsFaq(page)).toBeVisible();
-            await expect(new Freeze().locators.breadСrumbsFreezeRegistration(page)).toBeVisible();
-            await new Freeze().locators.breadСrumbsFreezeRegistration(page).isDisabled()
-            await new Freeze().locators.breadСrumbsFaq(page).click()
+            await expect(new Freeze().locators.breadCrumbsFaq(page)).toBeVisible();
+            await expect(new Freeze().locators.breadCrumbsFreezeRegistration(page)).toBeVisible();
+            await new Freeze().locators.breadCrumbsFreezeRegistration(page).isDisabled()
+            await new Freeze().locators.breadCrumbsFaq(page).click()
             await expect(new Faq().locators.searchSelect(page)).toBeVisible();
             await new Faq().locators.freezeList(page).click();
             await new Faq().locators.freezeRegistrationPage(page).click();
-            await expect(new Freeze().locators.breadСrumbsFaq(page)).toBeVisible();
-            await expect(new Freeze().locators.breadСrumbsFreezeRegistration(page)).toBeVisible();
+            await expect(new Freeze().locators.breadCrumbsFaq(page)).toBeVisible();
+            await expect(new Freeze().locators.breadCrumbsFreezeRegistration(page)).toBeVisible();
         });
 
         await test.step("Проверка якорей на статье", async () => {
-            await new Freeze().locators.authАnchor(page).click();
-            await new Freeze().locators.searchАnchor(page).click();
-            await new Freeze().locators.freezingАnchor(page).click();
-            await new Freeze().locators.payАnchor(page).click();
-            await new Freeze().locators.moratoriumАnchor(page).click();
+            await new Freeze().locators.authAnchor(page).click();
+            await new Freeze().locators.searchAnchor(page).click();
+            await new Freeze().locators.freezingAnchor(page).click();
+            await new Freeze().locators.payAnchor(page).click();
+            await new Freeze().locators.moratoriumAnchor(page).click();
             await new Buttons().locators.arrowDown(page).click().then(await setTimeout(1500));
-        });// убрал некоторые проверки, так как долго, да и первая проверка проваливалась из-за того что текст помещался, и скролить было не куда, подумал и последней хватит
+        });
 
         await test.step("Проверка кнопок предыдущая и слудущая тема", async () => {
             await new Buttons().locators.previousTopic(page).click();

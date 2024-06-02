@@ -1,4 +1,4 @@
-import { cardTokensJsonShema } from "@entities/JsonSchema/cardTokens.response";
+import { cardTokensJsonSchema } from "@entities/JsonSchema/cardTokens.response";
 import { getBaseParameters } from "@entities/baseParameters";
 import { selectCountFromCardTokens, selectUserIdFromCardTokens } from "@entities/db/cardToken.db";
 import { Statuses } from "@libs/statuses";
@@ -19,12 +19,12 @@ test.describe("Api-тесты на получение платежных ток�
             return params;
         }
         return await new CardTokensRequests(request).getCardTokens(status, await params());
-    }
+    };
 
     test("Получения Платежных токенов пользователя", async ({ request }) => {
         const userId = (await test.step("Получить id пользователя", async () => { return (await selectUserIdFromCardTokens()) })).user_id
         const countUserCardTokensDb = (await test.step("Получить количество", async () => { return (await selectCountFromCardTokens(userId)) }))
-        const getCardTokensUser = await (await test.step("Получить кардтокены пользователи из запроса", async () => getCardTokensRequestJson(request, Statuses.OK, { userId: userId }))).json()
+        const getCardTokensUser = await (await test.step("Получить cardToken пользователя из запроса", async () => getCardTokensRequestJson(request, Statuses.OK, { userId: userId }))).json()
 
         await test.step("Проверки", async () => {
             expect(getCardTokensUser.data[0].user_id.toString()).toEqual(countUserCardTokensDb[0].user_id)
@@ -32,7 +32,7 @@ test.describe("Api-тесты на получение платежных ток�
             expect(getCardTokensUser.data[0].payment_service_id.toString()).toEqual(countUserCardTokensDb[0].payment_service_id)
             expect(getCardTokensUser.data[0].id.toString()).toEqual(countUserCardTokensDb[0].id)
             expect(getCardTokensUser.data.length).toEqual(countUserCardTokensDb.length)
-            await validatorJson(cardTokensJsonShema, (getCardTokensUser.data[0]));
-        })// не стал использовать перебор для поиска id, понадеялcя на сортировку бека:)
+            await validatorJson(cardTokensJsonSchema, (getCardTokensUser.data[0]));
+        });
     });
 });
