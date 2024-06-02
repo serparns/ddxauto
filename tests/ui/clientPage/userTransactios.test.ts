@@ -3,7 +3,7 @@ import { selectTransaction, selectUserIdByTransaction } from "@entities/db/trans
 import test from "@tests/ui/baseTest.fixture";
 
 test.describe("Переход на страницу транзакций пользователя", async () => {
-    test("Получение транзакций пользователя", async ({ page, authPage, headerBlock, paymentInformationPage: paymentInformationPage, clientPage, filter }) => {
+    test("Получение транзакций пользователя", async ({ page, authPage, headerBlock, paymentInformationPage, clientPage, filter }) => {
         let userId: number
 
         await test.step("Перейти на страницу входа", async () => {
