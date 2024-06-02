@@ -15,9 +15,9 @@ export interface PaymentCreateRequestJson {
     payment_service_id: number;
     employee_id: number;
     fiscal_method: string;
-}
+};
 
-export const getPaymentCreateRequestJson = async (providerId?: number, userPaymentPlanId?: number,
+export const postPaymentCreateRequestJson = async (providerId?: number, userPaymentPlanId?: number,
     userId?: number, depositAmount?: number)
     : Promise<PaymentCreateRequestJson> => {
     return {
@@ -34,5 +34,5 @@ export const getPaymentCreateRequestJson = async (providerId?: number, userPayme
         payment_service_id: 2,
         employee_id: 3134,
         fiscal_method: "OrangeData"
-    }
-}
+    };
+};

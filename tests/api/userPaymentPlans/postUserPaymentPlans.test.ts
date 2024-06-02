@@ -1,6 +1,6 @@
 import { getBaseParameters } from "@entities/baseParameters";
-import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
-import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
+import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
+import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
@@ -26,13 +26,13 @@ test.describe("Api-тесты на регистрацию подписки по�
         });
 
         const paymentId = await test.step("Отправить запрос на создание подписки", async () => {
-            const requestBody = await getPaymentPlanRequestJson(clubId);
+            const requestBody = await postPaymentPlanRequestJson(clubId);
             const userPayment = (await (await new UserPaymentPlansRequests(request).postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPayment.id
-        });
+        });;
 
         const { transactionId, transactionStatus } = await test.step("Запрос на создание оплаты", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, paymentId, userId);
+            const requestBody = await postPaymentCreateRequestJson(PaymentProvider.RECURRENT, paymentId, userId);
             const payment = (await (await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody)).json()).transaction
             return {
                 transactionId: payment.id,
@@ -49,6 +49,6 @@ test.describe("Api-тесты на регистрацию подписки по�
             expect(transactionStatus).toEqual('completed');
             expect(transactionData.data[0].user_payment_plan_id).toEqual(paymentId);
             expect(transactionData.data[0].user.id).toEqual(userId);
-        })
+        });
     });
 });

@@ -3,5 +3,6 @@ export enum PaymentPlan {
     SMART = 22,
     ONLINE = 207,
     INFINITY = 18,
-    INFINITY1MONTHBARTER = 48
-}
+    INFINITY1MONTHBARTER = 48,
+    TRAINER = 111
+};

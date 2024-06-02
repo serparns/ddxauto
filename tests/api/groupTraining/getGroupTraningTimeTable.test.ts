@@ -44,7 +44,7 @@ test.describe("Api-тесты на получения групповых тре�
 
         await test.step("Проверки", async () => {
             let createdWorkout = groupTrainingCategory.data;
-            let expectData = createdWorkout.find((traning: { id: number }) => traning.id === groupTrainingTimeTableId).id
+            let expectData = createdWorkout.find((training: { id: number }) => training.id === groupTrainingTimeTableId).id
             expect(expectData).toEqual(groupTrainingTimeTableId)
             expect(groupTrainingCategory.data[0]).not.toBe(null)
             await validatorJson(timeTableSchema, (await groupTrainingCategory.data[0]));

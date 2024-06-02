@@ -45,9 +45,16 @@ export const userPaymentPlansDB = db.define(
     }
 );
 
-export async function selectUserPaymenPlanByStatus(status: string): Promise<UserPaymentPlansDB> {
+export async function selectUserPaymentPlanByStatus(status: string): Promise<UserPaymentPlansDB> {
     const result = await db.query(
         `SELECT * FROM user_payment_plans WHERE status = '${status}' ORDER BY id DESC LIMIT 1`,
         { model: userPaymentPlansDB, mapToModel: true });
     return <UserPaymentPlansDB | any>result[0];
-}
+};
+
+export async function selectStatusFromUserPaymentPlan(userPaymentPlanId: number): Promise<UserPaymentPlansDB> {
+    const result = await db.query(
+        `SELECT * FROM user_payment_plans WHERE id = '${userPaymentPlanId}' ORDER BY id DESC LIMIT 1`,
+        { model: userPaymentPlansDB, mapToModel: true });
+    return <UserPaymentPlansDB | any>result[0];
+};

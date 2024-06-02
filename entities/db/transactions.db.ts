@@ -81,10 +81,10 @@ export const transactionsDB = db.define(
     }
 )
 
-export async function selectTransaction(userId: number): Promise<TransactionsDB> {
+export async function selectTransaction(userId: number): Promise<Array<TransactionsDB>> {
     const result = await db.query(`SELECT * FROM transactions  WHERE user_id = '${userId}'`,
         { model: transactionsDB, mapToModel: true });
-    return <TransactionsDB | any>result[0];
+    return <TransactionsDB | any>result;
 }
 
 export async function selectUserIdByTransaction(): Promise<TransactionsDB> {

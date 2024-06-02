@@ -1,7 +1,7 @@
 import { getBaseParameters } from "@entities/baseParameters";
-import { getPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
+import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentFreezingCreateRequestJson } from "@entities/interface/paymentFreezingCreate.requestJson";
-import { getPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
+import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
@@ -25,7 +25,7 @@ test.describe("Api-тесты на создание заморозки поль�
         }) => {
         const requestBody = await getPaymentFreezingCreateRequestJson(parameters.providerId, userPaymentPlanId, userId);
         return await new PaymentCreateRequests(request).postFreezesCreate(status, requestBody);
-    }
+    };
 
     test.beforeAll(async ({ request }) => {
         clubId = await test.step("Получить id клуба", async () => {
@@ -38,18 +38,18 @@ test.describe("Api-тесты на создание заморозки поль�
             return createUser.id
         });
 
-        userPaymentPlanId = await test.step("Запрос на получение идентификатора пользовательского платежа", async () => {
-            const requestBody = await getPaymentPlanRequestJson(clubId);
+        userPaymentPlanId = await test.step("Запрос на создание идентификатора пользовательского платежа", async () => {
+            const requestBody = await postPaymentPlanRequestJson(clubId);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
             return userPaymentPlanId.id
         });
 
-        await test.step("Создание подписки", async () => {
-            const requestBody = await getPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
+        await test.step("Клиентский запрос на оплату", async () => {
+            const requestBody = await postPaymentCreateRequestJson(PaymentProvider.RECURRENT, userPaymentPlanId, userId);
             return await new PaymentCreateRequests(request).postPaymentCreate(Statuses.OK, requestBody);
-        })
-    })
+        });
+    });
 
     test("[positive] Создание заморозки", async ({ request }) => {
         const freezesCreateSuccessResponse = await test.step("Запрос на создание оплаты",
@@ -58,6 +58,6 @@ test.describe("Api-тесты на создание заморозки поль�
         await test.step("Проверки", async () => {
             expect((await freezesCreateSuccessResponse.json()).data[0].transaction.status).toEqual('in progress');
             expect((await freezesCreateSuccessResponse.json()).data[0].user_payment_plan.user_id).toEqual(userId);
-        })
+        });
     });
 });

@@ -1,6 +1,7 @@
 import api from "@api";
 import { AnalyticsPage } from "@pages/analytics.page";
 import { AuthPage } from '@pages/auth.page';
+import { Filter } from "@pages/blocks/filter.blocks";
 import { HeaderBlock } from "@pages/blocks/headers.blocks";
 import { MenuBlock } from "@pages/blocks/menu.blocks";
 import { ClientPage } from "@pages/client.page";
@@ -28,6 +29,7 @@ const test = mergeTests(BaseTest.extend<{
     analyticsPage: AnalyticsPage
     cloudPaymentPage: CloudPaymentPage
     paymentInformationPage: PaymentInformationPage
+    filter: Filter
 }>({
     baseURL: api.urls.base_url_CRM,
     headless: true,
@@ -44,7 +46,8 @@ const test = mergeTests(BaseTest.extend<{
     clubsPage: async ({ }, use) => { await use(new ClubsPage()) },
     analyticsPage: async ({ }, use) => { await use(new AnalyticsPage()) },
     cloudPaymentPage: async ({ }, use) => { await use(new CloudPaymentPage()) },
-    paymentInformationPage: async ({ }, use) => { await use(new PaymentInformationPage()) }
+    paymentInformationPage: async ({ }, use) => { await use(new PaymentInformationPage()) },
+    filter: async ({ }, use) => { await use(new Filter()) }
 }));
 
 export default test;

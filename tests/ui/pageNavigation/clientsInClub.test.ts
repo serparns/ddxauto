@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import test from "@tests/ui/baseTest.fixture";
 
 test.describe("Тест на переход в клиенты в клубе", async () => {
-    test("Успешная авторизация в CRM", async ({ page, authPage, headerBlock, menuBlock, clientsInClub }) => {
+    test("Успешная авторизация в CRM", async ({ page, authPage, headerBlock, menuBlock, filter }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto("")
         });
@@ -18,7 +18,7 @@ test.describe("Тест на переход в клиенты в клубе", as
 
         await test.step("Проверить что пользователь находится на странице клиенты в клубе и видит фильтры", async () => {
             await menuBlock.locators.clientsInTheClub(page).click();
-            await expect(clientsInClub.locators.applyButton(page)).toBeVisible
+            await expect(filter.locators.applyButton(page)).toBeVisible
         });
     });
 });

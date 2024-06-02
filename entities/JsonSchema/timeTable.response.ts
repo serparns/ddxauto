@@ -14,7 +14,7 @@ export class TimeTableSchema {
     employee: object[];
     club: object;
     club_zone: object;
-    users: string[];
+    users: object[];
     group_training: object;
 };
 
@@ -34,7 +34,7 @@ export const timeTableSchema: JSONSchemaType<TimeTableSchema> = {
         employee: { type: "array", items: { type: "object" } },
         club: { type: "object" },
         club_zone: { type: "object" },
-        users: { type: "array", items: { type: "string" } },
+        users: { type: "array", items: { type: "object" } },
         group_training: { type: "object" }
     },
     required: [
