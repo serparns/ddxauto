@@ -1,19 +1,17 @@
+import trainingTestData from "@data/training.json";
 import { timeTableSchema } from "@entities/JsonSchema/timeTable.response";
 import { getBaseParameters } from "@entities/baseParameters";
 import { selectByTrainingId } from "@entities/db/groupTrainingTimeTables.db";
-import { postGroupTrainingTimeTablesChangeRequestJson, postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
+import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
-import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
+import { APIRequestContext } from "@playwright/test";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getDate } from "@utils/random";
 import { validatorJson } from "@utils/validator";
 
 
 test.describe("Api-тесты на изменение групповой тренировки", async () => {
-    let groupTrainingId: any;
-    let clubId: number;
     let groupTrainingTimeTableId: number
     let responseTrainingData: any
     let oldResponseTrainingData: any
@@ -23,22 +21,23 @@ test.describe("Api-тесты на изменение групповой тре�
     const postGroupTimeTableChangeResponse = async (
         request: APIRequestContext,
         status: Statuses,
-    ) => {
-        const requestBody = await postGroupTrainingTimeTablesChangeRequestJson()
+        parameters: {
+            startTime?: string,
+            endTime?: string,
+            countSeats?: number,
+        }) => {
+        const requestBody = await postGroupTrainingTimeTablesRequestJson(
+            parameters.startTime,
+            parameters.endTime,
+            parameters.countSeats,
+        );
         return await new GroupTrainingTimeTableRequest(request).postGroupTrainingTimeTableChange(status, requestBody, groupTrainingTimeTableId);
     };
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            return clubId = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0].id
-        });
-
-        groupTrainingId = await test.step("получить id групповой тренировки", async () => {
-            return groupTrainingId = (await (await new GroupTrainingRequests(request).getGroupTraining(Statuses.OK, await getBaseParameters())).json()).data[0]
-        });
-
+    test.beforeAll(async ({ request, clubId, groupTrainingId }) => {
         groupTrainingTimeTableId = await test.step("получить id тренировки", async () => {
-            const requestBody = await postGroupTrainingTimeTablesRequestJson(groupTrainingId.id, clubId, trainingDay, trainingEnd);
+            const requestBody = await postGroupTrainingTimeTablesRequestJson
+                (trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingId, clubId, trainingTestData.employee_id[2450]);
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
@@ -56,7 +55,7 @@ test.describe("Api-тесты на изменение групповой тре�
     });
 
     test("Изменение данных в тренировке", async ({ request }) => {
-        await test.step("Изменение данных в тренировке", async () => postGroupTimeTableChangeResponse(request, Statuses.OK,))
+        await test.step("Изменение данных в тренировке", async () => postGroupTimeTableChangeResponse(request, Statuses.OK, { countSeats: trainingTestData.count_seats[20] }))
         const countSeats = await test.step("Запрос на получения количества мест в тренировке", async () => { return (await selectByTrainingId(groupTrainingTimeTableId)).count_seats })
 
         responseTrainingData = await test.step("получить информацию о конкретной тренировке", async () => {   // Запрос на тренировку после изменения
@@ -66,8 +65,8 @@ test.describe("Api-тесты на изменение групповой тре�
 
         await test.step("Проверки", async () => {
             await validatorJson(timeTableSchema, responseTrainingData);
-            expect(oldResponseTrainingData.count_seats).not.toBe(responseTrainingData.count_seats);
-            expect(oldResponseTrainingData.employee[0].id).not.toBe(responseTrainingData.employee[0].id);
+            expect(responseTrainingData.count_seats).not.toBe(oldResponseTrainingData.count_seats);
+            expect(responseTrainingData.employee[0].id).not.toBe(oldResponseTrainingData.employee[0].id);
             expect(responseTrainingData.count_seats).toBe(countSeats);
         });
     });

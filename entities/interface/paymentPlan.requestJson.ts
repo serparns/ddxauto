@@ -26,3 +26,34 @@ export const postPaymentPlanRequestJson = async (clubId: number, paymentPlan?: n
         user_payment_plan_id: userPaymentPlan
     };
 };
+
+export interface PaymentPlanV2RequestJson {
+    session_id: string;
+    request_id: string;
+    request_source: string;
+    verification_token: string;
+    user_id: number
+    data: object
+}
+
+export const postV2PaymentPlanRequestJson = async (userId: number, clubId: number, paymentPlan?: number, verificationToken?: string): Promise<PaymentPlanV2RequestJson> => {
+    return {
+        session_id: requestTestData.session_id,
+        request_id: requestTestData.request_id,
+        request_source: RequestSource.CRM,
+        verification_token: verificationToken != undefined ? verificationToken : "0429ed9c-6cc3-49e4-b90b-e489e60d3848",
+        user_id: userId,
+        data: [
+            {
+                club_id: clubId,
+                start_date: getDate(0),
+                payment_plan_id: paymentPlan
+            },
+            {
+                club_id: 201,
+                start_date: getDate(0),
+                payment_plan_id: PaymentPlan.ACTION199
+            }
+        ]
+    }
+}

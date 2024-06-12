@@ -1,19 +1,17 @@
-import { getBaseParameters } from "@entities/baseParameters";
 import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { getPaymentFreezingCreateRequestJson } from "@entities/interface/paymentFreezingCreate.requestJson";
 import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
+import { APIRequestContext } from "@playwright/test";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
-    let clubId: number;
     let userId: number;
     let userPaymentPlanId: number;
 
@@ -27,11 +25,7 @@ test.describe("Api-тесты на создание заморозки поль�
         return await new PaymentCreateRequests(request).postFreezesCreate(status, requestBody);
     };
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
-            return getClubs.id
-        });
+    test.beforeAll(async ({ request, clubId }) => {
         userId = await test.step("Получить id клиента", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             const createUser = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data

@@ -1,13 +1,11 @@
 import authCRMTestData from "@data/authCRM.json";
 import cardTestData from '@data/cardData.json';
-import { getBaseParameters } from "@entities/baseParameters";
 import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentPlan } from "@libs/paymentPlan";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import ClubsRequests from "@requests/clubs.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
@@ -16,16 +14,11 @@ import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 
 test.describe("Тест на проверку записи пользователя на тренировку", async () => {
-    let clubId: number;
     let userId: number;
     let userPaymentPlanId: number;
     let transactionData: any;
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            return clubId = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0].id
-        });
-
+    test.beforeAll(async ({ request, clubId }) => {
         userId = await test.step("Получить id клиента", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             const createUser = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data

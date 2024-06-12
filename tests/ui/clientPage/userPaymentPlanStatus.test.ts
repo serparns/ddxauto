@@ -26,22 +26,22 @@ test.describe("Проверка отображения статусов подп
             }
         });
 
-        await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
+        await test.step("Перейти на страницу клиента и проверить отображение  статуса 'активный' ", async () => {
             await page.goto(`/client/${current}`)
             await clientPage.locators.currentSubscribe(page).waitFor({ state: 'visible', timeout: 4000 });
         });
 
-        await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
+        await test.step("Перейти на страницу клиента и проверить отображение  статуса 'заморожен'", async () => {
             await page.goto(`/client/${frozen}`)
             await clientPage.locators.frozenSubscribe(page).waitFor({ state: 'visible', timeout: 4000 });
         });
 
-        await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
+        await test.step("Перейти на страницу клиента и проверить отображение  статуса 'не начат'", async () => {
             await page.goto(`/client/${notStarted}`)
             await clientPage.locators.notStartedSubscribe(page).waitFor({ state: 'visible', timeout: 4000 });
         });
 
-        await test.step("Перейти на страницу клиента и проверить отображение корректного статуса", async () => {
+        await test.step("Перейти на страницу клиента и проверить отображение  статуса 'мораторий'", async () => {
             await page.goto(`/client/${paymentPending}`)
             await clientPage.locators.paymentPendingSubscribe(page).waitFor({ state: 'visible', timeout: 4000 });
         });

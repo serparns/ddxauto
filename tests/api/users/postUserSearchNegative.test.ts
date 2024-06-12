@@ -1,15 +1,13 @@
-import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { getUserSearchRequestJson } from "@entities/interface/userSearch.requestJson";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
+import { APIRequestContext } from "@playwright/test";
 import UsersRequests from "@requests/users.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
-    let userData: any
-    let clubId: number;
+    let userData: any;
 
     const userSearchResponse = async (
         request: APIRequestContext,
@@ -30,11 +28,7 @@ test.describe("Api-тесты на поиск пользователя по па
         return await new UsersRequests(request).postUsersSearch(status, requestBody);
     }
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            return clubId = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0].id
-        });
-
+    test.beforeAll(async ({ request, clubId }) => {
         userData = await test.step("создать пользователя и получить данные о нем", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
 
@@ -66,7 +60,7 @@ test.describe("Api-тесты на поиск пользователя по па
         })
     });
 
-    test("[negative] Поиск пользователя по имени, фамилии и емаил ", async ({ request }) => {
+    test("[negative] Поиск пользователя по имени, фамилии и email ", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
             async () => userSearchResponse(request, Statuses.NOT_FOUND, {
                 name: userData.name,
@@ -92,7 +86,7 @@ test.describe("Api-тесты на поиск пользователя по па
 
     test("[negative] Поиск пользователя по имени, фамилии и дате рождения: int", async ({ request }) => {
         const searchUser = (await (await test.step("поиск пользователя",
-            async () => userSearchResponse(request, Statuses.BAD_REQUEST, { birthday: clubId }))).json()).error;
+            async () => userSearchResponse(request, Statuses.BAD_REQUEST, { birthday: userData.home_club_id }))).json()).error;
 
         await test.step("Проверки", async () => {
             expect(searchUser.message).toEqual('json: cannot unmarshal number into Go struct field requestData.data.birthday of type string');

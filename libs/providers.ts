@@ -3,5 +3,7 @@ export enum PaymentProvider {
     PURCHASE = 7,
     DEPOSIT = 3,
     FREEZES = 13,
-    PAYMENT = 6
+    PAYMENT = 6,
+    ACTION_20 = 20,
+    ACTION_21 = 21
 };

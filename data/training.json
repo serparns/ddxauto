@@ -8,7 +8,10 @@
     "future": "2024-05-11T12:00:00Z"
   },
   "club_zone_id": 66,
-  "employee_id": 52,
+  "employee_id": {
+    "2450": 2450,
+    "391": 391
+  },
   "count_seats": {
     "20": 20,
     "0": 0,

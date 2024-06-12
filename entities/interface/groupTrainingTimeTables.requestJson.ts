@@ -5,20 +5,20 @@ import { RequestSource } from "@libs/requestSource";
 import { getDate } from "@utils/random";
 
 export interface GroupTrainingTimeTablesRequestJson {
-    group_training_id: number;
-    start_time: string;
-    end_time: string;
-    club_id: number;
+    group_training_id?: number;
+    start_time?: string;
+    end_time?: string;
+    club_id?: number;
     club_zone_id: number;
     employee_id: number;
     count_seats: number;
-    is_repeat: boolean;
-    repeat_rule: string;
+    is_repeat?: boolean;
+    repeat_rule?: string;
 }
 
-export const postGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number,
-    clubId: number, startTime?: string,
-    endTime?: string, countSeats?: number, isRepeat?: boolean, repeatRule?: string
+export const postGroupTrainingTimeTablesRequestJson = async (startTime?: string,
+    endTime?: string, countSeats?: number, groupTrainingId?: number,
+    clubId?: number, employee?: number, isRepeat?: boolean, rule?: string
 ): Promise<BaseRequestJson<GroupTrainingTimeTablesRequestJson>> => {
     return {
         session_id: requestTestData.session_id,
@@ -26,14 +26,14 @@ export const postGroupTrainingTimeTablesRequestJson = async (groupTrainingId: nu
         request_source: RequestSource.CRM,
         data: {
             group_training_id: groupTrainingId,
-            start_time: startTime != undefined ? startTime : trainingTestData.start_time.future,
-            end_time: endTime != undefined ? endTime : trainingTestData.end_time.future,
+            start_time: startTime != undefined ? startTime : getDate(1, 'T03:00:00Z'),
+            end_time: endTime != undefined ? endTime : getDate(1, 'T04:00:00Z'),
             club_id: clubId,
             club_zone_id: trainingTestData.club_zone_id,
-            employee_id: trainingTestData.employee_id,
+            employee_id: employee != undefined ? employee : trainingTestData.employee_id[391],
             count_seats: countSeats != undefined ? countSeats : trainingTestData.count_seats[5],
-            is_repeat: isRepeat != undefined ? isRepeat : trainingTestData.is_repeat.false,
-            repeat_rule: repeatRule != undefined ? repeatRule : ''
+            is_repeat: isRepeat,
+            repeat_rule: rule
         }
     }
 };
@@ -62,29 +62,5 @@ export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: num
         date_from: dateFrom != undefined ? dateFrom : trainingTestData.start_time.future,
         date_to: '',
 
-    }
-};
-
-export interface PostGroupTrainingTimeTablesChangeRequestJson {
-    club_zone_id?: any;
-    employee_id?: any;
-    count_seats?: number;
-    include_repeats?: boolean;
-    start_time?: string;
-    end_time: string;
-}
-
-export const postGroupTrainingTimeTablesChangeRequestJson = async (): Promise<BaseRequestJson<PostGroupTrainingTimeTablesChangeRequestJson>> => {
-    return {
-        session_id: requestTestData.session_id,
-        request_id: requestTestData.request_id,
-        request_source: RequestSource.CRM,
-        data: {
-            club_zone_id: 66,
-            count_seats: 15,
-            employee_id: 2450,
-            start_time: getDate(1, 'T03:00:00Z'),
-            end_time: getDate(1, 'T04:00:00Z')
-        }
     }
 };

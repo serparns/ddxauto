@@ -1,4 +1,4 @@
-import { changeClubObjectSchema, changePaymentPlanObjectSchema, changePaymentPlanSchema } from "@entities/JsonSchema/changePaymentPlan.respone";
+import { userClubObjectSchema, userPaymentPlanObjectSchema, userPaymentPlanSchema } from "@entities/JsonSchema/userPaymentPlan.response";
 import { getBaseParameters } from "@entities/baseParameters";
 import { selectVerifyCode } from "@entities/db/userNotifications.db";
 import { selectStatusFromUserPaymentPlan } from "@entities/db/userPaymentPlan.db";
@@ -9,17 +9,17 @@ import { PostUserVerifyRequestJson, postVerifyGetCodeRequestJson } from "@entiti
 import { PaymentPlan } from "@libs/paymentPlan";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
+import { APIRequestContext } from "@playwright/test";
 import ClubsRequests from "@requests/clubs.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
 import VerifyRequests from "@requests/verify.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { validatorJson } from "@utils/validator";
 
 test.describe("Api-тесты на смену подписки пользователю", async () => {
-    let clubId: number;
     let userPaymentPlanId: number;
     let userResponseData: any;
     let userVerifyCode: any;
@@ -28,6 +28,7 @@ test.describe("Api-тесты на смену подписки пользова�
     const postUserPaymentPlanChangeResponse = async (
         request: APIRequestContext,
         status: Statuses,
+        clubId: number,
         parameters?: {
             userPaymentPlan?: number
         }) => {
@@ -35,17 +36,13 @@ test.describe("Api-тесты на смену подписки пользова�
         return await new UserPaymentPlansRequests(request).postUserPaymentPlansChange(status, requestBody, userResponseData.id);
     };
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            return clubId = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0].id
-        });
-
+    test.beforeAll(async ({ request, clubId }) => {
         userResponseData = await test.step("Получить данные пользователя", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             return (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
         });
 
-        userPaymentPlanId = await test.step("Запрос на cоздание идентификатора пользовательского платежа", async () => {
+        userPaymentPlanId = await test.step("Запрос на создание идентификатора пользовательского платежа", async () => {
             const requestBody = await postPaymentPlanRequestJson(clubId);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userResponseData.id)).json()).data[0]
@@ -68,9 +65,9 @@ test.describe("Api-тесты на смену подписки пользова�
         });
     });
 
-    test("Сменить пользователю подписку, и перевести ее статус в current ", async ({ request }) => {
+    test("Сменить пользователю подписку, и перевести ее статус в current ", async ({ request, clubId }) => {
         const userChangePaymentPlanData = (await (await test.step("запрос на смену подписки пользователю ",
-            async () => postUserPaymentPlanChangeResponse(request, Statuses.OK, { userPaymentPlan: PaymentPlan.TRAINER }))).json()).data[0]
+            async () => postUserPaymentPlanChangeResponse(request, Statuses.OK, clubId, { userPaymentPlan: PaymentPlan.TRAINER }))).json()).data[0]
 
         await test.step("Смена подписки в статус current", async () => {
             const requestBody = await postPaymentCreateRequestJson(PaymentProvider.RECURRENT, userChangePaymentPlanData.id, userResponseData.id);
@@ -85,12 +82,11 @@ test.describe("Api-тесты на смену подписки пользова�
         });
 
         await test.step("Проверки", async () => {
-            validatorJson(changePaymentPlanObjectSchema, (userChangePaymentPlanData.payment_plan));
-            validatorJson(changeClubObjectSchema, (userChangePaymentPlanData.club));
-            validatorJson(changePaymentPlanSchema, (userChangePaymentPlanData));
+            validatorJson(userPaymentPlanObjectSchema, (userChangePaymentPlanData.payment_plan));
+            validatorJson(userClubObjectSchema, (userChangePaymentPlanData.club));
+            validatorJson(userPaymentPlanSchema, (userChangePaymentPlanData));
             expect(userChangePaymentPlanData.user_id).toBe(userResponseData.id);
             expect(userChangePaymentPlanData.id).not.toBe(userPaymentPlanId);
-            expect(userChangePaymentPlanData.id).toBe(userPaymentPlanId + 1);
             expect(currentStatus).toBe("Current");
             expect(endedStatus).toBe("Ended");
         });

@@ -1,10 +1,8 @@
 import authCRMTestData from "@data/authCRM.json";
-import { getBaseParameters } from "@entities/baseParameters";
 import { selectNotesData } from "@entities/db/notes.db";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { Statuses } from "@libs/statuses";
 import { expect } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
 import UsersRequests from "@requests/users.requests";
 import test from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
@@ -12,14 +10,9 @@ import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 test.describe("Проверка блокировки пользователя", async () => {
     const userPhone = getRandomPhoneNumber()
     let userId: any;
-    let clubId: number;
 
-    test.beforeAll(async ({ request }) => {
-        await test.step("Получить id клуба", async () => {
-            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
-            return getClubs.id;
-        });
 
+    test.beforeAll(async ({ request, clubId }) => {
         await test.step("создать пользователя и получить данные о нем", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), userPhone);
             return userId = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data.id

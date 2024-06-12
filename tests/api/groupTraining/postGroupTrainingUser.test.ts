@@ -1,4 +1,4 @@
-import { getBaseParameters } from "@entities/baseParameters";
+import trainingTestData from "@data/training.json";
 import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { postGroupTrainingUsersRequestJson } from "@entities/interface/groupTrainingUser.requestJson";
 import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
@@ -6,19 +6,17 @@ import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requ
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
+import { APIRequestContext } from "@playwright/test";
 import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 
 test.describe("Api-тесты на запись пользователя на тренировку", async () => {
-    let groupTrainingId: any;
-    let clubId: number;
     let groupTrainingTimeTableId: number
     let userId: number;
     let userPaymentPlanId: number;
@@ -33,17 +31,9 @@ test.describe("Api-тесты на запись пользователя на т
         return await new GroupTrainingRequests(request).postGroupTrainingUsers(status, requestBody);
     };
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            return clubId = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0].id
-        });
-
-        groupTrainingId = await test.step("получить id групповой тренировки", async () => {
-            return groupTrainingId = (await (await new GroupTrainingRequests(request).getGroupTraining(Statuses.OK, await getBaseParameters())).json()).data[0]
-        });
-
+    test.beforeAll(async ({ request, clubId, groupTrainingId }) => {
         groupTrainingTimeTableId = await test.step("получить id тренировки", async () => {
-            const requestBody = await postGroupTrainingTimeTablesRequestJson(groupTrainingId.id, clubId, trainingDay, trainingEnd);
+            const requestBody = await postGroupTrainingTimeTablesRequestJson(trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingId, clubId);
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
@@ -54,7 +44,7 @@ test.describe("Api-тесты на запись пользователя на т
             return createUser.id
         });
 
-        userPaymentPlanId = await test.step("Запрос на cоздание идентификатора пользовательского платежа", async () => {
+        userPaymentPlanId = await test.step("Запрос на создание идентификатора пользовательского платежа", async () => {
             const requestBody = await postPaymentPlanRequestJson(clubId);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]

@@ -12,7 +12,6 @@ test.describe("Api-тесты на получение транзакций по�
         status: Statuses,
         parameters?: {
             userId?: number
-
         }) => {
         const params = async (): Promise<object> => {
             let params = await getBaseParameters()

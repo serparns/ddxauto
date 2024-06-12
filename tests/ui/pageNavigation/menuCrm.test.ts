@@ -1,11 +1,11 @@
 import authCRMTestData from "@data/authCRM.json";
-import { ClientsInClub } from "@pages/clientsInClub.page";
-import { Faq } from "@pages/faq.page";
 import { expect } from "@playwright/test";
 import test from "@tests/ui/baseTest.fixture";
 
 test.describe("Тест на навигацию по боковому меню", async () => {
-    test("Успешный переход по всем ссылкам из меню", async ({ page, authPage, headerBlock, menuBlock, discountPage, schedulePage: shedulePage, mainPage, clubsPage, analyticsPage }) => {
+    test("Успешный переход по всем ссылкам из меню", async ({
+        page, authPage, headerBlock, menuBlock, discountPage, schedulePage, mainPage, clubsPage, analyticsPage, faq, clientsInClub
+    }) => {
         await test.step("Перейти на страницу входа", async () => {
             await page.goto('')
         });
@@ -26,7 +26,7 @@ test.describe("Тест на навигацию по боковому меню",
 
         await test.step("Проверить что пользователь находится на странице расписание, и видит кнопку 'Добавить занятие'", async () => {
             await menuBlock.locators.schedule(page).click();;
-            await shedulePage.locators.addAnActivity(page).waitFor({ state: "visible", timeout: 3000 });
+            await schedulePage.locators.addAnActivity(page).waitFor({ state: "visible", timeout: 3000 });
             expect.soft(page.url()).toContain('/schedule');
         });
 
@@ -44,7 +44,7 @@ test.describe("Тест на навигацию по боковому меню",
 
         await test.step("Проверить что пользователь находится на странице клиенты в клубе и видит фильтры", async () => {
             await menuBlock.locators.clientsInTheClub(page).click();
-            expect(new ClientsInClub().locators.applyButton(page)).toBeVisible
+            expect(clientsInClub.locators.applyButton(page)).toBeVisible
             expect.soft(page.url()).toContain('/clients-in-club');
         });
 
@@ -56,7 +56,7 @@ test.describe("Тест на навигацию по боковому меню",
 
         await test.step("Проверить что пользователь находится на странице FAQ", async () => {
             await menuBlock.locators.faq(page).click();
-            await expect(new Faq().locators.searchSelect(page)).toBeVisible();
+            await expect(faq.locators.searchSelect(page)).toBeVisible();
             expect.soft(page.url()).toContain('/faq');
         });
     });

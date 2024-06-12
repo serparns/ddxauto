@@ -1,6 +1,7 @@
 import api from "@api";
 import { AnalyticsPage } from "@pages/analytics.page";
 import { AuthPage } from '@pages/auth.page';
+import { Buttons } from "@pages/blocks/faq.buttons";
 import { Filter } from "@pages/blocks/filter.blocks";
 import { HeaderBlock } from "@pages/blocks/headers.blocks";
 import { MenuBlock } from "@pages/blocks/menu.blocks";
@@ -10,6 +11,8 @@ import { CloudPaymentPage } from "@pages/cloudPayments.page";
 import { ClubsPage } from "@pages/clubs.page";
 import { CreateUserPage } from "@pages/createUser.page";
 import { DiscountPage } from "@pages/discounts.page";
+import { Freeze } from "@pages/faq.freeze.page";
+import { Faq } from "@pages/faq.page";
 import { MainPage } from "@pages/main.page";
 import { PaymentInformationPage } from "@pages/paymentInformation.page";
 import { SchedulePage } from "@pages/schedule.page";
@@ -17,6 +20,9 @@ import { test as BaseTest, mergeTests } from '@playwright/test';
 
 const test = mergeTests(BaseTest.extend<{
     authPage: AuthPage
+    freeze: Freeze
+    faq: Faq
+    buttons: Buttons
     headerBlock: HeaderBlock
     clientPage: ClientPage
     clientsInClub: ClientsInClub
@@ -29,12 +35,18 @@ const test = mergeTests(BaseTest.extend<{
     analyticsPage: AnalyticsPage
     cloudPaymentPage: CloudPaymentPage
     paymentInformationPage: PaymentInformationPage
-    filter: Filter
+    filter: Filter,
+
+    clubId: number
+    groupTrainingId: number
 }>({
     baseURL: api.urls.base_url_CRM,
     headless: true,
     viewport: { width: 1920, height: 1680 },
     authPage: async ({ }, use) => { await use(new AuthPage()) },
+    freeze: async ({ }, use) => { await use(new Freeze()) },
+    faq: async ({ }, use) => { await use(new Faq()) },
+    buttons: async ({ }, use) => { await use(new Buttons()) },
     headerBlock: async ({ }, use) => { await use(new HeaderBlock()) },
     clientsInClub: async ({ }, use) => { await use(new ClientsInClub()) },
     clientPage: async ({ }, use) => { await use(new ClientPage()) },
@@ -47,8 +59,11 @@ const test = mergeTests(BaseTest.extend<{
     analyticsPage: async ({ }, use) => { await use(new AnalyticsPage()) },
     cloudPaymentPage: async ({ }, use) => { await use(new CloudPaymentPage()) },
     paymentInformationPage: async ({ }, use) => { await use(new PaymentInformationPage()) },
-    filter: async ({ }, use) => { await use(new Filter()) }
+    filter: async ({ }, use) => { await use(new Filter()) },
+
+    clubId: Number(process.env.CLUB_ID),
+    groupTrainingId: Number(process.env.GROUP_TRAINING_ID)
 }));
 
 export default test;
-export const expect = test.expect;   
+export const expect = test.expect;  

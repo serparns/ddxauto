@@ -3,18 +3,12 @@ import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { SportExperience } from "@libs/sportExperience";
 import { Statuses } from "@libs/statuses";
-import { expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
 import UsersRequests from "@requests/users.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тест на создание юзера с клубом и получения данных о нем", async () => {
-    test("[positive] получить юзера с подстановкой id клуба из запроса", async ({ request }) => {
-        const clubId = await test.step("Получить id клуба", async () => {
-            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
-            return getClubs.id
-        });
-
+    test("[positive] получить юзера с подстановкой id клуба из запроса", async ({ request, clubId }) => {
         const createUser = await test.step("Получить id клиента", async () => {
             const requestBody = await getUserRequestJson(clubId,
                 getRandomEmail(),

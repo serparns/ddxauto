@@ -15,10 +15,12 @@ export interface PaymentCreateRequestJson {
     payment_service_id: number;
     employee_id: number;
     fiscal_method: string;
+    related_user_payment_plans?: object;
+    card_token_id?: number;
 };
 
 export const postPaymentCreateRequestJson = async (providerId?: number, userPaymentPlanId?: number,
-    userId?: number, depositAmount?: number)
+    userId?: number, depositAmount?: number, childPlanId?: number, cardToken?: number)
     : Promise<PaymentCreateRequestJson> => {
     return {
         session_id: requestTestData.session_id,
@@ -33,6 +35,8 @@ export const postPaymentCreateRequestJson = async (providerId?: number, userPaym
         currency: "RUB",
         payment_service_id: 2,
         employee_id: 3134,
-        fiscal_method: "OrangeData"
+        fiscal_method: "OrangeData",
+        card_token_id: cardToken,
+        related_user_payment_plans: [childPlanId]
     };
 };

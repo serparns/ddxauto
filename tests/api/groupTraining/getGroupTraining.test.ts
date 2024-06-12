@@ -1,28 +1,32 @@
-import api from "@api";
-import { getBaseParameters } from "@entities/baseParameters";
+import { errorDataJsonSchema } from "@entities/JsonSchema/error.response";
+import { groupTrainingSchema } from "@entities/JsonSchema/groupTraining.response";
+import { groupTrainingCategorySchema } from "@entities/JsonSchema/groupTrainingCategory.response";
+import { getBaseFalseParameters, getBaseParameters } from "@entities/baseParameters";
 import { Statuses } from "@libs/statuses";
 import { expect, test } from "@playwright/test";
-import { log } from "@utils/logger";
+import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
+import { validatorJson } from "@utils/validator";
 
-test.describe("Api-тесты на получение групповых тренеровок", async () => {
-    test("[positive] получить список названий групповых тренеровок", async ({ request }) => {
-        const url = `${api.urls.base_url_api}${api.paths.group_trainings}`
-        const parameters = { ...await getBaseParameters() }
+test.describe("Api-тесты на получение групповых тренировок", async () => {
+    test("[positive] получить список названий групповых тренировок", async ({ request }) => {
+        await test.step("получить id групповой тренировки", async () => {
+            const response = (await (await new GroupTrainingRequests(request).getGroupTraining(Statuses.OK, await getBaseParameters())).json()).data[0];
 
-        log("request url", url);
-        log("parameters", parameters);
+            await test.step("Проверки", async () => {
+                validatorJson(groupTrainingCategorySchema, (response.group_training_category));
+                validatorJson(groupTrainingSchema, (response));
+            });
+        });
+    });
 
-        const response = await request.get(
-            url,
-            {
-                headers: {
-                    'Authorization': `${api.tokens.test}`
-                },
-                params: parameters
-            }
-        );
-        log("request status", response.status())
-        log("response body", JSON.stringify(await response.json(), null, '\t'))
-        expect(response.status()).toEqual(Statuses.OK);
+    test("[negative] получить список названий групповых тренировок, не передавая обязательный 'session_id'", async ({ request }) => {
+        await test.step("получить id групповой тренировки", async () => {
+            const response = (await (await new GroupTrainingRequests(request).getGroupTraining(Statuses.BAD_REQUEST, await getBaseFalseParameters())).json()).error;
+
+            await test.step("Проверки", async () => {
+                expect(response.message).toBe("API session_id required")
+                validatorJson(errorDataJsonSchema, (response));
+            })
+        })
     });
 })

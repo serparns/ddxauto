@@ -1,16 +1,17 @@
 import { JSONSchemaType } from "ajv";
 
-export class ChangePaymentPlanSchema {
+export class UserPaymentPlanSchema {
     id: number;
     user_id: number;
     signed_date: string;
     start_date: string;
     status: string;
+    parent_id: number
     payment_plan: object;
     club: object;
 };
 
-export const changePaymentPlanSchema: JSONSchemaType<ChangePaymentPlanSchema> = {
+export const userPaymentPlanSchema: JSONSchemaType<UserPaymentPlanSchema> = {
     type: "object",
     properties: {
         id: { type: "integer" },
@@ -18,6 +19,7 @@ export const changePaymentPlanSchema: JSONSchemaType<ChangePaymentPlanSchema> = 
         signed_date: { type: "string" },
         start_date: { type: "string" },
         status: { type: "string" },
+        parent_id: { type: "integer" },
         payment_plan: { type: "object" },
         club: { type: "object" },
     },
@@ -32,7 +34,7 @@ export const changePaymentPlanSchema: JSONSchemaType<ChangePaymentPlanSchema> = 
     ]
 };
 
-export class ChangePaymentObjectPlanSchema {
+export class userPaymentObjectPlanSchema {
     id: number;
     name: string;
     payment_plan_type: string;
@@ -48,12 +50,11 @@ export class ChangePaymentObjectPlanSchema {
     is_fitness_access: boolean
 };
 
-export const changePaymentPlanObjectSchema: JSONSchemaType<ChangePaymentObjectPlanSchema> = {
+export const userPaymentPlanObjectSchema: JSONSchemaType<userPaymentObjectPlanSchema> = {
     type: "object",
     properties: {
         id: { type: "integer" },
         name: { type: "string" },
-        payment_plan_type: { type: "string" },
         currency_code: { type: "string" },
         our_join_fee: { type: "integer" },
         membership_fee: { type: "integer" },
@@ -64,6 +65,7 @@ export const changePaymentPlanObjectSchema: JSONSchemaType<ChangePaymentObjectPl
         interval_type: { type: "string" },
         is_group_training_access: { type: "boolean" },
         is_fitness_access: { type: "boolean" },
+        payment_plan_type: { type: "string" },
     },
     required: [
         "id",
@@ -82,12 +84,12 @@ export const changePaymentPlanObjectSchema: JSONSchemaType<ChangePaymentObjectPl
     ]
 };
 
-export class ChangeClubObjectSchema {
+export class UserClubObjectSchema {
     id: number;
     name: string;
 };
 
-export const changeClubObjectSchema: JSONSchemaType<ChangeClubObjectSchema> = {
+export const userClubObjectSchema: JSONSchemaType<UserClubObjectSchema> = {
     type: "object",
     properties: {
         id: { type: "integer" },

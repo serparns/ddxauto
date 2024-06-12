@@ -1,15 +1,13 @@
-import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { getUserSearchRequestJson } from "@entities/interface/userSearch.requestJson";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
+import { APIRequestContext } from "@playwright/test";
 import UsersRequests from "@requests/users.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
     let userData: any;
-    let clubId: number;
 
     const userSearchResponse = async (
         request: APIRequestContext,
@@ -30,12 +28,7 @@ test.describe("Api-тесты на поиск пользователя по па
         return await new UsersRequests(request).postUsersSearch(status, requestBody);
     }
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
-            return getClubs.id;
-        });
-
+    test.beforeAll(async ({ request, clubId }) => {
         userData = await test.step("создать пользователя и получить данные о нем", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             return userData = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data

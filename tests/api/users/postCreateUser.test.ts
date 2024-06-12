@@ -2,13 +2,12 @@ import userTestData from "@data/user.json";
 import { baseDataJsonSchema } from "@entities/JsonSchema/base.response";
 import { errorDataJsonSchema } from "@entities/JsonSchema/error.response";
 import { userDataJsonSchema } from "@entities/JsonSchema/user.response";
-import { getBaseParameters } from "@entities/baseParameters";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { SportExperience } from "@libs/sportExperience";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
+import { APIRequestContext } from "@playwright/test";
 import UsersRequests from "@requests/users.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { validatorJson } from "@utils/validator";
 
@@ -17,6 +16,7 @@ test.describe("Api-тест на создание клиента", async () => {
     const userCrateResponse = async (
         request: APIRequestContext,
         status: Statuses,
+        clubId: number,
         parameters?: {
             sportExperience?: string
             password?: string
@@ -29,22 +29,15 @@ test.describe("Api-тест на создание клиента", async () => {
         return await new UsersRequests(request).postCreateUser(status, requestBody);
     }
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
-            return getClubs.id
-        })
-    });
-
     async function validator(userCreateSuccessResponse: any): Promise<void> {
         expect(await validatorJson(baseDataJsonSchema, (await userCreateSuccessResponse.json())));
         expect(await validatorJson(userDataJsonSchema, (await userCreateSuccessResponse.json()).data));
     }
 
     Object.values(SportExperience).forEach(sport_experience => {
-        test(`[positive] Создание пользователя с опытом ${sport_experience} `, async ({ request }) => {
+        test(`[positive] Создание пользователя с опытом ${sport_experience} `, async ({ request, clubId }) => {
             const userCreateSuccessResponse = await test.step("создание пользователя",
-                async () => userCrateResponse(request, Statuses.OK, {
+                async () => userCrateResponse(request, Statuses.OK, clubId, {
                     sportExperience: sport_experience,
                     password: userTestData.password
                 }));
@@ -57,9 +50,9 @@ test.describe("Api-тест на создание клиента", async () => {
         })
     })
 
-    test("[positive] Создание пользователя", async ({ request }) => {
+    test("[positive] Создание пользователя", async ({ request, clubId }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
-            async () => userCrateResponse(request, Statuses.OK, {
+            async () => userCrateResponse(request, Statuses.OK, clubId, {
                 sportExperience: SportExperience.FIVE_YEARS,
                 password: userTestData.password
             }));
@@ -71,9 +64,9 @@ test.describe("Api-тест на создание клиента", async () => {
         await test.step("Проверить схему ответа", async () => validator(userCreateSuccessResponse));
     });
 
-    test("[positive] Создание пользователя без sport_experience", async ({ request }) => {
+    test("[positive] Создание пользователя без sport_experience", async ({ request, clubId }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
-            async () => userCrateResponse(request, Statuses.OK, { password: userTestData.password }));
+            async () => userCrateResponse(request, Statuses.OK, clubId, { password: userTestData.password }));
 
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).data.sport_experience).toEqual("Не указан");
@@ -82,9 +75,9 @@ test.describe("Api-тест на создание клиента", async () => {
         await test.step("Проверить схему ответа", async () => validator(userCreateSuccessResponse));
     });
 
-    test("[positive] Создание пользователя без пароля", async ({ request }) => {
+    test("[positive] Создание пользователя без пароля", async ({ request, clubId }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
-            async () => userCrateResponse(request, Statuses.OK));
+            async () => userCrateResponse(request, Statuses.OK, clubId));
 
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).data.home_club_id).toEqual(clubId);
@@ -95,7 +88,7 @@ test.describe("Api-тест на создание клиента", async () => {
 
     test("[negative] Создание пользователя с невалидным sport_experience", async ({ request }) => {
         const userCreateSuccessResponse = await test.step("создание пользователя",
-            async () => userCrateResponse(request, Statuses.BAD_REQUEST, { sportExperience: "Не скажу" }));
+            async () => userCrateResponse(request, Statuses.BAD_REQUEST, clubId, { sportExperience: "Не скажу" }));
 
         await test.step("Проверки", async () => {
             expect((await userCreateSuccessResponse.json()).error.code).toEqual("user_create_error");

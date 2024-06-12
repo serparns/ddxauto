@@ -1,57 +1,40 @@
 import trainingTestData from "@data/training.json";
 import { trainingDataJsonSchema } from "@entities/JsonSchema/training.response";
-import { getBaseParameters } from "@entities/baseParameters";
 import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/groupTrainingTimeTables.requestJson";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
-import GroupTrainingRequests from "@requests/groupTrainingRequests.request";
+import { APIRequestContext } from "@playwright/test";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
+import test, { expect } from "@tests/ui/baseTest.fixture";
+import { getDate } from "@utils/random";
 import { validatorJson } from "@utils/validator";
 
 test.describe("Api-тесты на добавление групповых тренировок", async () => {
-    let groupTrainingId: number;
-    let clubId: number;
+    const pastDate = getDate(-11, 'T03:00:00Z');
+    const pastDateEnd = getDate(-11, 'T03:00:00Z');
 
     const groupTrainingTimeTablesResponse = async (
         request: APIRequestContext,
         status: Statuses,
+        groupTrainingId: number,
+        clubId: number,
         parameters: {
-            startTime: string,
-            endTime: string,
+            startTime?: string,
+            endTime?: string,
             countSeats: number,
-            isRepeat: boolean,
-            repeatRule?: string
         }) => {
-        const requestBody = await postGroupTrainingTimeTablesRequestJson(groupTrainingId, clubId,
+        const requestBody = await postGroupTrainingTimeTablesRequestJson(
             parameters.startTime,
             parameters.endTime,
             parameters.countSeats,
-            parameters.isRepeat,
-            parameters.repeatRule
+            groupTrainingId, clubId,
         );
         return await new GroupTrainingTimeTableRequest(request).postGroupTrainingTimeTable(status, requestBody);
     }
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            return clubId = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0].id
-        });
-
-        groupTrainingId = await test.step("получить id групповой тренировки", async () => {
-            return groupTrainingId = (await (await new GroupTrainingRequests(request).getGroupTrainingCategories(Statuses.OK, await getBaseParameters())).json()).data[0].id;
-        });
-    });
-
-    test("Добавить в расписание групповую тренировку на 5 мест", async ({ request }) => {
+    test("Добавить в расписание групповую тренировку на 5 мест", async ({ request, groupTrainingId, clubId }) => {
         const groupTrainingCategory = await (await test.step("Добавление групповой тренировки",
-            async () => groupTrainingTimeTablesResponse(request, Statuses.OK,
-                {
-                    startTime: trainingTestData.start_time.future,
-                    endTime: trainingTestData.start_time.future,
-                    countSeats: trainingTestData.count_seats[5],
-                    isRepeat: trainingTestData.is_repeat.false
-                }))).json()
+            async () => groupTrainingTimeTablesResponse(request, Statuses.OK, groupTrainingId, clubId,
+                { countSeats: trainingTestData.count_seats[5] }))).json()
 
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0]).not.toBe(null)
@@ -59,14 +42,13 @@ test.describe("Api-тесты на добавление групповых тр�
         });
     });
 
-    test("Добавить в расписание групповую тренировку в прошлом", async ({ request }) => {
+    test("Добавить в расписание групповую тренировку в прошлом", async ({ request, groupTrainingId, clubId }) => {
         const groupTrainingCategory = await (await test.step("Добавление групповой тренировки",
-            async () => groupTrainingTimeTablesResponse(request, Statuses.OK,
+            async () => groupTrainingTimeTablesResponse(request, Statuses.OK, groupTrainingId, clubId,
                 {
-                    startTime: trainingTestData.start_time.backInTime,
-                    endTime: trainingTestData.start_time.backInTime,
-                    countSeats: trainingTestData.count_seats[5],
-                    isRepeat: trainingTestData.is_repeat.false
+                    startTime: pastDate,
+                    endTime: pastDateEnd,
+                    countSeats: trainingTestData.count_seats[5]
                 }))).json()
 
         await test.step("Проверки", async () => {

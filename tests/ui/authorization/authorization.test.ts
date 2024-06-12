@@ -3,6 +3,7 @@ import { expect } from "@playwright/test";
 import test from "@tests/ui/baseTest.fixture";
 import { setTimeout } from 'timers/promises';
 
+
 test.describe("Тесты на авторизацию в CRM", async () => {
     test("Успешная авторизация в CRM", async ({ page, authPage, headerBlock }) => {
         await test.step("Перейти на страницу входа", async () => {

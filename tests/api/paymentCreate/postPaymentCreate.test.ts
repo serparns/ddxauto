@@ -1,18 +1,16 @@
-import { getBaseParameters } from "@entities/baseParameters";
 import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
 import { postPaymentPlanRequestJson } from "@entities/interface/paymentPlan.requestJson";
 import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
-import { APIRequestContext, expect, test } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
+import { APIRequestContext } from "@playwright/test";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
+import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("Api-тесты на создание платежа", async () => {
-    let clubId: number;
     let userId: number;
     let userPaymentPlanId: number;
 
@@ -24,25 +22,19 @@ test.describe("Api-тесты на создание платежа", async () =>
             sessionId?: string,
             depositAmount?: number,
             userPaymentPlanId?: number
+            childPlanId?: number
         }) => {
         const requestBody = await postPaymentCreateRequestJson(parameters.providerId, parameters.userPaymentPlanId, userId, parameters.depositAmount);
         return await new PaymentCreateRequests(request).postPaymentCreate(status, requestBody);
     };
 
-    test.beforeAll(async ({ request }) => {
-        clubId = await test.step("Получить id клуба", async () => {
-            const getClubs = (await (await new ClubsRequests(request).getClubById(Statuses.OK, await getBaseParameters())).json()).data[0]
-            return getClubs.id
-        });
-    });
-
-    test.beforeEach(async ({ request }) => {
+    test.beforeEach(async ({ request, clubId }) => {
         userId = await test.step("Получить id клиента", async () => {
             const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
             const createUser = (await (await new UsersRequests(request).postCreateUser(Statuses.OK, requestBody)).json()).data
             return createUser.id
         });
-        userPaymentPlanId = await test.step("Запрос на cоздание идентификатора пользовательского платежа", async () => {
+        userPaymentPlanId = await test.step("Запрос на создание идентификатора пользовательского платежа", async () => {
             const requestBody = await postPaymentPlanRequestJson(clubId);
             const userPaymentPlanId = (await (await new UserPaymentPlansRequests(request)
                 .postUserPaymentPlans(Statuses.OK, requestBody, userId)).json()).data[0]
@@ -63,7 +55,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         });
     });
 
-    test("[positive] Пополение депозита", async ({ request }) => {
+    test("[positive] Пополнение депозита", async ({ request }) => {
         const paymentCreateSuccessResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.OK, {
                 providerId: PaymentProvider.DEPOSIT, depositAmount: 100
