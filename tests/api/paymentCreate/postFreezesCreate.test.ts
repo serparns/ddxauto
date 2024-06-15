@@ -8,8 +8,8 @@ import { APIRequestContext } from "@playwright/test";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на создание заморозки пользовательской подписки", async () => {
     let userId: number;

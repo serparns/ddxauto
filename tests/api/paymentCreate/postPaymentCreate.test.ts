@@ -7,8 +7,8 @@ import { APIRequestContext } from "@playwright/test";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на создание платежа", async () => {
     let userId: number;
@@ -19,7 +19,6 @@ test.describe("Api-тесты на создание платежа", async () =>
         status: Statuses,
         parameters: {
             providerId?: PaymentProvider,
-            sessionId?: string,
             depositAmount?: number,
             userPaymentPlanId?: number
             childPlanId?: number
@@ -46,7 +45,7 @@ test.describe("Api-тесты на создание платежа", async () =>
         const paymentCreateSuccessResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.OK, {
                 providerId: PaymentProvider.RECURRENT,
-                sessionId: "123", userPaymentPlanId: userPaymentPlanId
+                userPaymentPlanId: userPaymentPlanId
             }));
 
 
@@ -70,7 +69,6 @@ test.describe("Api-тесты на создание платежа", async () =>
     test("[negative] создание платежа, без провайдера", async ({ request }) => {
         const paymentCreateErrorResponse = await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.BAD_REQUEST, {
-                sessionId: "123",
                 userPaymentPlanId: userPaymentPlanId
             }));
 

@@ -1,4 +1,5 @@
 import requestTestData from "@data/request.json";
+import trainingTestData from "@data/training.json";
 import userTestData from "@data/user.json";
 import { BaseRequestJson } from "@entities/interface/base.requestJson";
 import { RequestSource } from "@libs/requestSource";
@@ -64,7 +65,7 @@ export const postUserBlockRequestJson = async (): Promise<BaseRequestJson<UserBl
         data: {
             note: {
                 text: "Где деньги Лебовски",
-                employee_id: 2450
+                employee_id: trainingTestData.employee_id[391]
             },
             club_access: false
         }

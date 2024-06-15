@@ -1,3 +1,4 @@
+import clubData from "@data/club.json";
 import requestTestData from "@data/request.json";
 import { PaymentPlan } from "@libs/paymentPlan";
 import { RequestSource } from "@libs/requestSource";
@@ -50,7 +51,7 @@ export const postV2PaymentPlanRequestJson = async (userId: number, clubId: numbe
                 payment_plan_id: paymentPlan
             },
             {
-                club_id: 201,
+                club_id: clubData.club.online,
                 start_date: getDate(0),
                 payment_plan_id: PaymentPlan.ACTION199
             }

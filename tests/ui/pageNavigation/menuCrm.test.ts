@@ -1,6 +1,6 @@
 import authCRMTestData from "@data/authCRM.json";
 import { expect } from "@playwright/test";
-import test from "@tests/ui/baseTest.fixture";
+import test from "../baseTest.fixture";
 
 test.describe("Тест на навигацию по боковому меню", async () => {
     test("Успешный переход по всем ссылкам из меню", async ({

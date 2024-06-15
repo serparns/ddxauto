@@ -1,7 +1,7 @@
 import authCRMTestData from "@data/authCRM.json";
 import { expect } from "@playwright/test";
-import test from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import test from "../baseTest.fixture";
 
 test.describe("Создание нового пользователя", async () => {
     test("Создание нового пользователя", async ({ page, authPage, headerBlock, createUserPage }) => {

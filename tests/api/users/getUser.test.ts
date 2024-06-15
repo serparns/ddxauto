@@ -4,8 +4,8 @@ import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { SportExperience } from "@libs/sportExperience";
 import { Statuses } from "@libs/statuses";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тест на создание юзера с клубом и получения данных о нем", async () => {
     test("[positive] получить юзера с подстановкой id клуба из запроса", async ({ request, clubId }) => {

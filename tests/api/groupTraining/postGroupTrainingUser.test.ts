@@ -12,9 +12,8 @@ import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.requ
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на запись пользователя на тренировку", async () => {
     let groupTrainingTimeTableId: number
@@ -31,9 +30,9 @@ test.describe("Api-тесты на запись пользователя на т
         return await new GroupTrainingRequests(request).postGroupTrainingUsers(status, requestBody);
     };
 
-    test.beforeAll(async ({ request, clubId, groupTrainingId }) => {
+    test.beforeAll(async ({ request, clubId, groupTrainingData }) => {
         groupTrainingTimeTableId = await test.step("получить id тренировки", async () => {
-            const requestBody = await postGroupTrainingTimeTablesRequestJson(trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingId, clubId);
+            const requestBody = await postGroupTrainingTimeTablesRequestJson(trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingData.id, clubId);
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });

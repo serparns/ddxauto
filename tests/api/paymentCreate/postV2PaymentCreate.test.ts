@@ -11,9 +11,9 @@ import { APIRequestContext } from "@playwright/test";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { validatorJson } from "@utils/validator";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на создание платежа", async () => {
     let userResponseData: any;
@@ -24,7 +24,6 @@ test.describe("Api-тесты на создание платежа", async () =>
         status: Statuses,
         parameters: {
             providerId?: PaymentProvider,
-            sessionId?: string,
             depositAmount?: number,
             userPaymentPlanId?: number
             childPlanId?: number
@@ -51,7 +50,7 @@ test.describe("Api-тесты на создание платежа", async () =>
     test("[positive] Создание платежа для двух подписок", async ({ request }) => {
         const response = (await (await test.step("Запрос на создание оплаты",
             async () => paymentCreateResponse(request, Statuses.OK, {
-                providerId: PaymentProvider.ACTION_20, sessionId: "123", userPaymentPlanId: userPaymentsPlans.parent_id,
+                providerId: PaymentProvider.ACTION_20, userPaymentPlanId: userPaymentsPlans.parent_id,
                 childPlanId: userPaymentsPlans.id
             }))).json()).data[0];
 

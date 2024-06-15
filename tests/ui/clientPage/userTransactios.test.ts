@@ -1,6 +1,6 @@
 import authCRMTestData from "@data/authCRM.json";
 import { selectTransaction, selectUserIdByTransaction } from "@entities/db/transactions.db";
-import test from "@tests/ui/baseTest.fixture";
+import test from "../baseTest.fixture";
 
 test.describe("Переход на страницу транзакций пользователя", async () => {
     test("Получение транзакций пользователя", async ({ page, authPage, headerBlock, paymentInformationPage, clientPage, filter }) => {

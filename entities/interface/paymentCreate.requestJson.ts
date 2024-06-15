@@ -1,4 +1,5 @@
 import requestTestData from "@data/request.json";
+import trainingTestData from "@data/training.json";
 import { RequestSource } from "@libs/requestSource";
 
 export interface PaymentCreateRequestJson {
@@ -34,7 +35,7 @@ export const postPaymentCreateRequestJson = async (providerId?: number, userPaym
         user_payment_plan_id: userPaymentPlanId,
         currency: "RUB",
         payment_service_id: 2,
-        employee_id: 3134,
+        employee_id: trainingTestData.employee_id[391],
         fiscal_method: "OrangeData",
         card_token_id: cardToken,
         related_user_payment_plans: [childPlanId]

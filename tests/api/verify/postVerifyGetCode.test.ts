@@ -4,8 +4,8 @@ import { Statuses } from "@libs/statuses";
 import { APIRequestContext } from "@playwright/test";
 import UsersRequests from "@requests/users.requests";
 import VerifyRequests from "@requests/verify.requests";
-import test from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import test from "../baseTest.fixture";
 
 test.describe("Тесты на отправку кода для верификации", async () => {
     let userResponseData: any;

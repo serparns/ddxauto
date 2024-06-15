@@ -4,9 +4,9 @@ import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/grou
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext } from "@playwright/test";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getDate } from "@utils/random";
 import { validatorJson } from "@utils/validator";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на добавление групповых тренировок", async () => {
     const pastDate = getDate(-11, 'T03:00:00Z');
@@ -15,9 +15,9 @@ test.describe("Api-тесты на добавление групповых тр�
     const groupTrainingTimeTablesResponse = async (
         request: APIRequestContext,
         status: Statuses,
-        groupTrainingId: number,
         clubId: number,
         parameters: {
+            groupTrainingData: number,
             startTime?: string,
             endTime?: string,
             countSeats: number,
@@ -26,15 +26,15 @@ test.describe("Api-тесты на добавление групповых тр�
             parameters.startTime,
             parameters.endTime,
             parameters.countSeats,
-            groupTrainingId, clubId,
+            parameters.groupTrainingData, clubId,
         );
         return await new GroupTrainingTimeTableRequest(request).postGroupTrainingTimeTable(status, requestBody);
     }
 
-    test("Добавить в расписание групповую тренировку на 5 мест", async ({ request, groupTrainingId, clubId }) => {
+    test("Добавить в расписание групповую тренировку на 5 мест", async ({ request, groupTrainingData, clubId }) => {
         const groupTrainingCategory = await (await test.step("Добавление групповой тренировки",
-            async () => groupTrainingTimeTablesResponse(request, Statuses.OK, groupTrainingId, clubId,
-                { countSeats: trainingTestData.count_seats[5] }))).json()
+            async () => groupTrainingTimeTablesResponse(request, Statuses.OK, clubId,
+                { groupTrainingData: groupTrainingData.id, countSeats: trainingTestData.count_seats[5] }))).json()
 
         await test.step("Проверки", async () => {
             expect(groupTrainingCategory.data[0]).not.toBe(null)
@@ -42,10 +42,11 @@ test.describe("Api-тесты на добавление групповых тр�
         });
     });
 
-    test("Добавить в расписание групповую тренировку в прошлом", async ({ request, groupTrainingId, clubId }) => {
+    test("Добавить в расписание групповую тренировку в прошлом", async ({ request, groupTrainingData, clubId }) => {
         const groupTrainingCategory = await (await test.step("Добавление групповой тренировки",
-            async () => groupTrainingTimeTablesResponse(request, Statuses.OK, groupTrainingId, clubId,
+            async () => groupTrainingTimeTablesResponse(request, Statuses.OK, clubId,
                 {
+                    groupTrainingData: groupTrainingData.id,
                     startTime: pastDate,
                     endTime: pastDateEnd,
                     countSeats: trainingTestData.count_seats[5]

@@ -1,7 +1,7 @@
 import authCRMTestData from "@data/authCRM.json";
 import subscribeStatusTestData from "@data/subscribeStatus.json";
 import { selectUserPaymentPlanByStatus } from "@entities/db/userPaymentPlan.db";
-import test from "@tests/ui/baseTest.fixture";
+import test from "../baseTest.fixture";
 
 test.describe("Проверка отображения статусов подписки на карточке клиента", async () => {
     test("Проверка отображения статусов подписки", async ({ page, authPage, headerBlock, clientPage }) => {

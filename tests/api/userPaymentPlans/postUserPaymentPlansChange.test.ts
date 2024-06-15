@@ -1,5 +1,4 @@
 import { userClubObjectSchema, userPaymentPlanObjectSchema, userPaymentPlanSchema } from "@entities/JsonSchema/userPaymentPlan.response";
-import { getBaseParameters } from "@entities/baseParameters";
 import { selectVerifyCode } from "@entities/db/userNotifications.db";
 import { selectStatusFromUserPaymentPlan } from "@entities/db/userPaymentPlan.db";
 import { postPaymentCreateRequestJson } from "@entities/interface/paymentCreate.requestJson";
@@ -10,14 +9,13 @@ import { PaymentPlan } from "@libs/paymentPlan";
 import { PaymentProvider } from "@libs/providers";
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext } from "@playwright/test";
-import ClubsRequests from "@requests/clubs.requests";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
 import VerifyRequests from "@requests/verify.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { validatorJson } from "@utils/validator";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на смену подписки пользователю", async () => {
     let userPaymentPlanId: number;

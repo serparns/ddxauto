@@ -1,7 +1,7 @@
 import authCRMTestData from "@data/authCRM.json";
 import { expect } from '@playwright/test';
-import test from "@tests/ui/baseTest.fixture";
 import { setTimeout } from 'timers/promises';
+import test from "../baseTest.fixture";
 
 test.describe("Тест на проверку статей в faq", async () => {
     test("Проверка статьи", async ({ page, authPage, headerBlock, freeze, menuBlock, faq, buttons }) => {

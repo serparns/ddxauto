@@ -43,24 +43,20 @@ export interface GetGroupTrainingTimeTablesRequestJson {
     request_id: string;
     request_source: string;
     club_id?: number;
-    category_id?: any;
+    category_id?: any; // убрал некоторые параметры, так как все-равно они не задействованные, если нужно будет потом добавлю, оставил только те что были для 13 урока
     group_training_id?: any;
     employee_id?: any;
     date_from?: string;
     date_to?: string;
 }
 
-export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingId: number, clubId?: number, dateFrom?: string): Promise<GetGroupTrainingTimeTablesRequestJson> => {
+export const getGroupTrainingTimeTablesRequestJson = async (groupTrainingCategoryId: number, clubId?: number, dateFrom?: string): Promise<GetGroupTrainingTimeTablesRequestJson> => {
     return {
         session_id: requestTestData.session_id,
         request_id: requestTestData.request_id,
         request_source: RequestSource.CRM,
         club_id: clubId,
-        category_id: groupTrainingId,
-        group_training_id: '',
-        employee_id: '',
+        category_id: groupTrainingCategoryId,
         date_from: dateFrom != undefined ? dateFrom : trainingTestData.start_time.future,
-        date_to: '',
-
     }
 };

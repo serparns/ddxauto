@@ -3,8 +3,8 @@ import { getUserRequestJson } from "@entities/interface/user.requestJson";
 import { Statuses } from "@libs/statuses";
 import { expect } from "@playwright/test";
 import UsersRequests from "@requests/users.requests";
-import test from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import test from "../baseTest.fixture";
 
 test.describe("Поиск нового клиента по номеру телефона", async () => {
     const userPhone = getRandomPhoneNumber()

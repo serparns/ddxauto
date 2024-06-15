@@ -9,9 +9,8 @@ import { Statuses } from "@libs/statuses";
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Тест на проверку записи пользователя на тренировку", async () => {
     let userId: number;

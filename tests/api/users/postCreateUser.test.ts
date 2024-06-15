@@ -7,9 +7,9 @@ import { SportExperience } from "@libs/sportExperience";
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext } from "@playwright/test";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { validatorJson } from "@utils/validator";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тест на создание клиента", async () => {
     let clubId: number

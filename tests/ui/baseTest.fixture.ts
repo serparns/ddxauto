@@ -38,7 +38,7 @@ const test = mergeTests(BaseTest.extend<{
     filter: Filter,
 
     clubId: number
-    groupTrainingId: number
+    groupTrainingData: any
 }>({
     baseURL: api.urls.base_url_CRM,
     headless: true,
@@ -62,7 +62,7 @@ const test = mergeTests(BaseTest.extend<{
     filter: async ({ }, use) => { await use(new Filter()) },
 
     clubId: Number(process.env.CLUB_ID),
-    groupTrainingId: Number(process.env.GROUP_TRAINING_ID)
+    groupTrainingData: eval('(' + process.env.GROUP_TRAINING_DATA + ')')
 }));
 
 export default test;

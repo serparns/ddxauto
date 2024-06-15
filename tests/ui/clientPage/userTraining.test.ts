@@ -15,9 +15,8 @@ import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.requ
 import PaymentCreateRequests from "@requests/paymentCreate.requests";
 import UserPaymentPlansRequests from "@requests/userPaymentPlans.requests";
 import UsersRequests from "@requests/users.requests";
-import test from "@tests/ui/baseTest.fixture";
 import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-
+import test from "../baseTest.fixture";
 
 test.describe("Тест на проверку записи пользователя на тренировку", async () => {
     let groupTrainingTimeTableId: number
@@ -26,9 +25,9 @@ test.describe("Тест на проверку записи пользовате�
     const trainingDay = getDate(1, 'T03:00:00Z')
     const trainingEnd = getDate(1, 'T04:00:00Z')
 
-    test.beforeAll(async ({ request, clubId, groupTrainingId }) => {
+    test.beforeAll(async ({ request, clubId, groupTrainingData }) => {
         groupTrainingTimeTableId = await test.step("получить id тренировки", async () => {
-            const requestBody = await postGroupTrainingTimeTablesRequestJson(trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingId, clubId);
+            const requestBody = await postGroupTrainingTimeTablesRequestJson(trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingData.id, clubId);
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });
@@ -57,7 +56,7 @@ test.describe("Тест на проверку записи пользовате�
         });
     });
 
-    test("Проверка отображения тренировки", async ({ page, authPage, headerBlock, clientPage, groupTrainingId }) => {
+    test("Проверка отображения тренировки", async ({ page, authPage, headerBlock, clientPage, groupTrainingData }) => {
         await test.step("Перейти на страницу входа", async () => {
             await test.step("Перейти на страницу входа", async () => {
                 await page.goto("")
@@ -76,7 +75,7 @@ test.describe("Тест на проверку записи пользовате�
             })
 
             const groupTrainingName = await test.step("Получить название тренировки", async () => {
-                return (await selectNameGroupTraining(groupTrainingId)).name
+                return (await selectNameGroupTraining(groupTrainingData.id)).name
             })
 
             await test.step(`Перейти на страницу клиента и проверить что пользователь записан на тренировку ${groupTrainingName}`, async () => {

@@ -6,10 +6,9 @@ import { postGroupTrainingTimeTablesRequestJson } from "@entities/interface/grou
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext } from "@playwright/test";
 import GroupTrainingTimeTableRequest from "@requests/groupTrainingTimeTable.request";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getDate } from "@utils/random";
 import { validatorJson } from "@utils/validator";
-
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на изменение групповой тренировки", async () => {
     let groupTrainingTimeTableId: number
@@ -34,10 +33,10 @@ test.describe("Api-тесты на изменение групповой тре�
         return await new GroupTrainingTimeTableRequest(request).postGroupTrainingTimeTableChange(status, requestBody, groupTrainingTimeTableId);
     };
 
-    test.beforeAll(async ({ request, clubId, groupTrainingId }) => {
+    test.beforeAll(async ({ request, clubId, groupTrainingData }) => {
         groupTrainingTimeTableId = await test.step("получить id тренировки", async () => {
             const requestBody = await postGroupTrainingTimeTablesRequestJson
-                (trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingId, clubId, trainingTestData.employee_id[2450]);
+                (trainingDay, trainingEnd, trainingTestData.count_seats[5], groupTrainingData.id, clubId, trainingTestData.employee_id[2450]);
             return groupTrainingTimeTableId = (await (await new GroupTrainingTimeTableRequest(request)
                 .postGroupTrainingTimeTable(Statuses.OK, requestBody)).json()).data[0].group_training_time_table_id;
         });

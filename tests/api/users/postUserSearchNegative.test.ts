@@ -3,8 +3,8 @@ import { getUserSearchRequestJson } from "@entities/interface/userSearch.request
 import { Statuses } from "@libs/statuses";
 import { APIRequestContext } from "@playwright/test";
 import UsersRequests from "@requests/users.requests";
-import test, { expect } from "@tests/ui/baseTest.fixture";
 import { getDate, getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import test, { expect } from "../baseTest.fixture";
 
 test.describe("Api-тесты на поиск пользователя по параметрам", async () => {
     let userData: any;
