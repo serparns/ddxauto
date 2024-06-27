@@ -35,7 +35,7 @@ test.describe("Тесты на верификацию пользователя",
         });
 
         userVerifyCode = await test.step("Получить код верификации", async () => {
-            return (await selectVerifyCode(userResponseData.id))
+            return (await selectVerifyCode(userResponseData.email))
         });
     });
 

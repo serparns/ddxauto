@@ -35,8 +35,8 @@ export const userNotificationsDB = db.define(
     }
 )
 
-export async function selectVerifyCode(userId: number): Promise<UserNotificationsDB> {
-    const result = await db.query(`select body -> 'variables' -> 'code'  code from user_notifications  where user_id = '${userId}' order by id desc limit 1`,
+export async function selectVerifyCode(sentTo: string): Promise<UserNotificationsDB> {
+    const result = await db.query(`select body -> 'variables' -> 'code'  code from user_notifications  where send_to = '${sentTo}' order by id desc limit 1`,
         { model: userNotificationsDB, mapToModel: true });
     return <UserNotificationsDB | any>result[0];
 };

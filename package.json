@@ -10,7 +10,7 @@
     "test-discounts": "npx playwright test tests/api/discounts/ --workers=1",
     "test-code": "npx playwright test tests/api/verify/ --workers=1",
     "test-employees": "npx playwright test tests/api/employees/ --workers=1",
-    "test-groupeTraining": "npx playwright test tests/api/groupeTraining/ --workers=1",
+    "test-groupTraining": "npx playwright test tests/api/groupTraining/ --workers=1",
     "test-notes": "npx playwright test tests/api/notes/ -- workers=1",
     "test-paymentCreate": "npx playwright test tests/api/paymentCreate/ -- workers=1",
     "test-paymentPlans": "npx playwright test tests/api/paymentPlans/ --workers=1",

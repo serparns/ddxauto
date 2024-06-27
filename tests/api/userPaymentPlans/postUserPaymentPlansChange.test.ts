@@ -53,7 +53,7 @@ test.describe("Api-тесты на смену подписки пользова�
         });
 
         userVerifyCode = await test.step("Получить код верификации", async () => {
-            return (await selectVerifyCode(userResponseData.id))
+            return (await selectVerifyCode(userResponseData.email))
         });
 
         userVerifyData = await test.step("Получения токена верификации", async () => {

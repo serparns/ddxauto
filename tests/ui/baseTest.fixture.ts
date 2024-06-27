@@ -15,6 +15,7 @@ import { Freeze } from "@pages/faq.freeze.page";
 import { Faq } from "@pages/faq.page";
 import { MainPage } from "@pages/main.page";
 import { PaymentInformationPage } from "@pages/paymentInformation.page";
+import { SberPaymentPage } from "@pages/sberPayment.page";
 import { SchedulePage } from "@pages/schedule.page";
 import { test as BaseTest, mergeTests } from '@playwright/test';
 
@@ -35,7 +36,8 @@ const test = mergeTests(BaseTest.extend<{
     analyticsPage: AnalyticsPage
     cloudPaymentPage: CloudPaymentPage
     paymentInformationPage: PaymentInformationPage
-    filter: Filter,
+    filter: Filter
+    sberPaymentPage: SberPaymentPage
 
     clubId: number
     groupTrainingData: any
@@ -60,6 +62,7 @@ const test = mergeTests(BaseTest.extend<{
     cloudPaymentPage: async ({ }, use) => { await use(new CloudPaymentPage()) },
     paymentInformationPage: async ({ }, use) => { await use(new PaymentInformationPage()) },
     filter: async ({ }, use) => { await use(new Filter()) },
+    sberPaymentPage: async ({ }, use) => { await use(new SberPaymentPage()) },
 
     clubId: Number(process.env.CLUB_ID),
     groupTrainingData: eval('(' + process.env.GROUP_TRAINING_DATA + ')')

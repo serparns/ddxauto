@@ -21,3 +21,4 @@ test-results
 .idea/modules.xml
 db.json
 yarn.lock
+.vscode/settings.json

@@ -14,7 +14,7 @@ export class CloudPaymentPage {
         await this.locators.inputCardNumber(page).fill(cardNumber);
         await this.locators.inputCardDate(page).fill(cardDate);
         await this.locators.inputCardCvv(page).fill(cardCvv);
-        await this.locators.submitButton(page).click().then(await setTimeout(3000));
-        await this.locators.successButton(page).click().then(await setTimeout(3000));
+        await this.locators.submitButton(page).click().then(await setTimeout(1500));
+        await this.locators.successButton(page).click().then(await setTimeout(1500));
     }
 } 

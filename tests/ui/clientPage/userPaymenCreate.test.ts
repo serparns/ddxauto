@@ -65,7 +65,7 @@ test.describe("Тест на проверку записи пользовате�
 
             await test.step("Проверить что открыта страница оплаты", async () => {
                 expect.soft(newTab.url()).toContain('/widgets/payment');
-                await cloudPaymentPage.successfulPayment(newTab, cardTestData.number.mir, cardTestData.date, cardTestData.cvv);
+                await cloudPaymentPage.successfulPayment(newTab, cardTestData.cloud.number.mir, cardTestData.cloud.date, cardTestData.cloud.cvv);
                 newTab.close();
             });
 

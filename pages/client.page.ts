@@ -14,6 +14,7 @@ export class ClientPage {
         noSubscribe: (page: Page): Locator => page.locator("//div[text()='Нет активных подписок']"),
         registeredSubscribe: (page: Page): Locator => page.locator("//div[text()='зарегистрирован']"),
         currentSubscribe: (page: Page): Locator => page.locator("//div[text()='активный']"),
+        currentPlanScreenshot: (page: Page): Locator => page.locator('div').filter({ hasText: /^Infinity 1месактивный$/ }).first(),
         frozenSubscribe: (page: Page): Locator => page.locator("//div[text()='заморожен']"),
         notStartedSubscribe: (page: Page): Locator => page.locator("//div[text()='не начат']"),
         paymentPendingSubscribe: (page: Page): Locator => page.locator("//div[text()='мораторий']"),
